@@ -922,10 +922,10 @@ int CFITS_API ffphpr( fitsfile *fptr, int simple, int bitpix, int naxis, long na
             LONGLONG pcount, LONGLONG gcount, int extend, int *status);
 int CFITS_API ffphprll( fitsfile *fptr, int simple, int bitpix, int naxis, LONGLONG naxes[],
             LONGLONG pcount, LONGLONG gcount, int extend, int *status);
-int CFITS_API ffphtb(fitsfile *fptr, LONGLONG naxis1, LONGLONG naxis2, int tfields, char **ttype,
-          long *tbcol, char **tform, char **tunit, const char *extname, int *status);
-int CFITS_API ffphbn(fitsfile *fptr, LONGLONG naxis2, int tfields, char **ttype,
-          char **tform, char **tunit, const char *extname, LONGLONG pcount, int *status);
+int CFITS_API ffphtb(fitsfile *fptr, LONGLONG naxis1, LONGLONG naxis2, int tfields, const char **ttype,
+          const long *tbcol, const char **tform, const char **tunit, const char *extname, int *status);
+int CFITS_API ffphbn(fitsfile *fptr, LONGLONG naxis2, int tfields, const char **ttype,
+          const char **tform, const char **tunit, const char *extname, LONGLONG pcount, int *status);
 int CFITS_API ffphext( fitsfile *fptr, const char *xtension, int bitpix, int naxis, long naxes[],
             LONGLONG pcount, LONGLONG gcount, int *status);
 /*----------------- write template keywords --------------*/
@@ -1138,14 +1138,14 @@ int CFITS_API ffthdu(fitsfile *fptr, int *nhdu, int *status);
 int CFITS_API ffcrhd(fitsfile *fptr, int *status);
 int CFITS_API ffcrim(fitsfile *fptr, int bitpix, int naxis, long *naxes, int *status);
 int CFITS_API ffcrimll(fitsfile *fptr, int bitpix, int naxis, LONGLONG *naxes, int *status);
-int CFITS_API ffcrtb(fitsfile *fptr, int tbltype, LONGLONG naxis2, int tfields, char **ttype,
-           char **tform, char **tunit, const char *extname, int *status);
+int CFITS_API ffcrtb(fitsfile *fptr, int tbltype, LONGLONG naxis2, int tfields, const char **ttype,
+           const char **tform, const char **tunit, const char *extname, int *status);
 int CFITS_API ffiimg(fitsfile *fptr, int bitpix, int naxis, long *naxes, int *status);
 int CFITS_API ffiimgll(fitsfile *fptr, int bitpix, int naxis, LONGLONG *naxes, int *status);
-int CFITS_API ffitab(fitsfile *fptr, LONGLONG naxis1, LONGLONG naxis2, int tfields, char **ttype,
-           long *tbcol, char **tform, char **tunit, const char *extname, int *status);
-int CFITS_API ffibin(fitsfile *fptr, LONGLONG naxis2, int tfields, char **ttype, char **tform,
-           char **tunit, const char *extname, LONGLONG pcount, int *status);
+int CFITS_API ffitab(fitsfile *fptr, LONGLONG naxis1, LONGLONG naxis2, int tfields, const char **ttype,
+           const long *tbcol, const char **tform, const char **tunit, const char *extname, int *status);
+int CFITS_API ffibin(fitsfile *fptr, LONGLONG naxis2, int tfields, const char **ttype, const char **tform,
+           const char **tunit, const char *extname, LONGLONG pcount, int *status);
 int CFITS_API ffrsim(fitsfile *fptr, int bitpix, int naxis, long *naxes, int *status);
 int CFITS_API ffrsimll(fitsfile *fptr, int bitpix, int naxis, LONGLONG *naxes, int *status);
 int CFITS_API ffdhdu(fitsfile *fptr, int *hdutype, int *status);
