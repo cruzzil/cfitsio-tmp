@@ -17,7 +17,7 @@ int ffgcvs( fitsfile *fptr,   /* I - FITS file pointer                       */
             LONGLONG  firstrow,   /* I - first row to read (1 = 1st row)         */
             LONGLONG  firstelem,  /* I - first vector element to read (1 = 1st)  */
             LONGLONG  nelem,      /* I - number of strings to read               */
-            char *nulval,     /* I - string for null pixels                  */
+            const char *nulval,     /* I - string for null pixels                  */
             char **array,     /* O - array of values that are read           */
             int  *anynul,     /* O - set to 1 if any values are null; else 0 */
             int  *status)     /* IO - error status                           */

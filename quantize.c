@@ -458,25 +458,25 @@ If the function value is zero, the data were not copied to idata.
 	return (1);			/* yes, data have been quantized */
 }
 /*--------------------------------------------------------------------------*/
-int fits_img_stats_short(short *array, /*  2 dimensional array of image pixels */
-        long nx,            /* number of pixels in each row of the image */
-	long ny,            /* number of rows in the image */
+int fits_img_stats_short(const short *array, /* I - 2 dimensional array of image pixels */
+        long nx,            /* I - number of pixels in each row of the image */
+	long ny,            /* I - number of rows in the image */
 	                    /* (if this is a 3D image, then ny should be the */
 			    /* product of the no. of rows times the no. of planes) */
-	int nullcheck,      /* check for null values, if true */
-	short nullvalue,    /* value of null pixels, if nullcheck is true */
+	int nullcheck,      /* I - check for null values, if true */
+	short nullvalue,    /* I - value of null pixels, if nullcheck is true */
 
    /* returned parameters (if the pointer is not null)  */
-	long *ngoodpix,     /* number of non-null pixels in the image */
-	short *minvalue,    /* returned minimum non-null value in the array */
-	short *maxvalue,    /* returned maximum non-null value in the array */
-	double *mean,       /* returned mean value of all non-null pixels */
-	double *sigma,      /* returned R.M.S. value of all non-null pixels */
-	double *noise1,     /* 1st order estimate of noise in image background level */
-	double *noise2,     /* 2nd order estimate of noise in image background level */
-	double *noise3,     /* 3rd order estimate of noise in image background level */
-	double *noise5,     /* 5th order estimate of noise in image background level */
-	int *status)        /* error status */
+	long *ngoodpix,     /* O - number of non-null pixels in the image */
+	short *minvalue,    /* O - returned minimum non-null value in the array */
+	short *maxvalue,    /* O - returned maximum non-null value in the array */
+	double *mean,       /* O - returned mean value of all non-null pixels */
+	double *sigma,      /* O - returned R.M.S. value of all non-null pixels */
+	double *noise1,     /* O - 1st order estimate of noise in image background level */
+	double *noise2,     /* O - 2nd order estimate of noise in image background level */
+	double *noise3,     /* O - 3rd order estimate of noise in image background level */
+	double *noise5,     /* O - 5th order estimate of noise in image background level */
+	int *status)        /* IO - error status */
 
 /*
     Compute statistics of the input short integer image.
@@ -517,25 +517,25 @@ int fits_img_stats_short(short *array, /*  2 dimensional array of image pixels *
 	return(*status);
 }
 /*--------------------------------------------------------------------------*/
-int fits_img_stats_int(int *array, /*  2 dimensional array of image pixels */
-        long nx,            /* number of pixels in each row of the image */
-	long ny,            /* number of rows in the image */
+int fits_img_stats_int(const int *array, /* I - 2 dimensional array of image pixels */
+        long nx,            /* I - number of pixels in each row of the image */
+	long ny,            /* I - number of rows in the image */
 	                    /* (if this is a 3D image, then ny should be the */
 			    /* product of the no. of rows times the no. of planes) */
-	int nullcheck,      /* check for null values, if true */
-	int nullvalue,    /* value of null pixels, if nullcheck is true */
+	int nullcheck,      /* I - check for null values, if true */
+	int nullvalue,    /* I - value of null pixels, if nullcheck is true */
 
    /* returned parameters (if the pointer is not null)  */
-	long *ngoodpix,     /* number of non-null pixels in the image */
-	int *minvalue,    /* returned minimum non-null value in the array */
-	int *maxvalue,    /* returned maximum non-null value in the array */
-	double *mean,       /* returned mean value of all non-null pixels */
-	double *sigma,      /* returned R.M.S. value of all non-null pixels */
-	double *noise1,     /* 1st order estimate of noise in image background level */
-	double *noise2,     /* 2nd order estimate of noise in image background level */
-	double *noise3,     /* 3rd order estimate of noise in image background level */
-	double *noise5,     /* 5th order estimate of noise in image background level */
-	int *status)        /* error status */
+	long *ngoodpix,     /* O - number of non-null pixels in the image */
+	int *minvalue,      /* O - returned minimum non-null value in the array */
+	int *maxvalue,      /* O - returned maximum non-null value in the array */
+	double *mean,       /* O - returned mean value of all non-null pixels */
+	double *sigma,      /* O - returned R.M.S. value of all non-null pixels */
+	double *noise1,     /* O - 1st order estimate of noise in image background level */
+	double *noise2,     /* O - 2nd order estimate of noise in image background level */
+	double *noise3,     /* O - 3rd order estimate of noise in image background level */
+	double *noise5,     /* O - 5th order estimate of noise in image background level */
+	int *status)        /* IO - error status */
 
 /*
     Compute statistics of the input integer image.
@@ -576,25 +576,25 @@ int fits_img_stats_int(int *array, /*  2 dimensional array of image pixels */
 	return(*status);
 }
 /*--------------------------------------------------------------------------*/
-int fits_img_stats_float(float *array, /*  2 dimensional array of image pixels */
-        long nx,            /* number of pixels in each row of the image */
-	long ny,            /* number of rows in the image */
+int fits_img_stats_float(const float *array, /* I - 2 dimensional array of image pixels */
+        long nx,            /* I - number of pixels in each row of the image */
+	long ny,            /* I - number of rows in the image */
 	                    /* (if this is a 3D image, then ny should be the */
 			    /* product of the no. of rows times the no. of planes) */
-	int nullcheck,      /* check for null values, if true */
-	float nullvalue,    /* value of null pixels, if nullcheck is true */
+	int nullcheck,      /* I - check for null values, if true */
+	float nullvalue,    /* I - value of null pixels, if nullcheck is true */
 
    /* returned parameters (if the pointer is not null)  */
-	long *ngoodpix,     /* number of non-null pixels in the image */
-	float *minvalue,    /* returned minimum non-null value in the array */
-	float *maxvalue,    /* returned maximum non-null value in the array */
-	double *mean,       /* returned mean value of all non-null pixels */
-	double *sigma,      /* returned R.M.S. value of all non-null pixels */
-	double *noise1,     /* 1st order estimate of noise in image background level */
-	double *noise2,     /* 2nd order estimate of noise in image background level */
-	double *noise3,     /* 3rd order estimate of noise in image background level */
-	double *noise5,     /* 5th order estimate of noise in image background level */
-	int *status)        /* error status */
+	long *ngoodpix,     /* O - number of non-null pixels in the image */
+	float *minvalue,    /* O - returned minimum non-null value in the array */
+	float *maxvalue,    /* O - returned maximum non-null value in the array */
+	double *mean,       /* O - returned mean value of all non-null pixels */
+	double *sigma,      /* O - returned R.M.S. value of all non-null pixels */
+	double *noise1,     /* O - 1st order estimate of noise in image background level */
+	double *noise2,     /* O - 2nd order estimate of noise in image background level */
+	double *noise3,     /* O - 3rd order estimate of noise in image background level */
+	double *noise5,     /* O - 5th order estimate of noise in image background level */
+	int *status)        /* IO - error status */
 
 /*
     Compute statistics of the input float image.

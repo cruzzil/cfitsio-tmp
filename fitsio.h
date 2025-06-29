@@ -737,43 +737,43 @@ int CFITS2Unit( fitsfile *fptr );
 CFITS_API fitsfile* CUnit2FITS(int unit);
 
 /*----------------  FITS file URL parsing routines -------------*/
-int CFITS_API fits_get_token (char **ptr, char *delimiter, char *token, int *isanumber);
-int CFITS_API fits_get_token2(char **ptr, char *delimiter, char **token, int *isanumber, int *status);
-char  CFITS_API *fits_split_names(char *list);
-int CFITS_API ffiurl(  char *url,  char *urltype, char *infile,
+int CFITS_API fits_get_token (char **ptr, const char *delimiter, char *token, int *isanumber);
+int CFITS_API fits_get_token2(char **ptr, const char *delimiter, char **token, int *isanumber, int *status);
+char  CFITS_API *fits_split_names(const char *list);
+int CFITS_API ffiurl(  const char *url,  char *urltype, char *infile,
                     char *outfile, char *extspec, char *rowfilter,
                     char *binspec, char *colspec, int *status);
-int CFITS_API ffifile (char *url,  char *urltype, char *infile,
+int CFITS_API ffifile (const char *url,  char *urltype, char *infile,
                     char *outfile, char *extspec, char *rowfilter,
                     char *binspec, char *colspec, char *pixfilter, int *status);
-int CFITS_API ffifile2 (char *url,  char *urltype, char *infile,
+int CFITS_API ffifile2 (const char *url,  char *urltype, char *infile,
                     char *outfile, char *extspec, char *rowfilter,
                     char *binspec, char *colspec, char *pixfilter, char *compspec, int *status);
-int CFITS_API ffrtnm(char *url, char *rootname, int *status);
+int CFITS_API ffrtnm(const char *url, char *rootname, int *status);
 int CFITS_API ffexist(const char *infile, int *exists, int *status);
-int CFITS_API ffexts(char *extspec, int *extnum,  char *extname, int *extvers,
+int CFITS_API ffexts(const char *extspec, int *extnum,  char *extname, int *extvers,
           int *hdutype, char *colname, char *rowexpress, int *status);
-int CFITS_API ffextn(char *url, int *extension_num, int *status);
+int CFITS_API ffextn(const char *url, int *extension_num, int *status);
 int CFITS_API ffurlt(fitsfile *fptr, char *urlType, int *status);
-int CFITS_API ffbins(char *binspec, int *imagetype, int *haxis, 
-                      char colname[4][FLEN_VALUE], double *minin,
-                      double *maxin, double *binsizein,
+int CFITS_API ffbins(const char *binspec, int *imagetype, int *haxis, 
+                      const char colname[4][FLEN_VALUE], const double *minin,
+                      const double *maxin, const double *binsizein,
                       char minname[4][FLEN_VALUE], char maxname[4][FLEN_VALUE],
                       char binname[4][FLEN_VALUE], double *weight, char *wtname,
                       int *recip, int *status);
 int CFITS_API ffbinr(char **binspec, char *colname, double *minin, 
                         double *maxin, double *binsizein, char *minname,
                         char *maxname, char *binname, int *status);
-int CFITS_API fits_copy_cell2image(fitsfile *fptr, fitsfile *newptr, char *colname,
+int CFITS_API fits_copy_cell2image(fitsfile *fptr, fitsfile *newptr, const char *colname,
                       long rownum, int *status);
-int CFITS_API fits_copy_image2cell(fitsfile *fptr, fitsfile *newptr, char *colname,
+int CFITS_API fits_copy_image2cell(fitsfile *fptr, fitsfile *newptr, const char *colname,
                       long rownum, int copykeyflag, int *status);
 int CFITS_API fits_copy_pixlist2image(fitsfile *infptr, fitsfile *outfptr, int firstkey,       /* I - first HDU record number to start with */
-           int naxis, int *colnum, int *status);
-int CFITS_API ffimport_file( char *filename, char **contents, int *status );
-int CFITS_API ffrwrg( char *rowlist, LONGLONG maxrows, int maxranges, int *numranges,
+           int naxis, const int *colnum, int *status);
+int CFITS_API ffimport_file( const char *filename, char **contents, int *status );
+int CFITS_API ffrwrg( const char *rowlist, LONGLONG maxrows, int maxranges, int *numranges,
       long *minrow, long *maxrow, int *status);
-int CFITS_API ffrwrgll( char *rowlist, LONGLONG maxrows, int maxranges, int *numranges,
+int CFITS_API ffrwrgll( const char *rowlist, LONGLONG maxrows, int maxranges, int *numranges,
       LONGLONG *minrow, LONGLONG *maxrow, int *status);
 /*----------------  FITS file I/O routines -------------*/
 int CFITS_API fits_init_cfitsio(void);
@@ -818,7 +818,7 @@ int  CFITS_API ffgmsg(char *err_message);
 void CFITS_API ffcmsg(void);
 void CFITS_API ffcmrk(void);
 void CFITS_API ffrprt(FILE *stream, int status);
-void CFITS_API ffcmps(char *templt, char *colname, int  casesen, int *match,
+void CFITS_API ffcmps(const char *templt, const char *colname, int  casesen, int *match,
            int *exact);
 int CFITS_API fftkey(const char *keyword, int *status);
 int CFITS_API fftrec(char *card, int *status);
@@ -827,21 +827,21 @@ int CFITS_API ffkeyn(const char *keyroot, int value, char *keyname, int *status)
 int CFITS_API ffnkey(int value, const char *keyroot, char *keyname, int *status);
 int CFITS_API ffgkcl(char *card);
 int CFITS_API ffdtyp(const char *cval, char *dtype, int *status);
-int CFITS_API ffinttyp(char *cval, int *datatype, int *negative, int *status);
-int CFITS_API ffpsvc(char *card, char *value, char *comm, int *status);
-int CFITS_API ffgknm(char *card, char *name, int *length, int *status);
-int CFITS_API ffgthd(char *tmplt, char *card, int *hdtype, int *status);
-int CFITS_API ffmkky(const char *keyname, char *keyval, const char *comm, char *card, int *status);
-int CFITS_API fits_translate_keyword(char *inrec, char *outrec, char *patterns[][2],
+int CFITS_API ffinttyp(const char *cval, int *datatype, int *negative, int *status);
+int CFITS_API ffpsvc(const char *card, char *value, char *comm, int *status);
+int CFITS_API ffgknm(const char *card, char *name, int *length, int *status);
+int CFITS_API ffgthd(const char *tmplt, char *card, int *hdtype, int *status);
+int CFITS_API ffmkky(const char *keyname, const char *keyval, const char *comm, char *card, int *status);
+int CFITS_API fits_translate_keyword(const char *inrec, char *outrec, const char *patterns[][2],
           int npat, int n_value, int n_offset, int n_range, int *pat_num,
           int *i, int *j,  int *m, int *n, int *status);
 int CFITS_API fits_translate_keywords(fitsfile *infptr, fitsfile *outfptr,
-          int firstkey, char *patterns[][2],
+          int firstkey, const char *patterns[][2],
           int npat, int n_value, int n_offset, int n_range, int *status);    
-int CFITS_API ffasfm(char *tform, int *datacode, long *width, int *decim, int *status);
-int CFITS_API ffbnfm(char *tform, int *datacode, long *repeat, long *width, int *status);
-int CFITS_API ffbnfmll(char *tform, int *datacode, LONGLONG *repeat, long *width, int *status);
-int CFITS_API ffgabc(int tfields, char **tform, int space, long *rowlen, long *tbcol,
+int CFITS_API ffasfm(const char *tform, int *datacode, long *width, int *decim, int *status);
+int CFITS_API ffbnfm(const char *tform, int *datacode, long *repeat, long *width, int *status);
+int CFITS_API ffbnfmll(const char *tform, int *datacode, LONGLONG *repeat, long *width, int *status);
+int CFITS_API ffgabc(int tfields, const char **tform, int space, long *rowlen, long *tbcol,
            int *status);
 int CFITS_API fits_get_section_range(char **ptr,long *secmin,long *secmax,long *incre,
               int *status);
@@ -851,7 +851,7 @@ int CFITS_API fits_get_section_range(char **ptr,long *secmin,long *secmax,long *
 */ 
 int CFITS_API ffmbyt(fitsfile *fptr, LONGLONG bytpos, int ignore_err, int *status);
 /*----------------- write single keywords --------------*/
-int CFITS_API ffpky(fitsfile *fptr, int datatype, const char *keyname, void *value,
+int CFITS_API ffpky(fitsfile *fptr, int datatype, const char *keyname, const void *value,
           const char *comm, int *status);
 int CFITS_API ffprec(fitsfile *fptr, const char *card, int *status);
 int CFITS_API ffpcom(fitsfile *fptr, const char *comm, int *status);
@@ -864,8 +864,8 @@ int CFITS_API ffgsdt(int *day, int *month, int *year, int *status);
 int CFITS_API ffdt2s(int year, int month, int day, char *datestr, int *status);
 int CFITS_API fftm2s(int year, int month, int day, int hour, int minute, double second,
           int decimals, char *datestr, int *status);
-int CFITS_API ffs2dt(char *datestr, int *year, int *month, int *day, int *status);
-int CFITS_API ffs2tm(char *datestr, int *year, int *month, int *day, int *hour,
+int CFITS_API ffs2dt(const char *datestr, int *year, int *month, int *day, int *status);
+int CFITS_API ffs2tm(const char *datestr, int *year, int *month, int *day, int *hour,
           int *minute, double *second, int *status);
 int CFITS_API ffpkyu(fitsfile *fptr, const char *keyname, const char *comm, int *status);
 int CFITS_API ffpkys(fitsfile *fptr, const char *keyname, const char *value, const char *comm,int *status);
@@ -882,51 +882,51 @@ int CFITS_API ffpkyg(fitsfile *fptr, const char *keyname, double value, int deci
           int *status);
 int CFITS_API ffpkyd(fitsfile *fptr, const char *keyname, double value, int decim, const char *comm,
           int *status);
-int CFITS_API ffpkyc(fitsfile *fptr, const char *keyname, float *value, int decim, const char *comm,
+int CFITS_API ffpkyc(fitsfile *fptr, const char *keyname, const float *value, int decim, const char *comm,
           int *status);
-int CFITS_API ffpkym(fitsfile *fptr, const char *keyname, double *value, int decim, const char *comm,
+int CFITS_API ffpkym(fitsfile *fptr, const char *keyname, const double *value, int decim, const char *comm,
           int *status);
-int CFITS_API ffpkfc(fitsfile *fptr, const char *keyname, float *value, int decim, const char *comm,
+int CFITS_API ffpkfc(fitsfile *fptr, const char *keyname, const float *value, int decim, const char *comm,
           int *status);
-int CFITS_API ffpkfm(fitsfile *fptr, const char *keyname, double *value, int decim, const char *comm,
+int CFITS_API ffpkfm(fitsfile *fptr, const char *keyname, const double *value, int decim, const char *comm,
           int *status);
 int CFITS_API ffpkyt(fitsfile *fptr, const char *keyname, long intval, double frac, const char *comm,
           int *status);
-int CFITS_API ffptdm( fitsfile *fptr, int colnum, int naxis, long naxes[], int *status);
-int CFITS_API ffptdmll( fitsfile *fptr, int colnum, int naxis, LONGLONG naxes[], int *status);
+int CFITS_API ffptdm( fitsfile *fptr, int colnum, int naxis, const long naxes[], int *status);
+int CFITS_API ffptdmll( fitsfile *fptr, int colnum, int naxis, const LONGLONG naxes[], int *status);
 
 /*----------------- write array of keywords --------------*/
-int CFITS_API ffpkns(fitsfile *fptr, const char *keyroot, int nstart, int nkey, char *value[],
-           char *comm[], int *status);
-int CFITS_API ffpknl(fitsfile *fptr, const char *keyroot, int nstart, int nkey, int *value,
-           char *comm[], int *status);
-int CFITS_API ffpknj(fitsfile *fptr, const char *keyroot, int nstart, int nkey, long *value,
-           char *comm[], int *status);
-int CFITS_API ffpknjj(fitsfile *fptr, const char *keyroot, int nstart, int nkey, LONGLONG *value,
-           char *comm[], int *status);
-int CFITS_API ffpknf(fitsfile *fptr, const char *keyroot, int nstart, int nkey, float *value,
-           int decim, char *comm[], int *status);
-int CFITS_API ffpkne(fitsfile *fptr, const char *keyroot, int nstart, int nkey, float *value,
-           int decim, char *comm[], int *status);
-int CFITS_API ffpkng(fitsfile *fptr, const char *keyroot, int nstart, int nkey, double *value,
-           int decim, char *comm[], int *status);
-int CFITS_API ffpknd(fitsfile *fptr, const char *keyroot, int nstart, int nkey, double *value,
-           int decim, char *comm[], int *status);
+int CFITS_API ffpkns(fitsfile *fptr, const char *keyroot, int nstart, int nkey, const char *value[],
+           const char *comm[], int *status);
+int CFITS_API ffpknl(fitsfile *fptr, const char *keyroot, int nstart, int nkey, const int *value,
+           const char *comm[], int *status);
+int CFITS_API ffpknj(fitsfile *fptr, const char *keyroot, int nstart, int nkey, const long *value,
+           const char *comm[], int *status);
+int CFITS_API ffpknjj(fitsfile *fptr, const char *keyroot, int nstart, int nkey, const LONGLONG *value,
+           const char *comm[], int *status);
+int CFITS_API ffpknf(fitsfile *fptr, const char *keyroot, int nstart, int nkey, const float *value,
+           int decim, const char *comm[], int *status);
+int CFITS_API ffpkne(fitsfile *fptr, const char *keyroot, int nstart, int nkey, const float *value,
+           int decim, const char *comm[], int *status);
+int CFITS_API ffpkng(fitsfile *fptr, const char *keyroot, int nstart, int nkey, const double *value,
+           int decim, const char *comm[], int *status);
+int CFITS_API ffpknd(fitsfile *fptr, const char *keyroot, int nstart, int nkey, const double *value,
+           int decim, const char *comm[], int *status);
 int CFITS_API ffcpky(fitsfile *infptr,fitsfile *outfptr,int incol,int outcol,
-           char *rootname, int *status); 
+           const char *rootname, int *status); 
 
 /*----------------- write required header keywords --------------*/
-int CFITS_API ffphps( fitsfile *fptr, int bitpix, int naxis, long naxes[], int *status);
-int CFITS_API ffphpsll( fitsfile *fptr, int bitpix, int naxis, LONGLONG naxes[], int *status);
-int CFITS_API ffphpr( fitsfile *fptr, int simple, int bitpix, int naxis, long naxes[],
+int CFITS_API ffphps( fitsfile *fptr, int bitpix, int naxis, const long naxes[], int *status);
+int CFITS_API ffphpsll( fitsfile *fptr, int bitpix, int naxis, const LONGLONG naxes[], int *status);
+int CFITS_API ffphpr( fitsfile *fptr, int simple, int bitpix, int naxis, const long naxes[],
             LONGLONG pcount, LONGLONG gcount, int extend, int *status);
-int CFITS_API ffphprll( fitsfile *fptr, int simple, int bitpix, int naxis, LONGLONG naxes[],
+int CFITS_API ffphprll( fitsfile *fptr, int simple, int bitpix, int naxis, const LONGLONG naxes[],
             LONGLONG pcount, LONGLONG gcount, int extend, int *status);
-int CFITS_API ffphtb(fitsfile *fptr, LONGLONG naxis1, LONGLONG naxis2, int tfields, char **ttype,
-          long *tbcol, char **tform, char **tunit, const char *extname, int *status);
-int CFITS_API ffphbn(fitsfile *fptr, LONGLONG naxis2, int tfields, char **ttype,
-          char **tform, char **tunit, const char *extname, LONGLONG pcount, int *status);
-int CFITS_API ffphext( fitsfile *fptr, const char *xtension, int bitpix, int naxis, long naxes[],
+int CFITS_API ffphtb(fitsfile *fptr, LONGLONG naxis1, LONGLONG naxis2, int tfields, const char **ttype,
+          const long *tbcol, const char **tform, const char **tunit, const char *extname, int *status);
+int CFITS_API ffphbn(fitsfile *fptr, LONGLONG naxis2, int tfields, const char **ttype,
+          const char **tform, const char **tunit, const char *extname, LONGLONG pcount, int *status);
+int CFITS_API ffphext( fitsfile *fptr, const char *xtension, int bitpix, int naxis, const long naxes[],
             LONGLONG pcount, LONGLONG gcount, int *status);
 /*----------------- write template keywords --------------*/
 int CFITS_API ffpktp(fitsfile *fptr, const char *filename, int *status);
@@ -940,7 +940,7 @@ int CFITS_API ffmaky(fitsfile *fptr, int nrec, int *status);
 int CFITS_API ffmrky(fitsfile *fptr, int nrec, int *status);
  
 /*------------------ read single keywords -----------------*/
-int CFITS_API ffgnxk(fitsfile *fptr, char **inclist, int ninc, char **exclist,
+int CFITS_API ffgnxk(fitsfile *fptr, const char **inclist, int ninc, const char **exclist,
            int nexc, char *card, int  *status);
 int CFITS_API ffgrec(fitsfile *fptr, int nrec,      char *card, int *status);
 int CFITS_API ffgcrd(fitsfile *fptr, const char *keyname, char *card, int *status);
@@ -996,9 +996,9 @@ int CFITS_API ffgkne(fitsfile *fptr, const char *keyname, int nstart, int nmax, 
 int CFITS_API ffgknd(fitsfile *fptr, const char *keyname, int nstart, int nmax, double *value,
            int *nfound, int *status);
 int CFITS_API ffh2st(fitsfile *fptr, char **header, int  *status);
-int CFITS_API ffhdr2str( fitsfile *fptr,  int exclude_comm, char **exclist,
+int CFITS_API ffhdr2str( fitsfile *fptr,  int exclude_comm, const char **exclist,
    int nexc, char **header, int *nkeys, int  *status);
-int CFITS_API ffcnvthdr2str( fitsfile *fptr,  int exclude_comm, char **exclist,
+int CFITS_API ffcnvthdr2str( fitsfile *fptr,  int exclude_comm, const char **exclist,
    int nexc, char **header, int *nkeys, int  *status);
 
 /*----------------- read required header keywords --------------*/
@@ -1026,7 +1026,7 @@ int CFITS_API ffghbnll(fitsfile *fptr, int maxfield, LONGLONG *naxis2, int *tfie
            LONGLONG *pcount, int *status);
 
 /*--------------------- update keywords ---------------*/
-int CFITS_API ffuky(fitsfile *fptr, int datatype, const char *keyname, void *value,
+int CFITS_API ffuky(fitsfile *fptr, int datatype, const char *keyname, const void *value,
           const char *comm, int *status);
 int CFITS_API ffucrd(fitsfile *fptr, const char *keyname, const char *card, int *status);
 int CFITS_API ffukyu(fitsfile *fptr, const char *keyname, const char *comm, int *status);
@@ -1043,13 +1043,13 @@ int CFITS_API ffukyg(fitsfile *fptr, const char *keyname, double value, int deci
           int *status);
 int CFITS_API ffukyd(fitsfile *fptr, const char *keyname, double value, int decim, const char *comm,
           int *status);
-int CFITS_API ffukyc(fitsfile *fptr, const char *keyname, float *value, int decim, const char *comm,
+int CFITS_API ffukyc(fitsfile *fptr, const char *keyname, const float *value, int decim, const char *comm,
           int *status);
-int CFITS_API ffukym(fitsfile *fptr, const char *keyname, double *value, int decim, const char *comm,
+int CFITS_API ffukym(fitsfile *fptr, const char *keyname, const double *value, int decim, const char *comm,
           int *status);
-int CFITS_API ffukfc(fitsfile *fptr, const char *keyname, float *value, int decim, const char *comm,
+int CFITS_API ffukfc(fitsfile *fptr, const char *keyname, const float *value, int decim, const char *comm,
           int *status);
-int CFITS_API ffukfm(fitsfile *fptr, const char *keyname, double *value, int decim, const char *comm,
+int CFITS_API ffukfm(fitsfile *fptr, const char *keyname, const double *value, int decim, const char *comm,
           int *status);
 
 /*--------------------- modify keywords ---------------*/
@@ -1071,13 +1071,13 @@ int CFITS_API ffmkyg(fitsfile *fptr, const char *keyname, double value, int deci
           int *status);
 int CFITS_API ffmkyd(fitsfile *fptr, const char *keyname, double value, int decim, const char *comm,
           int *status);
-int CFITS_API ffmkyc(fitsfile *fptr, const char *keyname, float *value, int decim, const char *comm,
+int CFITS_API ffmkyc(fitsfile *fptr, const char *keyname, const float *value, int decim, const char *comm,
           int *status);
-int CFITS_API ffmkym(fitsfile *fptr, const char *keyname, double *value, int decim, const char *comm,
+int CFITS_API ffmkym(fitsfile *fptr, const char *keyname, const double *value, int decim, const char *comm,
           int *status);
-int CFITS_API ffmkfc(fitsfile *fptr, const char *keyname, float *value, int decim, const char *comm,
+int CFITS_API ffmkfc(fitsfile *fptr, const char *keyname, const float *value, int decim, const char *comm,
           int *status);
-int CFITS_API ffmkfm(fitsfile *fptr, const char *keyname, double *value, int decim, const char *comm,
+int CFITS_API ffmkfm(fitsfile *fptr, const char *keyname, const double *value, int decim, const char *comm,
           int *status);
  
 /*--------------------- insert keywords ---------------*/
@@ -1096,13 +1096,13 @@ int CFITS_API ffikyg(fitsfile *fptr, const char *keyname, double value, int deci
           int *status);
 int CFITS_API ffikyd(fitsfile *fptr, const char *keyname, double value, int decim, const char *comm,
           int *status);
-int CFITS_API ffikyc(fitsfile *fptr, const char *keyname, float *value, int decim, const char *comm,
+int CFITS_API ffikyc(fitsfile *fptr, const char *keyname, const float *value, int decim, const char *comm,
           int *status);
-int CFITS_API ffikym(fitsfile *fptr, const char *keyname, double *value, int decim, const char *comm,
+int CFITS_API ffikym(fitsfile *fptr, const char *keyname, const double *value, int decim, const char *comm,
           int *status);
-int CFITS_API ffikfc(fitsfile *fptr, const char *keyname, float *value, int decim, const char *comm,
+int CFITS_API ffikfc(fitsfile *fptr, const char *keyname, const float *value, int decim, const char *comm,
           int *status);
-int CFITS_API ffikfm(fitsfile *fptr, const char *keyname, double *value, int decim, const char *comm,
+int CFITS_API ffikfm(fitsfile *fptr, const char *keyname, const double *value, int decim, const char *comm,
           int *status);
 
 /*--------------------- delete keywords ---------------*/
@@ -1132,22 +1132,22 @@ int CFITS_API ffgiszll(fitsfile *fptr, int nlen, LONGLONG *naxes, int *status);
 /*--------------------- HDU operations -------------*/
 int CFITS_API ffmahd(fitsfile *fptr, int hdunum, int *exttype, int *status);
 int CFITS_API ffmrhd(fitsfile *fptr, int hdumov, int *exttype, int *status);
-int CFITS_API ffmnhd(fitsfile *fptr, int exttype, char *hduname, int hduvers,
+int CFITS_API ffmnhd(fitsfile *fptr, int exttype, const char *hduname, int hduvers,
            int *status);
 int CFITS_API ffthdu(fitsfile *fptr, int *nhdu, int *status);
 int CFITS_API ffcrhd(fitsfile *fptr, int *status);
-int CFITS_API ffcrim(fitsfile *fptr, int bitpix, int naxis, long *naxes, int *status);
-int CFITS_API ffcrimll(fitsfile *fptr, int bitpix, int naxis, LONGLONG *naxes, int *status);
-int CFITS_API ffcrtb(fitsfile *fptr, int tbltype, LONGLONG naxis2, int tfields, char **ttype,
-           char **tform, char **tunit, const char *extname, int *status);
-int CFITS_API ffiimg(fitsfile *fptr, int bitpix, int naxis, long *naxes, int *status);
-int CFITS_API ffiimgll(fitsfile *fptr, int bitpix, int naxis, LONGLONG *naxes, int *status);
-int CFITS_API ffitab(fitsfile *fptr, LONGLONG naxis1, LONGLONG naxis2, int tfields, char **ttype,
-           long *tbcol, char **tform, char **tunit, const char *extname, int *status);
-int CFITS_API ffibin(fitsfile *fptr, LONGLONG naxis2, int tfields, char **ttype, char **tform,
-           char **tunit, const char *extname, LONGLONG pcount, int *status);
-int CFITS_API ffrsim(fitsfile *fptr, int bitpix, int naxis, long *naxes, int *status);
-int CFITS_API ffrsimll(fitsfile *fptr, int bitpix, int naxis, LONGLONG *naxes, int *status);
+int CFITS_API ffcrim(fitsfile *fptr, int bitpix, int naxis, const long *naxes, int *status);
+int CFITS_API ffcrimll(fitsfile *fptr, int bitpix, int naxis, const LONGLONG *naxes, int *status);
+int CFITS_API ffcrtb(fitsfile *fptr, int tbltype, LONGLONG naxis2, int tfields, const char **ttype,
+           const char **tform, const char **tunit, const char *extname, int *status);
+int CFITS_API ffiimg(fitsfile *fptr, int bitpix, int naxis, const long *naxes, int *status);
+int CFITS_API ffiimgll(fitsfile *fptr, int bitpix, int naxis, const LONGLONG *naxes, int *status);
+int CFITS_API ffitab(fitsfile *fptr, LONGLONG naxis1, LONGLONG naxis2, int tfields, const char **ttype,
+           const long *tbcol, const char **tform, const char **tunit, const char *extname, int *status);
+int CFITS_API ffibin(fitsfile *fptr, LONGLONG naxis2, int tfields, const char **ttype, const char **tform,
+           const char **tunit, const char *extname, LONGLONG pcount, int *status);
+int CFITS_API ffrsim(fitsfile *fptr, int bitpix, int naxis, const long *naxes, int *status);
+int CFITS_API ffrsimll(fitsfile *fptr, int bitpix, int naxis, const LONGLONG *naxes, int *status);
 int CFITS_API ffdhdu(fitsfile *fptr, int *hdutype, int *status);
 int CFITS_API ffcopy(fitsfile *infptr, fitsfile *outfptr, int morekeys, int *status);
 int CFITS_API ffcpfl(fitsfile *infptr, fitsfile *outfptr, int prev, int cur, int follow,
@@ -1165,7 +1165,7 @@ int CFITS_API ffpthp(fitsfile *fptr, long theap, int *status);
  
 int CFITS_API ffcsum(fitsfile *fptr, long nrec, unsigned long *sum, int *status);
 void CFITS_API ffesum(unsigned long sum, int complm, char *ascii);
-unsigned long CFITS_API ffdsum(char *ascii, int complm, unsigned long *sum);
+unsigned long CFITS_API ffdsum(const char *ascii, int complm, unsigned long *sum);
 int CFITS_API ffpcks(fitsfile *fptr, int *status);
 int CFITS_API ffupck(fitsfile *fptr, int *status);
 int CFITS_API ffvcks(fitsfile *fptr, int *datastatus, int *hdustatus, int *status);
@@ -1177,12 +1177,12 @@ int CFITS_API ffpscl(fitsfile *fptr, double scale, double zeroval, int *status);
 int CFITS_API ffpnul(fitsfile *fptr, LONGLONG nulvalue, int *status);
 int CFITS_API fftscl(fitsfile *fptr, int colnum, double scale, double zeroval, int *status);
 int CFITS_API fftnul(fitsfile *fptr, int colnum, LONGLONG nulvalue, int *status);
-int CFITS_API ffsnul(fitsfile *fptr, int colnum, char *nulstring, int *status);
+int CFITS_API ffsnul(fitsfile *fptr, int colnum, const char *nulstring, int *status);
  
 /*--------------------- get column information -------------*/
-int CFITS_API ffgcno(fitsfile *fptr, int casesen, char *templt, int  *colnum,
+int CFITS_API ffgcno(fitsfile *fptr, int casesen, const char *templt, int *colnum,
            int *status);
-int CFITS_API ffgcnn(fitsfile *fptr, int casesen, char *templt, char *colname,
+int CFITS_API ffgcnn(fitsfile *fptr, int casesen, const char *templt, char *colname,
            int *colnum, int *status);
  
 int CFITS_API ffgtcl(fitsfile *fptr, int colnum, int *typecode, long *repeat,
@@ -1209,19 +1209,19 @@ int CFITS_API ffgrsz(fitsfile *fptr, long *nrows, int *status);
 int CFITS_API ffgcdw(fitsfile *fptr, int colnum, int *width, int *status);
 
 /*--------------------- read primary array or image elements -------------*/
-int CFITS_API ffgpxv(fitsfile *fptr, int  datatype, long *firstpix, LONGLONG nelem,
-          void *nulval, void *array, int *anynul, int *status);
-int CFITS_API ffgpxvll(fitsfile *fptr, int  datatype, LONGLONG *firstpix, LONGLONG nelem,
-          void *nulval, void *array, int *anynul, int *status);
-int CFITS_API ffgpxf(fitsfile *fptr, int  datatype, long *firstpix, LONGLONG nelem,
+int CFITS_API ffgpxv(fitsfile *fptr, int  datatype, const long *firstpix, LONGLONG nelem,
+          const void *nulval, void *array, int *anynul, int *status);
+int CFITS_API ffgpxvll(fitsfile *fptr, int  datatype, const LONGLONG *firstpix, LONGLONG nelem,
+          const void *nulval, void *array, int *anynul, int *status);
+int CFITS_API ffgpxf(fitsfile *fptr, int  datatype, const long *firstpix, LONGLONG nelem,
            void *array, char *nullarray, int *anynul, int *status);
-int CFITS_API ffgpxfll(fitsfile *fptr, int  datatype, LONGLONG *firstpix, LONGLONG nelem,
+int CFITS_API ffgpxfll(fitsfile *fptr, int  datatype, const LONGLONG *firstpix, LONGLONG nelem,
            void *array, char *nullarray, int *anynul, int *status);
-int CFITS_API ffgsv(fitsfile *fptr, int datatype, long *blc, long *trc, long *inc,
-          void *nulval, void *array, int *anynul, int  *status);
+int CFITS_API ffgsv(fitsfile *fptr, int datatype, const long *blc, const long *trc, const long *inc,
+          const void *nulval, void *array, int *anynul, int  *status);
 
 int CFITS_API ffgpv(fitsfile *fptr, int  datatype, LONGLONG firstelem, LONGLONG nelem,
-          void *nulval, void *array, int *anynul, int  *status);
+          const void *nulval, void *array, int *anynul, int  *status);
 int CFITS_API ffgpf(fitsfile *fptr, int  datatype, LONGLONG firstelem, LONGLONG nelem,
           void *array, char *nullarray, int  *anynul, int  *status);
 int CFITS_API ffgpvb(fitsfile *fptr, long group, LONGLONG firstelem, LONGLONG nelem, unsigned
@@ -1350,70 +1350,70 @@ int CFITS_API ffg3dd(fitsfile *fptr, long group, double nulval, LONGLONG ncols,
            LONGLONG nrows, LONGLONG naxis1, LONGLONG naxis2, LONGLONG naxis3,
            double *array, int *anynul, int *status);
  
-int CFITS_API ffgsvb(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, unsigned char nulval, unsigned char *array,
+int CFITS_API ffgsvb(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, unsigned char nulval, unsigned char *array,
   int *anynul, int *status);
-int CFITS_API ffgsvsb(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, signed char nulval, signed char *array,
+int CFITS_API ffgsvsb(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, signed char nulval, signed char *array,
   int *anynul, int *status);
-int CFITS_API ffgsvui(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, unsigned short nulval, unsigned short *array, 
+int CFITS_API ffgsvui(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, unsigned short nulval, unsigned short *array, 
   int *anynul, int *status);
-int CFITS_API ffgsvi(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, short nulval, short *array, int *anynul, int *status);
-int CFITS_API ffgsvuj(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, unsigned long nulval, unsigned long *array, 
+int CFITS_API ffgsvi(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, short nulval, short *array, int *anynul, int *status);
+int CFITS_API ffgsvuj(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, unsigned long nulval, unsigned long *array, 
   int *anynul, int *status);
-int CFITS_API ffgsvj(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, long nulval, long *array, int *anynul, int *status);
-int CFITS_API ffgsvujj(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, ULONGLONG nulval, ULONGLONG *array, int *anynul,
+int CFITS_API ffgsvj(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, long nulval, long *array, int *anynul, int *status);
+int CFITS_API ffgsvujj(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, ULONGLONG nulval, ULONGLONG *array, int *anynul,
   int *status);
-int CFITS_API ffgsvjj(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, LONGLONG nulval, LONGLONG *array, int *anynul,
+int CFITS_API ffgsvjj(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, LONGLONG nulval, LONGLONG *array, int *anynul,
   int *status);
-int CFITS_API ffgsvuk(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, unsigned int nulval, unsigned int *array,
+int CFITS_API ffgsvuk(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, unsigned int nulval, unsigned int *array,
   int *anynul, int *status);
-int CFITS_API ffgsvk(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, int nulval, int *array, int *anynul, int *status);
-int CFITS_API ffgsve(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, float nulval, float *array, int *anynul, int *status);
-int CFITS_API ffgsvd(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, double nulval, double *array, int *anynul,
+int CFITS_API ffgsvk(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, int nulval, int *array, int *anynul, int *status);
+int CFITS_API ffgsve(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, float nulval, float *array, int *anynul, int *status);
+int CFITS_API ffgsvd(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, double nulval, double *array, int *anynul,
   int *status);
  
-int CFITS_API ffgsfb(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, unsigned char *array, char *flagval,
+int CFITS_API ffgsfb(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, unsigned char *array, char *flagval,
   int *anynul, int *status);
-int CFITS_API ffgsfsb(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, signed char *array, char *flagval,
+int CFITS_API ffgsfsb(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, signed char *array, char *flagval,
   int *anynul, int *status);
-int CFITS_API ffgsfui(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, unsigned short *array, char *flagval, int *anynul, 
+int CFITS_API ffgsfui(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, unsigned short *array, char *flagval, int *anynul, 
   int *status);
-int CFITS_API ffgsfi(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, short *array, char *flagval, int *anynul, int *status);
-int CFITS_API ffgsfuj(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long  *trc, long *inc, unsigned long *array, char *flagval, int *anynul,
+int CFITS_API ffgsfi(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, short *array, char *flagval, int *anynul, int *status);
+int CFITS_API ffgsfuj(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, unsigned long *array, char *flagval, int *anynul,
   int *status);
-int CFITS_API ffgsfj(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long  *trc, long *inc, long *array, char *flagval, int *anynul, int *status);
-int CFITS_API ffgsfujj(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long  *trc, long *inc, ULONGLONG *array, char *flagval, int *anynul,
+int CFITS_API ffgsfj(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, long *array, char *flagval, int *anynul, int *status);
+int CFITS_API ffgsfujj(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, ULONGLONG *array, char *flagval, int *anynul,
   int *status);
-int CFITS_API ffgsfjj(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long  *trc, long *inc, LONGLONG *array, char *flagval, int *anynul,
+int CFITS_API ffgsfjj(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, LONGLONG *array, char *flagval, int *anynul,
   int *status);
-int CFITS_API ffgsfuk(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long  *trc, long *inc, unsigned int *array, char *flagval, int *anynul,
+int CFITS_API ffgsfuk(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, unsigned int *array, char *flagval, int *anynul,
   int *status);
-int CFITS_API ffgsfk(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long  *trc, long *inc, int *array, char *flagval, int *anynul, int *status);
-int CFITS_API ffgsfe(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, float *array, char *flagval, int *anynul, int *status);
-int CFITS_API ffgsfd(fitsfile *fptr, int colnum, int naxis, long *naxes, long *blc,
-  long *trc, long *inc, double *array, char *flagval, int *anynul,
+int CFITS_API ffgsfk(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, int *array, char *flagval, int *anynul, int *status);
+int CFITS_API ffgsfe(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, float *array, char *flagval, int *anynul, int *status);
+int CFITS_API ffgsfd(fitsfile *fptr, int colnum, int naxis, const long *naxes, const long *blc,
+  const long *trc, const long *inc, double *array, char *flagval, int *anynul,
   int *status);
  
 int CFITS_API ffggpb(fitsfile *fptr, long group, long firstelem, long nelem,
@@ -1443,15 +1443,15 @@ int CFITS_API ffggpd(fitsfile *fptr, long group, long firstelem, long nelem,
  
 /*--------------------- read column elements -------------*/
 int CFITS_API ffgcv( fitsfile *fptr, int datatype, int colnum, LONGLONG firstrow,
-           LONGLONG firstelem, LONGLONG nelem, void *nulval, void *array, int *anynul,
+           LONGLONG firstelem, LONGLONG nelem, const void *nulval, void *array, int *anynul,
            int  *status);
-int CFITS_API ffgcvn (fitsfile *fptr, int ncols, int *datatype, int *colnum, LONGLONG firstrow,
-	    LONGLONG nrows, void **nulval, void **array, int *anynul, int *status);
+int CFITS_API ffgcvn (fitsfile *fptr, int ncols, const int *datatype, const int *colnum, LONGLONG firstrow,
+	    LONGLONG nrows, const void **nulval, void **array, int *anynul, int *status);
 int CFITS_API ffgcf( fitsfile *fptr, int datatype, int colnum, LONGLONG firstrow,
            LONGLONG firstelem, LONGLONG nelem, void *array, char *nullarray,
            int *anynul, int *status);
 int CFITS_API ffgcvs(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, char *nulval, char **array, int *anynul, int *status);
+           LONGLONG nelem, const char *nulval, char **array, int *anynul, int *status);
 int CFITS_API ffgcl (fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
            LONGLONG nelem, char *array, int  *status);
 int CFITS_API ffgcvl (fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
@@ -1553,185 +1553,185 @@ int CFITS_API ffgtbb(fitsfile *fptr, LONGLONG firstrow, LONGLONG firstchar, LONG
            unsigned char *values, int *status);
 
 int CFITS_API ffgextn(fitsfile *fptr, LONGLONG offset, LONGLONG nelem, void *array, int *status);
-int CFITS_API ffpextn(fitsfile *fptr, LONGLONG offset, LONGLONG nelem, void *array, int *status);
+int CFITS_API ffpextn(fitsfile *fptr, LONGLONG offset, LONGLONG nelem, const void *array, int *status);
 
 /*------------ write primary array or image elements -------------*/
-int CFITS_API ffppx(fitsfile *fptr, int datatype, long *firstpix, LONGLONG nelem,
-          void *array, int *status);
-int CFITS_API ffppxll(fitsfile *fptr, int datatype, LONGLONG *firstpix, LONGLONG nelem,
-          void *array, int *status);
-int CFITS_API ffppxn(fitsfile *fptr, int datatype, long *firstpix, LONGLONG nelem,
-          void *array, void *nulval, int *status);
-int CFITS_API ffppxnll(fitsfile *fptr, int datatype, LONGLONG *firstpix, LONGLONG nelem,
-          void *array, void *nulval, int *status);
+int CFITS_API ffppx(fitsfile *fptr, int datatype, const long *firstpix, LONGLONG nelem,
+          const void *array, int *status);
+int CFITS_API ffppxll(fitsfile *fptr, int datatype, const LONGLONG *firstpix, LONGLONG nelem,
+          const void *array, int *status);
+int CFITS_API ffppxn(fitsfile *fptr, int datatype, const long *firstpix, LONGLONG nelem,
+          const void *array, const void *nulval, int *status);
+int CFITS_API ffppxnll(fitsfile *fptr, int datatype, const LONGLONG *firstpix, LONGLONG nelem,
+          const void *array, const void *nulval, int *status);
 int CFITS_API ffppr(fitsfile *fptr, int datatype, LONGLONG  firstelem,
-           LONGLONG nelem, void *array, int *status);
+           LONGLONG nelem, const void *array, int *status);
 int CFITS_API ffpprb(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, unsigned char *array, int *status);
+           LONGLONG nelem, const unsigned char *array, int *status);
 int CFITS_API ffpprsb(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, signed char *array, int *status);
+           LONGLONG nelem, const signed char *array, int *status);
 int CFITS_API ffpprui(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, unsigned short *array, int *status);
+           LONGLONG nelem, const unsigned short *array, int *status);
 int CFITS_API ffppri(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, short *array, int *status);
+           LONGLONG nelem, const short *array, int *status);
 int CFITS_API ffppruj(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, unsigned long *array, int *status);
+           LONGLONG nelem, const unsigned long *array, int *status);
 int CFITS_API ffpprj(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, long *array, int *status);
+           LONGLONG nelem, const long *array, int *status);
 int CFITS_API ffppruk(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, unsigned int *array, int *status);
+           LONGLONG nelem, const unsigned int *array, int *status);
 int CFITS_API ffpprk(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, int *array, int *status);
+           LONGLONG nelem, const int *array, int *status);
 int CFITS_API ffppre(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, float *array, int *status);
+           LONGLONG nelem, const float *array, int *status);
 int CFITS_API ffpprd(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, double *array, int *status);
+           LONGLONG nelem, const double *array, int *status);
 int CFITS_API ffpprjj(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, LONGLONG *array, int *status);
+           LONGLONG nelem, const LONGLONG *array, int *status);
 int CFITS_API ffpprujj(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, ULONGLONG *array, int *status);
+           LONGLONG nelem, const ULONGLONG *array, int *status);
 
 int CFITS_API ffppru(fitsfile *fptr, long group, LONGLONG firstelem, LONGLONG nelem,
            int *status);
 int CFITS_API ffpprn(fitsfile *fptr, LONGLONG firstelem, LONGLONG nelem, int *status);
  
 int CFITS_API ffppn(fitsfile *fptr, int datatype, LONGLONG  firstelem, LONGLONG nelem,
-          void  *array, void *nulval, int  *status);
+          const void *array, const void *nulval, int  *status);
 int CFITS_API ffppnb(fitsfile *fptr, long group, LONGLONG firstelem, LONGLONG nelem,
-           unsigned char *array, unsigned char nulval, int *status);
+           const unsigned char *array, unsigned char nulval, int *status);
 int CFITS_API ffppnsb(fitsfile *fptr, long group, LONGLONG firstelem, LONGLONG nelem,
-           signed char *array, signed char nulval, int *status);
+           const signed char *array, signed char nulval, int *status);
 int CFITS_API ffppnui(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, unsigned short *array, unsigned short nulval,
+           LONGLONG nelem, const unsigned short *array, unsigned short nulval,
            int *status);
 int CFITS_API ffppni(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, short *array, short nulval, int *status);
+           LONGLONG nelem, const short *array, short nulval, int *status);
 int CFITS_API ffppnj(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, long *array, long nulval, int *status);
+           LONGLONG nelem, const long *array, long nulval, int *status);
 int CFITS_API ffppnuj(fitsfile *fptr, long group, LONGLONG firstelem, LONGLONG nelem,
-           unsigned long *array, unsigned long nulval, int *status);
+           const unsigned long *array, unsigned long nulval, int *status);
 int CFITS_API ffppnuk(fitsfile *fptr, long group, LONGLONG firstelem, LONGLONG nelem,
-           unsigned int *array, unsigned int nulval, int *status);
+           const unsigned int *array, unsigned int nulval, int *status);
 int CFITS_API ffppnk(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, int *array, int nulval, int *status);
+           LONGLONG nelem, const int *array, int nulval, int *status);
 int CFITS_API ffppne(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, float *array, float nulval, int *status);
+           LONGLONG nelem, const float *array, float nulval, int *status);
 int CFITS_API ffppnd(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, double *array, double nulval, int *status);
+           LONGLONG nelem, const double *array, double nulval, int *status);
 int CFITS_API ffppnjj(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, LONGLONG *array, LONGLONG nulval, int *status);
+           LONGLONG nelem, const LONGLONG *array, LONGLONG nulval, int *status);
 int CFITS_API ffppnujj(fitsfile *fptr, long group, LONGLONG firstelem,
-           LONGLONG nelem, ULONGLONG *array, ULONGLONG nulval, int *status);
+           LONGLONG nelem, const ULONGLONG *array, ULONGLONG nulval, int *status);
 
 int CFITS_API ffp2db(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG naxis1,
-           LONGLONG naxis2, unsigned char *array, int *status);
+           LONGLONG naxis2, const unsigned char *array, int *status);
 int CFITS_API ffp2dsb(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG naxis1,
-           LONGLONG naxis2, signed char *array, int *status);
+           LONGLONG naxis2, const signed char *array, int *status);
 int CFITS_API ffp2dui(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG naxis1,
-           LONGLONG naxis2, unsigned short *array, int *status);
+           LONGLONG naxis2, const unsigned short *array, int *status);
 int CFITS_API ffp2di(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG naxis1,
-           LONGLONG naxis2, short *array, int *status);
+           LONGLONG naxis2, const short *array, int *status);
 int CFITS_API ffp2duj(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG naxis1,
-           LONGLONG naxis2, unsigned long *array, int *status);
+           LONGLONG naxis2, const unsigned long *array, int *status);
 int CFITS_API ffp2dj(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG naxis1,
-           LONGLONG naxis2, long *array, int *status);
+           LONGLONG naxis2, const long *array, int *status);
 int CFITS_API ffp2duk(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG naxis1,
-           LONGLONG naxis2, unsigned int *array, int *status);
+           LONGLONG naxis2, const unsigned int *array, int *status);
 int CFITS_API ffp2dk(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG naxis1,
-           LONGLONG naxis2, int *array, int *status);
+           LONGLONG naxis2, const int *array, int *status);
 int CFITS_API ffp2de(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG naxis1,
-           LONGLONG naxis2, float *array, int *status);
+           LONGLONG naxis2, const float *array, int *status);
 int CFITS_API ffp2dd(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG naxis1,
-           LONGLONG naxis2, double *array, int *status);
+           LONGLONG naxis2, const double *array, int *status);
 int CFITS_API ffp2djj(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG naxis1,
-           LONGLONG naxis2, LONGLONG *array, int *status);
+           LONGLONG naxis2, const LONGLONG *array, int *status);
 int CFITS_API ffp2dujj(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG naxis1,
-           LONGLONG naxis2, ULONGLONG *array, int *status);
+           LONGLONG naxis2, const ULONGLONG *array, int *status);
 
 int CFITS_API ffp3db(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG nrows, LONGLONG naxis1,
-           LONGLONG naxis2, LONGLONG naxis3, unsigned char *array, int *status);
+           LONGLONG naxis2, LONGLONG naxis3, const unsigned char *array, int *status);
 int CFITS_API ffp3dsb(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG nrows, LONGLONG naxis1,
-           LONGLONG naxis2, LONGLONG naxis3, signed char *array, int *status);
+           LONGLONG naxis2, LONGLONG naxis3, const signed char *array, int *status);
 int CFITS_API ffp3dui(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG nrows, LONGLONG naxis1,
-           LONGLONG naxis2, LONGLONG naxis3, unsigned short *array, int *status);
+           LONGLONG naxis2, LONGLONG naxis3, const unsigned short *array, int *status);
 int CFITS_API ffp3di(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG nrows, LONGLONG naxis1,
-           LONGLONG naxis2, LONGLONG naxis3, short *array, int *status);
+           LONGLONG naxis2, LONGLONG naxis3, const short *array, int *status);
 int CFITS_API ffp3duj(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG nrows, LONGLONG naxis1,
-           LONGLONG naxis2, LONGLONG naxis3, unsigned long *array, int *status);
+           LONGLONG naxis2, LONGLONG naxis3, const unsigned long *array, int *status);
 int CFITS_API ffp3dj(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG nrows, LONGLONG naxis1,
-           LONGLONG naxis2, LONGLONG naxis3, long *array, int *status);
+           LONGLONG naxis2, LONGLONG naxis3, const long *array, int *status);
 int CFITS_API ffp3duk(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG nrows, LONGLONG naxis1,
-           LONGLONG naxis2, LONGLONG naxis3, unsigned int *array, int *status);
+           LONGLONG naxis2, LONGLONG naxis3, const unsigned int *array, int *status);
 int CFITS_API ffp3dk(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG nrows, LONGLONG naxis1,
-           LONGLONG naxis2, LONGLONG naxis3, int *array, int *status);
+           LONGLONG naxis2, LONGLONG naxis3, const int *array, int *status);
 int CFITS_API ffp3de(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG nrows, LONGLONG naxis1,
-           LONGLONG naxis2, LONGLONG naxis3, float *array, int *status);
+           LONGLONG naxis2, LONGLONG naxis3, const float *array, int *status);
 int CFITS_API ffp3dd(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG nrows, LONGLONG naxis1,
-           LONGLONG naxis2, LONGLONG naxis3, double *array, int *status);
+           LONGLONG naxis2, LONGLONG naxis3, const double *array, int *status);
 int CFITS_API ffp3djj(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG nrows, LONGLONG naxis1,
-           LONGLONG naxis2, LONGLONG naxis3, LONGLONG *array, int *status);
+           LONGLONG naxis2, LONGLONG naxis3, const LONGLONG *array, int *status);
 int CFITS_API ffp3dujj(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG nrows, LONGLONG naxis1,
-           LONGLONG naxis2, LONGLONG naxis3, ULONGLONG *array, int *status);
+           LONGLONG naxis2, LONGLONG naxis3, const ULONGLONG *array, int *status);
 
 int CFITS_API ffpss(fitsfile *fptr, int datatype,
-           long *fpixel, long *lpixel, void *array, int *status);
-int CFITS_API ffpssb(fitsfile *fptr, long group, long naxis, long *naxes,
-           long *fpixel, long *lpixel, unsigned char *array, int *status);
-int CFITS_API ffpsssb(fitsfile *fptr, long group, long naxis, long *naxes,
-           long *fpixel, long *lpixel, signed char *array, int *status);
-int CFITS_API ffpssui(fitsfile *fptr, long group, long naxis, long *naxes,
-           long *fpixel, long *lpixel, unsigned short *array, int *status);
-int CFITS_API ffpssi(fitsfile *fptr, long group, long naxis, long *naxes,
-           long *fpixel, long *lpixel, short *array, int *status);
-int CFITS_API ffpssuj(fitsfile *fptr, long group, long naxis, long *naxes,
-           long *fpixel, long *lpixel, unsigned long *array, int *status);
-int CFITS_API ffpssj(fitsfile *fptr, long group, long naxis, long *naxes,
-           long *fpixel, long *lpixel, long *array, int *status);
-int CFITS_API ffpssuk(fitsfile *fptr, long group, long naxis, long *naxes,
-           long *fpixel, long *lpixel, unsigned int *array, int *status);
-int CFITS_API ffpssk(fitsfile *fptr, long group, long naxis, long *naxes,
-           long *fpixel, long *lpixel, int *array, int *status);
-int CFITS_API ffpsse(fitsfile *fptr, long group, long naxis, long *naxes,
-           long *fpixel, long *lpixel, float *array, int *status);
-int CFITS_API ffpssd(fitsfile *fptr, long group, long naxis, long *naxes,
-           long *fpixel, long *lpixel, double *array, int *status);
-int CFITS_API ffpssjj(fitsfile *fptr, long group, long naxis, long *naxes,
-           long *fpixel, long *lpixel, LONGLONG *array, int *status);
-int CFITS_API ffpssujj(fitsfile *fptr, long group, long naxis, long *naxes,
-           long *fpixel, long *lpixel, ULONGLONG *array, int *status);
+           const long *fpixel, const long *lpixel, const void *array, int *status);
+int CFITS_API ffpssb(fitsfile *fptr, long group, long naxis, const long *naxes,
+           const long *fpixel, const long *lpixel, const unsigned char *array, int *status);
+int CFITS_API ffpsssb(fitsfile *fptr, long group, long naxis, const long *naxes,
+           const long *fpixel, const long *lpixel, const signed char *array, int *status);
+int CFITS_API ffpssui(fitsfile *fptr, long group, long naxis, const long *naxes,
+           const long *fpixel, const long *lpixel, const unsigned short *array, int *status);
+int CFITS_API ffpssi(fitsfile *fptr, long group, long naxis, const long *naxes,
+           const long *fpixel, const long *lpixel, const short *array, int *status);
+int CFITS_API ffpssuj(fitsfile *fptr, long group, long naxis, const long *naxes,
+           const long *fpixel, const long *lpixel, const unsigned long *array, int *status);
+int CFITS_API ffpssj(fitsfile *fptr, long group, long naxis, const long *naxes,
+           const long *fpixel, const long *lpixel, const long *array, int *status);
+int CFITS_API ffpssuk(fitsfile *fptr, long group, long naxis, const long *naxes,
+           const long *fpixel, const long *lpixel, const unsigned int *array, int *status);
+int CFITS_API ffpssk(fitsfile *fptr, long group, long naxis, const long *naxes,
+           const long *fpixel, const long *lpixel, const int *array, int *status);
+int CFITS_API ffpsse(fitsfile *fptr, long group, long naxis, const long *naxes,
+           const long *fpixel, const long *lpixel, const float *array, int *status);
+int CFITS_API ffpssd(fitsfile *fptr, long group, long naxis, const long *naxes,
+           const long *fpixel, const long *lpixel, const double *array, int *status);
+int CFITS_API ffpssjj(fitsfile *fptr, long group, long naxis, const long *naxes,
+           const long *fpixel, const long *lpixel, const LONGLONG *array, int *status);
+int CFITS_API ffpssujj(fitsfile *fptr, long group, long naxis, const long *naxes,
+           const long *fpixel, const long *lpixel, const ULONGLONG *array, int *status);
 
 int CFITS_API ffpgpb(fitsfile *fptr, long group, long firstelem,
-           long nelem, unsigned char *array, int *status);
+           long nelem, const unsigned char *array, int *status);
 int CFITS_API ffpgpsb(fitsfile *fptr, long group, long firstelem,
-           long nelem, signed char *array, int *status);
+           long nelem, const signed char *array, int *status);
 int CFITS_API ffpgpui(fitsfile *fptr, long group, long firstelem,
-           long nelem, unsigned short *array, int *status);
+           long nelem, const unsigned short *array, int *status);
 int CFITS_API ffpgpi(fitsfile *fptr, long group, long firstelem,
-           long nelem, short *array, int *status);
+           long nelem, const short *array, int *status);
 int CFITS_API ffpgpuj(fitsfile *fptr, long group, long firstelem,
-           long nelem, unsigned long *array, int *status);
+           long nelem, const unsigned long *array, int *status);
 int CFITS_API ffpgpj(fitsfile *fptr, long group, long firstelem,
-           long nelem, long *array, int *status);
+           long nelem, const long *array, int *status);
 int CFITS_API ffpgpuk(fitsfile *fptr, long group, long firstelem,
-           long nelem, unsigned int *array, int *status);
+           long nelem, const unsigned int *array, int *status);
 int CFITS_API ffpgpk(fitsfile *fptr, long group, long firstelem,
-           long nelem, int *array, int *status);
+           long nelem, const int *array, int *status);
 int CFITS_API ffpgpe(fitsfile *fptr, long group, long firstelem,
-           long nelem, float *array, int *status);
+           long nelem, const float *array, int *status);
 int CFITS_API ffpgpd(fitsfile *fptr, long group, long firstelem,
-           long nelem, double *array, int *status);
+           long nelem, const double *array, int *status);
 int CFITS_API ffpgpjj(fitsfile *fptr, long group, long firstelem,
-           long nelem, LONGLONG *array, int *status);
+           long nelem, const LONGLONG *array, int *status);
 int CFITS_API ffpgpujj(fitsfile *fptr, long group, long firstelem,
-           long nelem, ULONGLONG *array, int *status);
+           long nelem, const ULONGLONG *array, int *status);
 
 /*--------------------- iterator functions -------------*/
-int CFITS_API fits_iter_set_by_name(iteratorCol *col, fitsfile *fptr, char *colname,
+int CFITS_API fits_iter_set_by_name(iteratorCol *col, fitsfile *fptr, const char *colname,
           int datatype,  int iotype);
 int CFITS_API fits_iter_set_by_num(iteratorCol *col, fitsfile *fptr, int colnum,
           int datatype,  int iotype);
 int CFITS_API fits_iter_set_file(iteratorCol *col, fitsfile *fptr);
-int CFITS_API fits_iter_set_colname(iteratorCol *col, char *colname);
+int CFITS_API fits_iter_set_colname(iteratorCol *col, const char *colname);
 int CFITS_API fits_iter_set_colnum(iteratorCol *col, int colnum);
 int CFITS_API fits_iter_set_datatype(iteratorCol *col, int datatype);
 int CFITS_API fits_iter_set_iotype(iteratorCol *col, int iotype);
@@ -1755,93 +1755,93 @@ int CFITS_API ffiter(int ncols,  iteratorCol *data, long offset, long nPerLoop,
 
 /*--------------------- write column elements -------------*/
 int CFITS_API ffpcl(fitsfile *fptr, int datatype, int colnum, LONGLONG firstrow,
-          LONGLONG firstelem, LONGLONG nelem, void *array, int *status);
-int CFITS_API ffpcln(fitsfile *fptr, int ncols, int *datatype, int *colnum, LONGLONG firstrow,
-	   LONGLONG nrows, void **array, void **nulval, int *status);
+          LONGLONG firstelem, LONGLONG nelem, const void *array, int *status);
+int CFITS_API ffpcln(fitsfile *fptr, int ncols, const int *datatype, const int *colnum, LONGLONG firstrow,
+	   LONGLONG nrows, const void **array, const void **nulval, int *status);
 int CFITS_API ffpcls(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, char **array, int *status);
+           LONGLONG nelem, const char **array, int *status);
 int CFITS_API ffpcll(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, char *array, int *status);
+           LONGLONG nelem, const char *array, int *status);
 int CFITS_API ffpclb(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, unsigned char *array, int *status);
+           LONGLONG nelem, const unsigned char *array, int *status);
 int CFITS_API ffpclsb(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, signed char *array, int *status);
+           LONGLONG nelem, const signed char *array, int *status);
 int CFITS_API ffpclui(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, unsigned short *array, int *status);
+           LONGLONG nelem, const unsigned short *array, int *status);
 int CFITS_API ffpcli(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, short *array, int *status);
+           LONGLONG nelem, const short *array, int *status);
 int CFITS_API ffpcluj(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, unsigned long *array, int *status);
+           LONGLONG nelem, const unsigned long *array, int *status);
 int CFITS_API ffpclj(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, long *array, int *status);
+           LONGLONG nelem, const long *array, int *status);
 int CFITS_API ffpcluk(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, unsigned int *array, int *status);
+           LONGLONG nelem, const unsigned int *array, int *status);
 int CFITS_API ffpclk(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, int *array, int *status);
+           LONGLONG nelem, const int *array, int *status);
 int CFITS_API ffpcle(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, float *array, int *status);
+           LONGLONG nelem, const float *array, int *status);
 int CFITS_API ffpcld(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, double *array, int *status);
+           LONGLONG nelem, const double *array, int *status);
 int CFITS_API ffpclc(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, float *array, int *status);
+           LONGLONG nelem, const float *array, int *status);
 int CFITS_API ffpclm(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, double *array, int *status);
+           LONGLONG nelem, const double *array, int *status);
 int CFITS_API ffpclu(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
            LONGLONG nelem, int *status);
 int CFITS_API ffprwu(fitsfile *fptr, LONGLONG firstrow, LONGLONG nrows, int *status);
 int CFITS_API ffpcljj(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, LONGLONG *array, int *status);
+           LONGLONG nelem, const LONGLONG *array, int *status);
 int CFITS_API ffpclujj(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, ULONGLONG *array, int *status);
+           LONGLONG nelem, const ULONGLONG *array, int *status);
 int CFITS_API ffpclx(fitsfile *fptr, int colnum, LONGLONG frow, long fbit, long nbit,
-            char *larray, int *status);
+            const char *larray, int *status);
 
 int CFITS_API ffpcn(fitsfile *fptr, int datatype, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-          LONGLONG nelem, void *array, void *nulval, int *status);
+          LONGLONG nelem, const void *array, const void *nulval, int *status);
 int CFITS_API ffpcns( fitsfile *fptr, int  colnum, LONGLONG  firstrow, LONGLONG  firstelem,
-            LONGLONG  nelem, char **array, char  *nulvalue, int  *status);
+            LONGLONG  nelem, const char **array, const char *nulvalue, int  *status);
 int CFITS_API ffpcnl( fitsfile *fptr, int  colnum, LONGLONG  firstrow, LONGLONG  firstelem,
-            LONGLONG  nelem, char *array, char  nulvalue,  int  *status);
+            LONGLONG  nelem, const char *array, char  nulvalue,  int  *status);
 int CFITS_API ffpcnb(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, unsigned char *array, unsigned char nulvalue,
+           LONGLONG nelem, const unsigned char *array, unsigned char nulvalue,
            int *status);
 int CFITS_API ffpcnsb(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, signed char *array, signed char nulvalue,
+           LONGLONG nelem, const signed char *array, signed char nulvalue,
            int *status);
 int CFITS_API ffpcnui(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, unsigned short *array, unsigned short nulvalue,
+           LONGLONG nelem, const unsigned short *array, unsigned short nulvalue,
            int *status);
 int CFITS_API ffpcni(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, short *array, short nulvalue, int *status);
+           LONGLONG nelem, const short *array, short nulvalue, int *status);
 int CFITS_API ffpcnuj(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, unsigned long *array, unsigned long nulvalue,
+           LONGLONG nelem, const unsigned long *array, unsigned long nulvalue,
            int *status);
 int CFITS_API ffpcnj(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, long *array, long nulvalue, int *status);
+           LONGLONG nelem, const long *array, long nulvalue, int *status);
 int CFITS_API ffpcnuk(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, unsigned int *array, unsigned int nulvalue,
+           LONGLONG nelem, const unsigned int *array, unsigned int nulvalue,
            int *status);
 int CFITS_API ffpcnk(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, int *array, int nulvalue, int *status);
+           LONGLONG nelem, const int *array, int nulvalue, int *status);
 int CFITS_API ffpcne(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, float *array, float nulvalue, int *status);
+           LONGLONG nelem, const float *array, float nulvalue, int *status);
 int CFITS_API ffpcnd(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, double *array, double nulvalue, int *status);
+           LONGLONG nelem, const double *array, double nulvalue, int *status);
 int CFITS_API ffpcnjj(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, LONGLONG *array, LONGLONG nulvalue, int *status);
+           LONGLONG nelem, const LONGLONG *array, LONGLONG nulvalue, int *status);
 int CFITS_API ffpcnujj(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, ULONGLONG *array, ULONGLONG nulvalue, int *status);
+           LONGLONG nelem, const ULONGLONG *array, ULONGLONG nulvalue, int *status);
 int CFITS_API ffptbb(fitsfile *fptr, LONGLONG firstrow, LONGLONG firstchar, LONGLONG nchars,
-           unsigned char *values, int *status);
+           const unsigned char *values, int *status);
  
 int CFITS_API ffirow(fitsfile *fptr, LONGLONG firstrow, LONGLONG nrows, int *status);
 int CFITS_API ffdrow(fitsfile *fptr, LONGLONG firstrow, LONGLONG nrows, int *status);
-int CFITS_API ffdrrg(fitsfile *fptr, char *ranges, int *status);
-int CFITS_API ffdrws(fitsfile *fptr, long *rownum,  long nrows, int *status);
-int CFITS_API ffdrwsll(fitsfile *fptr, LONGLONG *rownum,  LONGLONG nrows, int *status);
-int CFITS_API fficol(fitsfile *fptr, int numcol, char *ttype, char *tform, int *status);
-int CFITS_API fficls(fitsfile *fptr, int firstcol, int ncols, char **ttype,
-           char **tform, int *status);
+int CFITS_API ffdrrg(fitsfile *fptr, const char *ranges, int *status);
+int CFITS_API ffdrws(fitsfile *fptr, const long *rownum,  long nrows, int *status);
+int CFITS_API ffdrwsll(fitsfile *fptr, const LONGLONG *rownum,  LONGLONG nrows, int *status);
+int CFITS_API fficol(fitsfile *fptr, int numcol, const char *ttype, const char *tform, int *status);
+int CFITS_API fficls(fitsfile *fptr, int firstcol, int ncols, const char **ttype,
+           const char **tform, int *status);
 int CFITS_API ffmvec(fitsfile *fptr, int colnum, LONGLONG newveclen, int *status);
 int CFITS_API ffdcol(fitsfile *fptr, int numcol, int *status);
 int CFITS_API ffcpcl(fitsfile *infptr, fitsfile *outfptr, int incol, int outcol, 
@@ -1851,7 +1851,7 @@ int CFITS_API ffccls(fitsfile *infptr, fitsfile *outfptr, int incol, int outcol,
 int CFITS_API ffcprw(fitsfile *infptr, fitsfile *outfptr, LONGLONG firstrow, 
            LONGLONG nrows, int *status);
 int CFITS_API ffcpsr(fitsfile *infptr, fitsfile *outfptr, LONGLONG firstrow, 
-	   LONGLONG nrows, char *row_status, int *status);
+	   LONGLONG nrows, const char *row_status, int *status);
 int CFITS_API ffcpht(fitsfile *infptr, fitsfile *outfptr, LONGLONG firstrow, 
            LONGLONG nrows, int *status);
 
@@ -1867,17 +1867,17 @@ int CFITS_API ffgtcs(fitsfile *fptr, int xcol, int ycol, double *xrval,
            double *yinc, double *rot, char *type, int *status);
 int CFITS_API ffwldp(double xpix, double ypix, double xref, double yref,
            double xrefpix, double yrefpix, double xinc, double yinc,
-           double rot, char *type, double *xpos, double *ypos, int *status);
+           double rot, const char *type, double *xpos, double *ypos, int *status);
 int CFITS_API ffxypx(double xpos, double ypos, double xref, double yref, 
            double xrefpix, double yrefpix, double xinc, double yinc,
-           double rot, char *type, double *xpix, double *ypix, int *status);
+           double rot, const char *type, double *xpix, double *ypix, int *status);
 
 /*   WCS support routines (provide interface to Doug Mink's WCS library */
 int CFITS_API ffgiwcs(fitsfile *fptr,  char **header, int *status); 
 int CFITS_API ffgtwcs(fitsfile *fptr, int xcol, int ycol, char **header, int *status);
 
 /*--------------------- lexical parsing routines ------------------*/
-int CFITS_API fftexp( fitsfile *fptr, char *expr, int maxdim,
+int CFITS_API fftexp( fitsfile *fptr, const char *expr, int maxdim,
 	    int *datatype, long *nelem, int *naxis,
 	    long *naxes, int *status );
 
@@ -1887,84 +1887,84 @@ int CFITS_API fffrow( fitsfile *infptr, char *expr,
 
 int CFITS_API ffffrw( fitsfile *fptr, char *expr, long *rownum, int *status);
 
-int CFITS_API fffrwc( fitsfile *fptr, char *expr, char *timeCol,    
-            char *parCol, char *valCol, long ntimes,      
+int CFITS_API fffrwc( fitsfile *fptr, const char *expr, const char *timeCol,    
+            const char *parCol, const char *valCol, long ntimes,      
             double *times, char *time_status, int  *status );
 
-int CFITS_API ffsrow( fitsfile *infptr, fitsfile *outfptr, char *expr, 
+int CFITS_API ffsrow( fitsfile *infptr, fitsfile *outfptr, const char *expr, 
             int *status);
 
-int CFITS_API ffcrow( fitsfile *fptr, int datatype, char *expr,
-	    long firstrow, long nelements, void *nulval,
+int CFITS_API ffcrow( fitsfile *fptr, int datatype, const char *expr,
+	    long firstrow, long nelements, const void *nulval,
 	    void *array, int *anynul, int *status );
 
-int CFITS_API ffcalc_rng( fitsfile *infptr, char *expr, fitsfile *outfptr,
-               char *parName, char *parInfo, int nRngs,
-                 long *start, long *end, int *status );
+int CFITS_API ffcalc_rng( fitsfile *infptr, const char *expr, fitsfile *outfptr,
+               const char *parName, const char *parInfo, int nRngs,
+                const long *start, const long *end, int *status );
 
-int CFITS_API ffcalc( fitsfile *infptr, char *expr, fitsfile *outfptr,
-            char *parName, char *parInfo, int *status );
+int CFITS_API ffcalc( fitsfile *infptr, const char *expr, fitsfile *outfptr,
+            const char *parName, const char *parInfo, int *status );
 
   /* ffhist is not really intended as a user-callable routine */
   /* but it may be useful for some specialized applications   */
   /* ffhist2 is a newer version which is strongly recommended instead of ffhist */
 
-int CFITS_API ffhist(fitsfile **fptr, char *outfile, int imagetype, int naxis,
-           char colname[4][FLEN_VALUE],
-           double *minin, double *maxin, double *binsizein,
-           char minname[4][FLEN_VALUE], char maxname[4][FLEN_VALUE],
-           char binname[4][FLEN_VALUE], 
-           double weightin, char wtcol[FLEN_VALUE],
-           int recip, char *rowselect, int *status);
-int CFITS_API ffhist2(fitsfile **fptr, char *outfile, int imagetype, int naxis,
-           char colname[4][FLEN_VALUE],
-           double *minin, double *maxin, double *binsizein,
-           char minname[4][FLEN_VALUE], char maxname[4][FLEN_VALUE],
-           char binname[4][FLEN_VALUE], 
-           double weightin, char wtcol[FLEN_VALUE],
-           int recip, char *rowselect, int *status);
+int CFITS_API ffhist(fitsfile **fptr, const char *outfile, int imagetype, int naxis,
+           const char colname[4][FLEN_VALUE],
+           const double *minin, const double *maxin, double *binsizein,
+           const char minname[4][FLEN_VALUE], const char maxname[4][FLEN_VALUE],
+           const char binname[4][FLEN_VALUE], 
+           double weightin, const char wtcol[FLEN_VALUE],
+           int recip, const char *rowselect, int *status);
+int CFITS_API ffhist2(fitsfile **fptr, const char *outfile, int imagetype, int naxis,
+           const char colname[4][FLEN_VALUE],
+           const double *minin, const double *maxin, const double *binsizein,
+           const char minname[4][FLEN_VALUE], const char maxname[4][FLEN_VALUE],
+           const char binname[4][FLEN_VALUE], 
+           double weightin, const char wtcol[FLEN_VALUE],
+           int recip, const char *rowselect, int *status);
 CFITS_API fitsfile *ffhist3(fitsfile *fptr, 
-           char *outfile, int imagetype,  int naxis,     
-           char colname[4][FLEN_VALUE],  
-           double *minin,     
-           double *maxin,     
-           double *binsizein, 
-           char minname[4][FLEN_VALUE], 
-           char maxname[4][FLEN_VALUE], 
-           char binname[4][FLEN_VALUE], 
+           const char *outfile, int imagetype,  int naxis,     
+           const char colname[4][FLEN_VALUE],  
+           const double *minin,     
+           const double *maxin,     
+           const double *binsizein, 
+           const char minname[4][FLEN_VALUE], 
+           const char maxname[4][FLEN_VALUE], 
+           const char binname[4][FLEN_VALUE], 
            double weightin,        
-           char wtcol[FLEN_VALUE], 
+           const char wtcol[FLEN_VALUE], 
            int recip,              
-           char *selectrow,        
+           const char *selectrow,        
            int *status);
-int CFITS_API fits_select_image_section(fitsfile **fptr, char *outfile,
-           char *imagesection, int *status);
+int CFITS_API fits_select_image_section(fitsfile **fptr, const char *outfile,
+           const char *imagesection, int *status);
 int CFITS_API fits_copy_image_section(fitsfile *infptr, fitsfile *outfile,
-           char *imagesection, int *status);
+           const char *imagesection, int *status);
 
-int CFITS_API fits_calc_binning(fitsfile *fptr, int naxis, char colname[4][FLEN_VALUE], 
-    double *minin, double *maxin,  double *binsizein,
-    char minname[4][FLEN_VALUE],  char maxname[4][FLEN_VALUE], 
-    char binname[4][FLEN_VALUE],  int *colnum,  long *haxes,  
+int CFITS_API fits_calc_binning(fitsfile *fptr, int naxis, const char colname[4][FLEN_VALUE], 
+    const double *minin, const double *maxin,  const double *binsizein,
+    const char minname[4][FLEN_VALUE],  const char maxname[4][FLEN_VALUE], 
+    const char binname[4][FLEN_VALUE],  int *colnum,  long *haxes,  
     float *amin, float *amax, float *binsize,  int *status);
-int CFITS_API fits_calc_binningd(fitsfile *fptr, int naxis, char colname[4][FLEN_VALUE], 
-    double *minin, double *maxin,  double *binsizein,
-    char minname[4][FLEN_VALUE],  char maxname[4][FLEN_VALUE], 
-    char binname[4][FLEN_VALUE],  int *colnum,  long *haxes,  
+int CFITS_API fits_calc_binningd(fitsfile *fptr, int naxis, const char colname[4][FLEN_VALUE], 
+    const double *minin, const double *maxin,  const double *binsizein,
+    const char minname[4][FLEN_VALUE],  const char maxname[4][FLEN_VALUE], 
+    const char binname[4][FLEN_VALUE],  int *colnum,  long *haxes,  
     double *amin, double *amax, double *binsize,  int *status);
 
 int CFITS_API fits_write_keys_histo(fitsfile *fptr,  fitsfile *histptr, 
-      int naxis, int *colnum, int *status);  
+      int naxis, const int *colnum, int *status);  
 int CFITS_API fits_rebin_wcs( fitsfile *fptr, int naxis, float *amin,  float *binsize, 
       int *status);      
 int CFITS_API fits_rebin_wcsd( fitsfile *fptr, int naxis, double *amin,  double *binsize, 
       int *status);      
 int CFITS_API fits_make_hist(fitsfile *fptr, fitsfile *histptr, int bitpix,int naxis,
-     long *naxes,  int *colnum,  float *amin,  float *amax, float *binsize,
-     float weight, int wtcolnum, int recip, char *selectrow, int *status);
+     const long *naxes,  const int *colnum,  const float *amin,  const float *amax, const float *binsize,
+     float weight, int wtcolnum, int recip, const char *selectrow, int *status);
 int CFITS_API fits_make_histd(fitsfile *fptr, fitsfile *histptr, int bitpix,int naxis,
-     long *naxes,  int *colnum,  double *amin,  double *amax, double *binsize,
-     double weight, int wtcolnum, int recip, char *selectrow, int *status);
+     const long *naxes,  const int *colnum,  const double *amin,  const double *amax, const double *binsize,
+     double weight, int wtcolnum, int recip, const char *selectrow, int *status);
 
 typedef struct
 {
@@ -1990,8 +1990,8 @@ int CFITS_API fits_pixel_filter (PixelFilter * filter, int * status);
 
 /*--------------------- grouping routines ------------------*/
 
-int CFITS_API ffgtcr(fitsfile *fptr, char *grpname, int grouptype, int *status);
-int CFITS_API ffgtis(fitsfile *fptr, char *grpname, int grouptype, int *status);
+int CFITS_API ffgtcr(fitsfile *fptr, const char *grpname, int grouptype, int *status);
+int CFITS_API ffgtis(fitsfile *fptr, const char *grpname, int grouptype, int *status);
 int CFITS_API ffgtch(fitsfile *gfptr, int grouptype, int *status);
 int CFITS_API ffgtrm(fitsfile *gfptr, int rmopt, int *status);
 int CFITS_API ffgtcp(fitsfile *infptr, fitsfile *outfptr, int cpopt, int *status);
@@ -2011,22 +2011,22 @@ int CFITS_API ffgmrm(fitsfile *fptr, long member, int rmopt, int *status);
 
 /*--------------------- group template parser routines ------------------*/
 
-int CFITS_API fits_execute_template(fitsfile *ff, char *ngp_template, int *status);
+int CFITS_API fits_execute_template(fitsfile *ff, const char *ngp_template, int *status);
 
-int CFITS_API fits_img_stats_short(short *array,long nx, long ny, int nullcheck,   
+int CFITS_API fits_img_stats_short(const short *array,long nx, long ny, int nullcheck,   
     short nullvalue,long *ngoodpix, short *minvalue, short *maxvalue, double *mean,  
     double *sigma, double *noise1, double *noise2, double *noise3, double *noise5, int *status);
-int CFITS_API fits_img_stats_int(int *array,long nx, long ny, int nullcheck,   
+int CFITS_API fits_img_stats_int(const int *array,long nx, long ny, int nullcheck,   
     int nullvalue,long *ngoodpix, int *minvalue, int *maxvalue, double *mean,  
     double *sigma, double *noise1, double *noise2, double *noise3, double *noise5, int *status);
-int CFITS_API fits_img_stats_float(float *array, long nx, long ny, int nullcheck,   
+int CFITS_API fits_img_stats_float(const float *array, long nx, long ny, int nullcheck,   
     float nullvalue,long *ngoodpix, float *minvalue, float *maxvalue, double *mean,  
     double *sigma, double *noise1, double *noise2, double *noise3, double *noise5, int *status);
 
 /*--------------------- image compression routines ------------------*/
 
 int CFITS_API fits_set_compression_type(fitsfile *fptr, int ctype, int *status);
-int CFITS_API fits_set_tile_dim(fitsfile *fptr, int ndim, long *dims, int *status);
+int CFITS_API fits_set_tile_dim(fitsfile *fptr, int ndim, const long *dims, int *status);
 int CFITS_API fits_set_noise_bits(fitsfile *fptr, int noisebits, int *status);
 int CFITS_API fits_set_quantize_level(fitsfile *fptr, float qlevel, int *status);
 int CFITS_API fits_set_hcomp_scale(fitsfile *fptr, float scale, int *status);
@@ -2057,13 +2057,13 @@ int CFITS_API fits_img_decompress_header(fitsfile *infptr, fitsfile *outfptr, in
 int CFITS_API fits_img_decompress (fitsfile *infptr, fitsfile *outfptr, int *status);
 
 /* H-compress routines */
-int CFITS_API fits_hcompress(int *a, int nx, int ny, int scale, char *output, 
+int CFITS_API fits_hcompress(const int *a, int nx, int ny, int scale, char *output, 
     long *nbytes, int *status);
-int CFITS_API fits_hcompress64(LONGLONG *a, int nx, int ny, int scale, char *output, 
+int CFITS_API fits_hcompress64(const LONGLONG *a, int nx, int ny, int scale, char *output, 
     long *nbytes, int *status);
-int CFITS_API fits_hdecompress(unsigned char *input, int smooth, int *a, int *nx, 
+int CFITS_API fits_hdecompress(const unsigned char *input, int smooth, int *a, int *nx, 
        int *ny, int *scale, int *status);
-int CFITS_API fits_hdecompress64(unsigned char *input, int smooth, LONGLONG *a, int *nx, 
+int CFITS_API fits_hdecompress64(const unsigned char *input, int smooth, LONGLONG *a, int *nx, 
        int *ny, int *scale, int *status);
 
 int CFITS_API fits_compress_table  (fitsfile *infptr, fitsfile *outfptr, int *status);

@@ -79,7 +79,7 @@ D. Jennings, 05/05/99, added the following new functions (note, none of these
 
 /*---------------------------------------------------------------------------*/
 int ffgtcr(fitsfile *fptr,      /* FITS file pointer                         */
-	   char    *grpname,    /* name of the grouping table                */
+	   const char    *grpname,    /* name of the grouping table                */
 	   int      grouptype,  /* code specifying the type of
 				   grouping table information:
 				   GT_ID_ALL_URI  0 ==> defualt (all columns)
@@ -132,7 +132,7 @@ int ffgtcr(fitsfile *fptr,      /* FITS file pointer                         */
 
 /*---------------------------------------------------------------------------*/
 int ffgtis(fitsfile *fptr,      /* FITS file pointer                         */
-	   char    *grpname,    /* name of the grouping table                */
+	   const char    *grpname,    /* name of the grouping table                */
 	   int      grouptype,  /* code specifying the type of
 				   grouping table information:
 				   GT_ID_ALL_URI  0 ==> defualt (all columns)
@@ -187,7 +187,7 @@ int ffgtis(fitsfile *fptr,      /* FITS file pointer                         */
 
       /* create the grouping table using the columns defined above */
 
-      *status = fits_insert_btbl(fptr,0,tfields,ttype,tform,NULL,
+      *status = fits_insert_btbl(fptr,0,tfields,(const char **) ttype,(const char **) tform,NULL,
 				 NULL,pcount,status);
 
       if(*status != 0) continue;
@@ -1678,14 +1678,14 @@ int ffgtam(fitsfile *gfptr,   /* FITS file pointer to grouping table HDU     */
       *tmpPtr = memberHDUtype; 
 
       if(xtensionCol != 0)
-	fits_write_col_str(gfptr,xtensionCol,nmembers,1,1,tmpPtr,status);
+	fits_write_col_str(gfptr,xtensionCol,nmembers,1,1,(const char **) tmpPtr,status);
 
       *tmpPtr = memberExtname; 
 
       if(extnameCol  != 0)
 	{
 	  if(strlen(memberExtname) != 0)
-	    fits_write_col_str(gfptr,extnameCol,nmembers,1,1,tmpPtr,status);
+	    fits_write_col_str(gfptr,extnameCol,nmembers,1,1,(const char **) tmpPtr,status);
 	  else
 	    /* WILL THIS WORK FOR VAR LENTH CHAR COLS??????*/
 	    fits_write_col_byt(gfptr,extnameCol,nmembers,1,1,charNull,status);
@@ -1712,7 +1712,7 @@ int ffgtam(fitsfile *gfptr,   /* FITS file pointer to grouping table HDU     */
 
 	  if((tmpfptr->Fptr != gfptr->Fptr) && 
 	          strncmp(tmprootname, grootname, FLEN_FILENAME))
-	    fits_write_col_str(gfptr,locationCol,nmembers,1,1,tmpPtr,status);
+	    fits_write_col_str(gfptr,locationCol,nmembers,1,1,(const char **) tmpPtr,status);
 	  else
 	    /* WILL THIS WORK FOR VAR LENTH CHAR COLS??????*/
 	    fits_write_col_byt(gfptr,locationCol,nmembers,1,1,charNull,status);
@@ -1732,7 +1732,7 @@ int ffgtam(fitsfile *gfptr,   /* FITS file pointer to grouping table HDU     */
 
 	  if((tmpfptr->Fptr != gfptr->Fptr) && 
 	          strncmp(tmprootname, grootname, FLEN_FILENAME))
-	    fits_write_col_str(gfptr,uriCol,nmembers,1,1,tmpPtr,status);
+	    fits_write_col_str(gfptr,uriCol,nmembers,1,1,(const char **) tmpPtr,status);
 	  else
 	    /* WILL THIS WORK FOR VAR LENTH CHAR COLS??????*/
 	    fits_write_col_byt(gfptr,uriCol,nmembers,1,1,charNull,status);
@@ -2047,7 +2047,7 @@ int ffgmng(fitsfile *mfptr,   /* FITS file pointer to member HDU            */
     {
       /* read the next GRPIDn keyword in the series */
 
-      *status = fits_find_nextkey(mfptr,inclist,1,NULL,0,card,status);
+      *status = fits_find_nextkey(mfptr,(const char **) inclist,1,NULL,0,card,status);
       
       if(*status != 0) continue;
       
@@ -2787,7 +2787,7 @@ int ffgmcp(fitsfile *gfptr,  /* FITS file pointer to group                   */
 
 	  while(*status == 0)
 	    {
-	      *status = fits_find_nextkey(mfptr,incList,2,NULL,0,card,status);
+	      *status = fits_find_nextkey(mfptr,(const char **) incList,2,NULL,0,card,status);
 	      *status = fits_get_hdrpos(mfptr,&numkeys,&keypos,status);  
 	      /* SPR 1738 */
 	      *status = fits_read_keyn(mfptr,keypos-1,keyname,value,
@@ -4730,7 +4730,7 @@ int ffgtcpr(fitsfile   *infptr,  /* input FITS file pointer                 */
 	{
 	  ffgrec(infptr,startSearch,card,status);
 
-	  *status = fits_find_nextkey(infptr,includeList,1,excludeList,
+	  *status = fits_find_nextkey(infptr,(const char **) includeList,1,(const char **) excludeList,
 				      nexclude,card,status);
 
 	  *status = fits_get_hdrpos(infptr,&numkeys,&startSearch,status);

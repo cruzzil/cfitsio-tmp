@@ -262,8 +262,8 @@ int writebintable (fitsfile *fptr, int *status)
 
     /* append a new empty binary table onto the FITS file */
 
-    if ( fits_create_tbl( fptr, BINARY_TBL, BROWS, tfields, ttype, tform,
-                tunit, extname, status) )
+    if ( fits_create_tbl( fptr, BINARY_TBL, BROWS, tfields, (const char **) ttype, (const char **) tform,
+                (const char **) tunit, extname, status) )
          printerror( *status );
 
     /* get table row size and optimum number of rows to write per loop */
@@ -316,8 +316,8 @@ int writeasctable (fitsfile *fptr, int *status)
     char *tunit[] = { " ",      " "     };
 
     /* append a new empty ASCII table onto the FITS file */
-    if ( fits_create_tbl( fptr, ASCII_TBL, AROWS, tfields, ttype, tform,
-                tunit, extname, status) )
+    if ( fits_create_tbl( fptr, ASCII_TBL, AROWS, tfields, (const char **) ttype, (const char **) tform,
+                (const char **) tunit, extname, status) )
          printerror( *status );
 
     /* get table row size and optimum number of rows to write per loop */

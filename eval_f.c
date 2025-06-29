@@ -150,7 +150,7 @@ int fffrow( fitsfile *fptr,         /* I - Input FITS file                   */
 /*--------------------------------------------------------------------------*/
 int ffsrow( fitsfile *infptr,   /* I - Input FITS file                      */
             fitsfile *outfptr,  /* I - Output FITS file                     */
-            char     *expr,     /* I - Boolean expression                   */
+            const char     *expr,     /* I - Boolean expression                   */
             int      *status )  /* O - Error status                         */
 /*                                                                          */
 /* Evaluate an expression on all rows of a table.  If the input and output  */
@@ -407,10 +407,10 @@ int ffsrow( fitsfile *infptr,   /* I - Input FITS file                      */
 /*---------------------------------------------------------------------------*/
 int ffcrow( fitsfile *fptr,      /* I - Input FITS file                      */
             int      datatype,   /* I - Datatype to return results as        */
-            char     *expr,      /* I - Arithmetic expression                */
+            const char     *expr,      /* I - Arithmetic expression                */
             long     firstrow,   /* I - First row to evaluate                */
             long     nelements,  /* I - Number of elements to return         */
-            void     *nulval,    /* I - Ptr to value to use as UNDEF         */
+            const void     *nulval,    /* I - Ptr to value to use as UNDEF         */
             void     *array,     /* O - Array of results                     */
             int      *anynul,    /* O - Were any UNDEFs encountered?         */
             int      *status )   /* O - Error status                         */
@@ -465,10 +465,10 @@ int ffcrow( fitsfile *fptr,      /* I - Input FITS file                      */
 
 /*--------------------------------------------------------------------------*/
 int ffcalc( fitsfile *infptr,   /* I - Input FITS file                      */
-            char     *expr,     /* I - Arithmetic expression                */
+            const char     *expr,     /* I - Arithmetic expression                */
             fitsfile *outfptr,  /* I - Output fits file                     */
-            char     *parName,  /* I - Name of output parameter             */
-            char     *parInfo,  /* I - Extra information on parameter       */
+            const char     *parName,  /* I - Name of output parameter             */
+            const char     *parInfo,  /* I - Extra information on parameter       */
             int      *status )  /* O - Error status                         */
 /*                                                                          */
 /* Evaluate an expression for all rows of a table.  Call ffcalc_rng with    */
@@ -482,13 +482,13 @@ int ffcalc( fitsfile *infptr,   /* I - Input FITS file                      */
 
 /*--------------------------------------------------------------------------*/
 int ffcalc_rng( fitsfile *infptr,   /* I - Input FITS file                  */
-                char     *expr,     /* I - Arithmetic expression            */
+                const char     *expr,     /* I - Arithmetic expression            */
                 fitsfile *outfptr,  /* I - Output fits file                 */
-                char     *parName,  /* I - Name of output parameter         */
-                char     *parInfo,  /* I - Extra information on parameter   */
+                const char     *parName,  /* I - Name of output parameter         */
+                const char     *parInfo,  /* I - Extra information on parameter   */
                 int      nRngs,     /* I - Row range info                   */
-                long     *start,    /* I - Row range info                   */
-                long     *end,      /* I - Row range info                   */
+                const long     *start,    /* I - Row range info                   */
+                const long     *end,      /* I - Row range info                   */
                 int      *status )  /* O - Error status                     */
 /*                                                                          */
 /* Evaluate an expression using the data in the input FITS file and place   */
@@ -773,8 +773,8 @@ int ffcalc_rng( fitsfile *infptr,   /* I - Input FITS file                  */
 
 /*--------------------------------------------------------------------------*/
 int fftexp( fitsfile *fptr,      /* I - Input FITS file                     */
-            char     *expr,      /* I - Arithmetic expression               */
-            int      maxdim,     /* I - Max Dimension of naxes              */
+            const char     *expr,      /* I - Arithmetic expression               */
+            const int      maxdim,     /* I - Max Dimension of naxes              */
             int      *datatype,  /* O - Data type of result                 */
             long     *nelem,     /* O - Vector length of result             */
             int      *naxis,     /* O - # of dimensions of result           */
@@ -1908,10 +1908,10 @@ int ffcvtn( int   inputType,  /* I - Data type of input array               */
 
 /*---------------------------------------------------------------------------*/
 int fffrwc( fitsfile *fptr,        /* I - Input FITS file                    */
-            char     *expr,        /* I - Boolean expression                 */
-            char     *timeCol,     /* I - Name of time column                */
-            char     *parCol,      /* I - Name of parameter column           */
-            char     *valCol,      /* I - Name of value column               */
+            const char     *expr,        /* I - Boolean expression                 */
+            const char     *timeCol,     /* I - Name of time column                */
+            const char     *parCol,      /* I - Name of parameter column           */
+            const char     *valCol,      /* I - Name of value column               */
             long     ntimes,       /* I - Number of distinct times in file   */
             double   *times,       /* O - Array of times in file             */
             char     *time_status, /* O - Array of boolean results           */

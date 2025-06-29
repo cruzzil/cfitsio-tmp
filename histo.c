@@ -438,13 +438,13 @@ getweight:
 }
 
 /*--------------------------------------------------------------------------*/
-int ffbins(char *binspec,   /* I - binning specification */
+int ffbins(const char *binspec,   /* I - binning specification */
                    int *imagetype,      /* O - image type, TINT or TSHORT */
                    int *histaxis,       /* O - no. of axes in the histogram */
-                   char colname[4][FLEN_VALUE],  /* column name for axis */
-                   double *minin,        /* minimum value for each axis */
-                   double *maxin,        /* maximum value for each axis */
-                   double *binsizein,    /* size of bins on each axis */
+                   const char colname[4][FLEN_VALUE],  /* column name for axis */
+                   const double *minin,        /* minimum value for each axis */
+                   const double *maxin,        /* maximum value for each axis */
+                   const double *binsizein,    /* size of bins on each axis */
                    char minname[4][FLEN_VALUE],  /* keyword name for min */
                    char maxname[4][FLEN_VALUE],  /* keyword name for max */
                    char binname[4][FLEN_VALUE],  /* keyword name for binsize */
@@ -892,20 +892,20 @@ int ffhist2e(fitsfile **fptr,  /* IO - pointer to table with X and Y cols;    */
 /*--------------------------------------------------------------------------*/
 int ffhist2(fitsfile **fptr,  /* IO - pointer to table with X and Y cols;    */
                              /*     on output, points to histogram image    */
-           char *outfile,    /* I - name for the output histogram file      */
+           const char *outfile,    /* I - name for the output histogram file      */
            int imagetype,    /* I - datatype for image: TINT, TSHORT, etc   */
            int naxis,        /* I - number of axes in the histogram image   */
-           char colname[4][FLEN_VALUE],   /* I - column names               */
-           double *minin,     /* I - minimum histogram value, for each axis */
-           double *maxin,     /* I - maximum histogram value, for each axis */
-           double *binsizein, /* I - bin size along each axis               */
-           char minname[4][FLEN_VALUE], /* I - optional keywords for min    */
-           char maxname[4][FLEN_VALUE], /* I - optional keywords for max    */
-           char binname[4][FLEN_VALUE], /* I - optional keywords for binsize */
+           const char colname[4][FLEN_VALUE],   /* I - column names               */
+           const double *minin,     /* I - minimum histogram value, for each axis */
+           const double *maxin,     /* I - maximum histogram value, for each axis */
+           const double *binsizein, /* I - bin size along each axis               */
+           const char minname[4][FLEN_VALUE], /* I - optional keywords for min    */
+           const char maxname[4][FLEN_VALUE], /* I - optional keywords for max    */
+           const char binname[4][FLEN_VALUE], /* I - optional keywords for binsize */
            double weightin,        /* I - binning weighting factor          */
-           char wtcol[FLEN_VALUE], /* I - optional keyword or col for weight*/
+           const char wtcol[FLEN_VALUE], /* I - optional keyword or col for weight*/
            int recip,              /* I - use reciprocal of the weight?     */
-           char *selectrow,        /* I - optional array (length = no. of   */
+           const char *selectrow,        /* I - optional array (length = no. of   */
                              /* rows in the table).  If the element is true */
                              /* then the corresponding row of the table will*/
                              /* be included in the histogram, otherwise the */
@@ -927,20 +927,20 @@ int ffhist2(fitsfile **fptr,  /* IO - pointer to table with X and Y cols;    */
 /* ffhist3: same as ffhist2, but does not close the original file */
 /*  and/or replace the original file pointer */
 fitsfile *ffhist3(fitsfile *fptr, /* I - ptr to table with X and Y cols*/
-           char *outfile,    /* I - name for the output histogram file      */
+           const char *outfile,    /* I - name for the output histogram file      */
            int imagetype,    /* I - datatype for image: TINT, TSHORT, etc   */
            int naxis,        /* I - number of axes in the histogram image   */
-           char colname[4][FLEN_VALUE],   /* I - column names               */
-           double *minin,     /* I - minimum histogram value, for each axis */
-           double *maxin,     /* I - maximum histogram value, for each axis */
-           double *binsizein, /* I - bin size along each axis               */
-           char minname[4][FLEN_VALUE], /* I - optional keywords for min    */
-           char maxname[4][FLEN_VALUE], /* I - optional keywords for max    */
-           char binname[4][FLEN_VALUE], /* I - optional keywords for binsize */
+           const char colname[4][FLEN_VALUE],   /* I - column names               */
+           const double *minin,     /* I - minimum histogram value, for each axis */
+           const double *maxin,     /* I - maximum histogram value, for each axis */
+           const double *binsizein, /* I - bin size along each axis               */
+           const char minname[4][FLEN_VALUE], /* I - optional keywords for min    */
+           const char maxname[4][FLEN_VALUE], /* I - optional keywords for max    */
+           const char binname[4][FLEN_VALUE], /* I - optional keywords for binsize */
            double weightin,        /* I - binning weighting factor          */
-           char wtcol[FLEN_VALUE], /* I - optional keyword or col for weight*/
+           const char wtcol[FLEN_VALUE], /* I - optional keyword or col for weight*/
            int recip,              /* I - use reciprocal of the weight?     */
-           char *selectrow,        /* I - optional array (length = no. of   */
+           const char *selectrow,        /* I - optional array (length = no. of   */
                              /* rows in the table).  If the element is true */
                              /* then the corresponding row of the table will*/
                              /* be included in the histogram, otherwise the */
@@ -1068,20 +1068,20 @@ fitsfile *ffhist3(fitsfile *fptr, /* I - ptr to table with X and Y cols*/
 /*--------------------------------------------------------------------------*/
 int ffhist(fitsfile **fptr,  /* IO - pointer to table with X and Y cols;    */
                              /*     on output, points to histogram image    */
-           char *outfile,    /* I - name for the output histogram file      */
+           const char *outfile,    /* I - name for the output histogram file      */
            int imagetype,    /* I - datatype for image: TINT, TSHORT, etc   */
            int naxis,        /* I - number of axes in the histogram image   */
-           char colname[4][FLEN_VALUE],   /* I - column names               */
-           double *minin,     /* I - minimum histogram value, for each axis */
-           double *maxin,     /* I - maximum histogram value, for each axis */
-           double *binsizein, /* I - bin size along each axis               */
-           char minname[4][FLEN_VALUE], /* I - optional keywords for min    */
-           char maxname[4][FLEN_VALUE], /* I - optional keywords for max    */
-           char binname[4][FLEN_VALUE], /* I - optional keywords for binsize */
+           const char colname[4][FLEN_VALUE],   /* I - column names               */
+           const double *minin,     /* I - minimum histogram value, for each axis */
+           const double *maxin,     /* I - maximum histogram value, for each axis */
+           double *binsizein, /* IO - bin size along each axis               */
+           const char minname[4][FLEN_VALUE], /* I - optional keywords for min    */
+           const char maxname[4][FLEN_VALUE], /* I - optional keywords for max    */
+           const char binname[4][FLEN_VALUE], /* I - optional keywords for binsize */
            double weightin,        /* I - binning weighting factor          */
-           char wtcol[FLEN_VALUE], /* I - optional keyword or col for weight*/
+           const char wtcol[FLEN_VALUE], /* I - optional keyword or col for weight*/
            int recip,              /* I - use reciprocal of the weight?     */
-           char *selectrow,        /* I - optional array (length = no. of   */
+           const char *selectrow,        /* I - optional array (length = no. of   */
                              /* rows in the table).  If the element is true */
                              /* then the corresponding row of the table will*/
                              /* be included in the histogram, otherwise the */
@@ -1726,13 +1726,13 @@ int ffhist(fitsfile **fptr,  /* IO - pointer to table with X and Y cols;    */
 int fits_calc_binning(
       fitsfile *fptr,  /* IO - pointer to table to be binned      ;       */
       int naxis,       /* I - number of axes/columns in the binned image  */
-      char colname[4][FLEN_VALUE],   /* I - optional column names         */
-      double *minin,     /* I - optional lower bound value for each axis  */
-      double *maxin,     /* I - optional upper bound value, for each axis */
-      double *binsizein, /* I - optional bin size along each axis         */
-      char minname[4][FLEN_VALUE], /* I - optional keywords for min       */
-      char maxname[4][FLEN_VALUE], /* I - optional keywords for max       */
-      char binname[4][FLEN_VALUE], /* I - optional keywords for binsize   */
+      const char colname[4][FLEN_VALUE],   /* I - optional column names         */
+      const double *minin,     /* I - optional lower bound value for each axis  */
+      const double *maxin,     /* I - optional upper bound value, for each axis */
+      const double *binsizein, /* I - optional bin size along each axis         */
+      const char minname[4][FLEN_VALUE], /* I - optional keywords for min       */
+      const char maxname[4][FLEN_VALUE], /* I - optional keywords for max       */
+      const char binname[4][FLEN_VALUE], /* I - optional keywords for binsize   */
 
     /* The returned parameters for each axis of the n-dimensional histogram are */
 
@@ -2204,13 +2204,13 @@ int fits_calc_binningde(
 int fits_calc_binningd(
       fitsfile *fptr,  /* IO - pointer to table to be binned      ;       */
       int naxis,       /* I - number of axes/columns in the binned image  */
-      char colname[4][FLEN_VALUE],   /* I - optional column names         */
-      double *minin,     /* I - optional lower bound value for each axis  */
-      double *maxin,     /* I - optional upper bound value, for each axis */
-      double *binsizein, /* I - optional bin size along each axis         */
-      char minname[4][FLEN_VALUE], /* I - optional keywords for min       */
-      char maxname[4][FLEN_VALUE], /* I - optional keywords for max       */
-      char binname[4][FLEN_VALUE], /* I - optional keywords for binsize   */
+      const char colname[4][FLEN_VALUE],   /* I - optional column names         */
+      const double *minin,     /* I - optional lower bound value for each axis  */
+      const double *maxin,     /* I - optional upper bound value, for each axis */
+      const double *binsizein, /* I - optional bin size along each axis         */
+      const char minname[4][FLEN_VALUE], /* I - optional keywords for min       */
+      const char maxname[4][FLEN_VALUE], /* I - optional keywords for max       */
+      const char binname[4][FLEN_VALUE], /* I - optional keywords for binsize   */
 
     /* The returned parameters for each axis of the n-dimensional histogram are */
 
@@ -2322,7 +2322,7 @@ int fits_write_keys_histo(
       fitsfile *fptr,   /* I - pointer to table to be binned              */
       fitsfile *histptr,  /* I - pointer to output histogram image HDU      */
       int naxis,        /* I - number of axes in the histogram image      */
-      int *colnum,      /* I - column numbers (array length = naxis)      */
+      const int *colnum,      /* I - column numbers (array length = naxis)      */
       int *status)     
 {      
   return fits_write_keys_histoe(fptr, histptr, naxis, colnum, 0, 0, status);
@@ -2467,15 +2467,15 @@ int fits_make_hist(fitsfile *fptr, /* IO - pointer to table with X and Y cols; *
     fitsfile *histptr, /* I - pointer to output FITS image      */
     int bitpix,       /* I - datatype for image: 16, 32, -32, etc    */
     int naxis,        /* I - number of axes in the histogram image   */
-    long *naxes,      /* I - size of axes in the histogram image   */
-    int *colnum,    /* I - column numbers (array length = naxis)   */
-    float *amin,     /* I - minimum histogram value, for each axis */
-    float *amax,     /* I - maximum histogram value, for each axis */
-    float *binsize, /* I - bin size along each axis               */
+    const long *naxes,      /* I - size of axes in the histogram image   */
+    const int *colnum,    /* I - column numbers (array length = naxis)   */
+    const float *amin,     /* I - minimum histogram value, for each axis */
+    const float *amax,     /* I - maximum histogram value, for each axis */
+    const float *binsize, /* I - bin size along each axis               */
     float weight,        /* I - binning weighting factor          */
     int wtcolnum, /* I - optional keyword or col for weight*/
     int recip,              /* I - use reciprocal of the weight?     */
-    char *selectrow,        /* I - optional array (length = no. of   */
+    const char *selectrow,        /* I - optional array (length = no. of   */
                              /* rows in the table).  If the element is true */
                              /* then the corresponding row of the table will*/
                              /* be included in the histogram, otherwise the */
@@ -2838,15 +2838,15 @@ int fits_make_histd(fitsfile *fptr, /* IO - pointer to table with X and Y cols; 
     fitsfile *histptr, /* I - pointer to output FITS image      */
     int bitpix,       /* I - datatype for image: 16, 32, -32, etc    */
     int naxis,        /* I - number of axes in the histogram image   */
-    long *naxes,      /* I - size of axes in the histogram image   */
-    int *colnum,    /* I - column numbers (array length = naxis)   */
-    double *amin,     /* I - minimum histogram value, for each axis */
-    double *amax,     /* I - maximum histogram value, for each axis */
-    double *binsize, /* I - bin size along each axis               */
+    const long *naxes,      /* I - size of axes in the histogram image   */
+    const int *colnum,    /* I - column numbers (array length = naxis)   */
+    const double *amin,     /* I - minimum histogram value, for each axis */
+    const double *amax,     /* I - maximum histogram value, for each axis */
+    const double *binsize, /* I - bin size along each axis               */
     double weight,        /* I - binning weighting factor          */
     int wtcolnum, /* I - optional keyword or col for weight*/
     int recip,              /* I - use reciprocal of the weight?     */
-    char *selectrow,        /* I - optional array (length = no. of   */
+    const char *selectrow,        /* I - optional array (length = no. of   */
                              /* rows in the table).  If the element is true */
                              /* then the corresponding row of the table will*/
                              /* be included in the histogram, otherwise the */

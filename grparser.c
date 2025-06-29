@@ -1207,7 +1207,7 @@ int	ngp_read_group(fitsfile *ff, char *grpname, int parent_hn)
 
 /* read whole template. ff should point to the opened empty fits file. */
 
-int	fits_execute_template(fitsfile *ff, char *ngp_template, int *status)
+int	fits_execute_template(fitsfile *ff, const char *ngp_template, int *status)
  { int		r, exit_flg, first_extension, i, my_hn, tmp0, keys_exist, more_keys, used_ver;
    char		grnm[NGP_MAX_STRING], used_name[NGP_MAX_STRING];
    long		luv;

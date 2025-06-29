@@ -75,7 +75,7 @@ static void output_nnybble(char *outfile, int n, unsigned char array[]);
 #define output_huffman(outfile,c)	output_nbits(outfile,code[c],ncode[c])
 
 /* ---------------------------------------------------------------------- */
-int fits_hcompress(int *a, int ny, int nx, int scale, char *output, 
+int fits_hcompress(const int *a, int ny, int nx, int scale, char *output, 
                   long *nbytes, int *status)
 {
   /* 
@@ -123,7 +123,7 @@ int fits_hcompress(int *a, int ny, int nx, int scale, char *output,
   return(*status);
 }
 /* ---------------------------------------------------------------------- */
-int fits_hcompress64(LONGLONG *a, int ny, int nx, int scale, char *output, 
+int fits_hcompress64(const LONGLONG *a, int ny, int nx, int scale, char *output, 
                   long *nbytes, int *status)
 {
   /* 

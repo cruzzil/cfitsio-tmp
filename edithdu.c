@@ -398,7 +398,7 @@ int ffwrhdu(fitsfile *infptr,    /* I - FITS file pointer to input file  */
 int ffiimg(fitsfile *fptr,      /* I - FITS file pointer           */
            int bitpix,          /* I - bits per pixel              */
            int naxis,           /* I - number of axes in the array */
-           long *naxes,         /* I - size of each axis           */
+           const long *naxes,         /* I - size of each axis           */
            int *status)         /* IO - error status               */
 /*
   insert an IMAGE extension following the current HDU 
@@ -426,7 +426,7 @@ int ffiimg(fitsfile *fptr,      /* I - FITS file pointer           */
 int ffiimgll(fitsfile *fptr,    /* I - FITS file pointer           */
            int bitpix,          /* I - bits per pixel              */
            int naxis,           /* I - number of axes in the array */
-           LONGLONG *naxes,     /* I - size of each axis           */
+           const LONGLONG *naxes,     /* I - size of each axis           */
            int *status)         /* IO - error status               */
 /*
   insert an IMAGE extension following the current HDU 
@@ -589,10 +589,10 @@ int ffitab(fitsfile *fptr,  /* I - FITS file pointer                        */
            LONGLONG naxis1,     /* I - width of row in the table                */
            LONGLONG naxis2,     /* I - number of rows in the table              */
            int tfields,     /* I - number of columns in the table           */
-           char **ttype,    /* I - name of each column                      */
-           long *tbcol,     /* I - byte offset in row to each column        */
-           char **tform,    /* I - value of TFORMn keyword for each column  */
-           char **tunit,    /* I - value of TUNITn keyword for each column  */
+           const char **ttype,    /* I - name of each column                      */
+           const long *tbcol,     /* I - byte offset in row to each column        */
+           const char **tform,    /* I - value of TFORMn keyword for each column  */
+           const char **tunit,    /* I - value of TUNITn keyword for each column  */
            const char *extnmx,   /* I - value of EXTNAME keyword, if any         */
            int *status)     /* IO - error status                            */
 /*
@@ -725,9 +725,9 @@ int ffitab(fitsfile *fptr,  /* I - FITS file pointer                        */
 int ffibin(fitsfile *fptr,  /* I - FITS file pointer                        */
            LONGLONG naxis2,     /* I - number of rows in the table              */
            int tfields,     /* I - number of columns in the table           */
-           char **ttype,    /* I - name of each column                      */
-           char **tform,    /* I - value of TFORMn keyword for each column  */
-           char **tunit,    /* I - value of TUNITn keyword for each column  */
+           const char **ttype,    /* I - name of each column                      */
+           const char **tform,    /* I - value of TFORMn keyword for each column  */
+           const char **tunit,    /* I - value of TUNITn keyword for each column  */
            const char *extnmx,     /* I - value of EXTNAME keyword, if any         */
            LONGLONG pcount, /* I - size of special data area (heap)         */
            int *status)     /* IO - error status                            */

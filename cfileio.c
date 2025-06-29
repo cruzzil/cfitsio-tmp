@@ -2624,7 +2624,7 @@ int fits_copy_cell2image(
 	   fitsfile *fptr,   /* I - point to input table */
 	   fitsfile *newptr, /* O - existing output file; new image HDU
 				    will be appended to it */
-           char *colname,    /* I - column name / number containing the image*/
+           const char *colname,    /* I - column name / number containing the image*/
            long rownum,      /* I - number of the row containing the image */
            int *status)      /* IO - error status */
 
@@ -2834,7 +2834,7 @@ int fits_copy_cell2image(
     npat = sizeof(patterns)/sizeof(patterns[0][0])/2;
     
     /* skip over the first 8 keywords, starting just after TFIELDS */
-    fits_translate_keywords(fptr, newptr, 9, patterns, npat,
+    fits_translate_keywords(fptr, newptr, 9, (const char *(*)[2]) patterns, npat,
 			    colnum, 0, 0, status);
 
     /* add some HISTORY  */
@@ -2881,7 +2881,7 @@ int fits_copy_cell2image(
 int fits_copy_image2cell(
 	   fitsfile *fptr,   /* I - pointer to input image extension */
 	   fitsfile *newptr, /* I - pointer to output table */
-           char *colname,    /* I - name of column containing the image    */
+           const char *colname,    /* I - name of column containing the image    */
            long rownum,      /* I - number of the row containing the image */
            int copykeyflag,  /* I - controls which keywords to copy */
            int *status)      /* IO - error status */
@@ -3085,7 +3085,7 @@ int fits_copy_image2cell(
       }
 
       /* The 3rd parameter value = 5 means skip the first 4 keywords in the image */
-      fits_translate_keywords(fptr, newptr, 5, patterns, npat,
+      fits_translate_keywords(fptr, newptr, 5, (const char *(*)[2]) patterns, npat,
 			      colnum, 0, 0, status);
     }
 
@@ -3160,8 +3160,8 @@ int fits_copy_image2cell(
 int fits_select_image_section(
            fitsfile **fptr,  /* IO - pointer to input image; on output it  */
                              /*      points to the new subimage */
-           char *outfile,    /* I - name for output file        */
-           char *expr,       /* I - Image section expression    */
+           const char *outfile,    /* I - name for output file        */
+           const char *expr,       /* I - Image section expression    */
            int *status)
 {
   /*
@@ -3255,7 +3255,7 @@ int fits_select_image_section(
 int fits_copy_image_section(
            fitsfile *fptr,  /* I - pointer to input image */
            fitsfile *newptr,  /* I - pointer to output image */
-           char *expr,       /* I - Image section expression    */
+           const char *expr,       /* I - Image section expression    */
            int *status)
 {
   /*
@@ -5402,7 +5402,7 @@ int fits_register_driver(char *prefix,
  }
 /*--------------------------------------------------------------------------*/
 /* fits_parse_input_url */
-int ffiurl(char *url,               /* input filename */
+int ffiurl(const char *url,               /* input filename */
            char *urltype,    /* e.g., 'file://', 'http://', 'mem://' */
            char *infilex,    /* root filename (may be complete path) */
            char *outfile,    /* optional output file name            */
@@ -5421,7 +5421,7 @@ int ffiurl(char *url,               /* input filename */
 }
 /*--------------------------------------------------------------------------*/
 /* fits_parse_input_file */
-int ffifile(char *url,       /* input filename */
+int ffifile(const char *url,       /* input filename */
            char *urltype,    /* e.g., 'file://', 'http://', 'mem://' */
            char *infilex,    /* root filename (may be complete path) */
            char *outfile,    /* optional output file name            */
@@ -5442,7 +5442,7 @@ int ffifile(char *url,       /* input filename */
 
 } 
 /*--------------------------------------------------------------------------*/
-int ffifile2(char *url,       /* input filename */
+int ffifile2(const char *url,       /* input filename */
            char *urltype,    /* e.g., 'file://', 'http://', 'mem://' */
            char *infilex,    /* root filename (may be complete path) */
            char *outfile,    /* optional output file name            */
@@ -6595,7 +6595,7 @@ int ffexist(const char *infile, /* I - input filename or URL */
     return(*status);
 }
 /*--------------------------------------------------------------------------*/
-int ffrtnm(char *url, 
+int ffrtnm(const char *url, 
            char *rootname,
            int *status)
 /*
@@ -6964,7 +6964,7 @@ int ffourl(char *url,             /* I - full input URL   */
     return(*status);
 }
 /*--------------------------------------------------------------------------*/
-int ffexts(char *extspec, 
+int ffexts(const char *extspec, 
                        int *extnum, 
                        char *extname,
                        int *extvers,
@@ -7164,7 +7164,7 @@ int ffexts(char *extspec,
     return(*status);
 }
 /*--------------------------------------------------------------------------*/
-int ffextn(char *url,           /* I - input filename/URL  */
+int ffextn(const char *url,           /* I - input filename/URL  */
            int *extension_num,  /* O - returned extension number */
            int *status)
 {
@@ -7304,7 +7304,7 @@ int ffurlt(fitsfile *fptr, char *urlType, int *status)
 }
 
 /*--------------------------------------------------------------------------*/
-int ffimport_file( char *filename,   /* Text file to read                   */
+int ffimport_file( const char *filename,   /* Text file to read                   */
                    char **contents,  /* Pointer to pointer to hold file     */
                    int *status )     /* CFITSIO error code                  */
 /*
@@ -7379,7 +7379,7 @@ int ffimport_file( char *filename,   /* Text file to read                   */
 
 /*--------------------------------------------------------------------------*/
 int fits_get_token(char **ptr, 
-                   char *delimiter,
+                   const char *delimiter,
                    char *token,
                    int *isanumber)   /* O - is this token a number? */
 /*
@@ -7430,7 +7430,7 @@ int fits_get_token(char **ptr,
 }
 /*--------------------------------------------------------------------------*/
 int fits_get_token2(char **ptr, 
-                   char *delimiter,
+                   const char *delimiter,
                    char **token,
                    int *isanumber,  /* O - is this token a number? */
 		   int *status)
@@ -7492,7 +7492,7 @@ int fits_get_token2(char **ptr,
 }
 /*---------------------------------------------------------------------------*/
 char *fits_split_names(
-   char *list)   /* I   - input list of names */
+   const char *list)   /* I   - input list of names */
 {
 /*  
    A sequence of calls to fits_split_names will split the input string

@@ -131,7 +131,7 @@ void ffesum(unsigned long sum,  /* I - accumulated checksum                */
     ascii[16] = '\0';
 }
 /*-------------------------------------------------------------------------*/
-unsigned long ffdsum(char *ascii,  /* I - 16-char ASCII encoded checksum   */
+unsigned long ffdsum(const char *ascii,  /* I - 16-char ASCII encoded checksum   */
                      int complm,   /* I - =1 to decode complement of the   */
                      unsigned long *sum)  /* O - 32-bit checksum           */
 /*

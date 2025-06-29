@@ -13,9 +13,9 @@
 /*--------------------------------------------------------------------------*/
 int ffppx(  fitsfile *fptr,  /* I - FITS file pointer                       */
             int  datatype,   /* I - datatype of the value                   */
-            long  *firstpix, /* I - coord of  first pixel to write(1 based) */
+            const long  *firstpix, /* I - coord of  first pixel to write(1 based) */
             LONGLONG  nelem,     /* I - number of values to write               */
-            void  *array,    /* I - array of values that are written        */
+            const void  *array,    /* I - array of values that are written        */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of pixels to the primary array.  The datatype of the
@@ -103,9 +103,9 @@ int ffppx(  fitsfile *fptr,  /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffppxll(  fitsfile *fptr,  /* I - FITS file pointer                       */
             int  datatype,   /* I - datatype of the value                   */
-            LONGLONG  *firstpix, /* I - coord of  first pixel to write(1 based) */
+            const LONGLONG  *firstpix, /* I - coord of  first pixel to write(1 based) */
             LONGLONG  nelem,     /* I - number of values to write               */
-            void  *array,    /* I - array of values that are written        */
+            const void  *array,    /* I - array of values that are written        */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of pixels to the primary array.  The datatype of the
@@ -193,10 +193,10 @@ int ffppxll(  fitsfile *fptr,  /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffppxn(  fitsfile *fptr,  /* I - FITS file pointer                       */
             int  datatype,   /* I - datatype of the value                   */
-            long  *firstpix, /* I - first vector element to write(1 = 1st)  */
+            const long  *firstpix, /* I - first vector element to write(1 = 1st)  */
             LONGLONG  nelem,     /* I - number of values to write               */
-            void  *array,    /* I - array of values that are written        */
-            void  *nulval,   /* I - pointer to the null value               */
+            const void  *array,    /* I - array of values that are written        */
+            const void  *nulval,   /* I - pointer to the null value               */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of values to the primary array.  The datatype of the
@@ -301,10 +301,10 @@ int ffppxn(  fitsfile *fptr,  /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffppxnll(  fitsfile *fptr,  /* I - FITS file pointer                       */
             int  datatype,   /* I - datatype of the value                   */
-            LONGLONG  *firstpix, /* I - first vector element to write(1 = 1st)  */
+            const LONGLONG  *firstpix, /* I - first vector element to write(1 = 1st)  */
             LONGLONG  nelem,     /* I - number of values to write               */
-            void  *array,    /* I - array of values that are written        */
-            void  *nulval,   /* I - pointer to the null value               */
+            const void  *array,    /* I - array of values that are written        */
+            const void  *nulval,   /* I - pointer to the null value               */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of values to the primary array.  The datatype of the
@@ -411,7 +411,7 @@ int ffppr(  fitsfile *fptr,  /* I - FITS file pointer                       */
             int  datatype,   /* I - datatype of the value                   */
             LONGLONG  firstelem, /* I - first vector element to write(1 = 1st)  */
             LONGLONG  nelem,     /* I - number of values to write               */
-            void  *array,    /* I - array of values that are written        */
+            const void  *array,    /* I - array of values that are written        */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of values to the primary array.  The datatype of the
@@ -485,8 +485,8 @@ int ffppn(  fitsfile *fptr,  /* I - FITS file pointer                       */
             int  datatype,   /* I - datatype of the value                   */
             LONGLONG  firstelem, /* I - first vector element to write(1 = 1st)  */
             LONGLONG  nelem,     /* I - number of values to write               */
-            void  *array,    /* I - array of values that are written        */
-            void  *nulval,   /* I - pointer to the null value               */
+            const void  *array,    /* I - array of values that are written        */
+            const void  *nulval,   /* I - pointer to the null value               */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of values to the primary array.  The datatype of the
@@ -575,9 +575,9 @@ int ffppn(  fitsfile *fptr,  /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffpss(  fitsfile *fptr,   /* I - FITS file pointer                       */
             int  datatype,    /* I - datatype of the value                   */
-            long *blc,        /* I - 'bottom left corner' of the subsection  */
-            long *trc ,       /* I - 'top right corner' of the subsection    */
-            void *array,      /* I - array of values that are written        */
+            const long *blc,        /* I - 'bottom left corner' of the subsection  */
+            const long *trc ,       /* I - 'top right corner' of the subsection    */
+            const void *array,      /* I - array of values that are written        */
             int  *status)     /* IO - error status                           */
 /*
   Write a section of values to the primary array. The datatype of the
@@ -671,7 +671,7 @@ int ffpcl(  fitsfile *fptr,  /* I - FITS file pointer                       */
             LONGLONG  firstrow,  /* I - first row to write (1 = 1st row)        */
             LONGLONG  firstelem, /* I - first vector element to write (1 = 1st) */
             LONGLONG  nelem,     /* I - number of elements to write             */
-            void  *array,    /* I - array of values that are written        */
+            const void  *array,    /* I - array of values that are written        */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of values to a table column.  The datatype of the
@@ -686,87 +686,87 @@ int ffpcl(  fitsfile *fptr,  /* I - FITS file pointer                       */
 
     if (datatype == TBIT)
     {
-      ffpclx(fptr, colnum, firstrow, (long) firstelem, (long) nelem, (char *) array, 
+      ffpclx(fptr, colnum, firstrow, (long) firstelem, (long) nelem, (const char *) array, 
              status);
     }
     else if (datatype == TBYTE)
     {
-      ffpclb(fptr, colnum, firstrow, firstelem, nelem, (unsigned char *) array,
+      ffpclb(fptr, colnum, firstrow, firstelem, nelem, (const unsigned char *) array,
              status);
     }
     else if (datatype == TSBYTE)
     {
-      ffpclsb(fptr, colnum, firstrow, firstelem, nelem, (signed char *) array,
+      ffpclsb(fptr, colnum, firstrow, firstelem, nelem, (const signed char *) array,
              status);
     }
     else if (datatype == TUSHORT)
     {
       ffpclui(fptr, colnum, firstrow, firstelem, nelem, 
-             (unsigned short *) array, status);
+             (const unsigned short *) array, status);
     }
     else if (datatype == TSHORT)
     {
-      ffpcli(fptr, colnum, firstrow, firstelem, nelem, (short *) array,
+      ffpcli(fptr, colnum, firstrow, firstelem, nelem, (const short *) array,
              status);
     }
     else if (datatype == TUINT)
     {
-      ffpcluk(fptr, colnum, firstrow, firstelem, nelem, (unsigned int *) array,
+      ffpcluk(fptr, colnum, firstrow, firstelem, nelem, (const unsigned int *) array,
                status);
     }
     else if (datatype == TINT)
     {
-      ffpclk(fptr, colnum, firstrow, firstelem, nelem, (int *) array,
+      ffpclk(fptr, colnum, firstrow, firstelem, nelem, (const int *) array,
                status);
     }
     else if (datatype == TULONG)
     {
-      ffpcluj(fptr, colnum, firstrow, firstelem, nelem, (unsigned long *) array,
+      ffpcluj(fptr, colnum, firstrow, firstelem, nelem, (const unsigned long *) array,
               status);
     }
     else if (datatype == TLONG)
     {
-      ffpclj(fptr, colnum, firstrow, firstelem, nelem, (long *) array,
+      ffpclj(fptr, colnum, firstrow, firstelem, nelem, (const long *) array,
              status);
     }
     else if (datatype == TULONGLONG)
     {
-      ffpclujj(fptr, colnum, firstrow, firstelem, nelem, (ULONGLONG *) array,
+      ffpclujj(fptr, colnum, firstrow, firstelem, nelem, (const ULONGLONG *) array,
              status);
     }
     else if (datatype == TLONGLONG)
     {
-      ffpcljj(fptr, colnum, firstrow, firstelem, nelem, (LONGLONG *) array,
+      ffpcljj(fptr, colnum, firstrow, firstelem, nelem, (const LONGLONG *) array,
              status);
     }
     else if (datatype == TFLOAT)
     {
-      ffpcle(fptr, colnum, firstrow, firstelem, nelem, (float *) array,
+      ffpcle(fptr, colnum, firstrow, firstelem, nelem, (const float *) array,
              status);
     }
     else if (datatype == TDOUBLE)
     {
-      ffpcld(fptr, colnum, firstrow, firstelem, nelem, (double *) array,
+      ffpcld(fptr, colnum, firstrow, firstelem, nelem, (const double *) array,
              status);
     }
     else if (datatype == TCOMPLEX)
     {
       ffpcle(fptr, colnum, firstrow, (firstelem - 1) * 2 + 1, nelem * 2,
-             (float *) array, status);
+             (const float *) array, status);
     }
     else if (datatype == TDBLCOMPLEX)
     {
       ffpcld(fptr, colnum, firstrow, (firstelem - 1) * 2 + 1, nelem * 2,
-             (double *) array, status);
+             (const double *) array, status);
     }
     else if (datatype == TLOGICAL)
     {
-      ffpcll(fptr, colnum, firstrow, firstelem, nelem, (char *) array,
+      ffpcll(fptr, colnum, firstrow, firstelem, nelem, (const char *) array,
              status);
     }
     else if (datatype == TSTRING)
     {
-      ffpcls(fptr, colnum, firstrow, firstelem, nelem, (char **) array,
+      ffpcls(fptr, colnum, firstrow, firstelem, nelem, (const char **) array,
              status);
     }
     else
@@ -781,8 +781,8 @@ int ffpcn(  fitsfile *fptr,  /* I - FITS file pointer                       */
             LONGLONG  firstrow,  /* I - first row to write (1 = 1st row)        */
             LONGLONG  firstelem, /* I - first vector element to write (1 = 1st) */
             LONGLONG  nelem,     /* I - number of elements to write             */
-            void  *array,    /* I - array of values that are written        */
-            void  *nulval,   /* I - pointer to the null value               */
+            const void  *array,    /* I - array of values that are written        */
+            const void  *nulval,   /* I - pointer to the null value               */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of values to a table column.  The datatype of the
@@ -879,7 +879,7 @@ int ffpcn(  fitsfile *fptr,  /* I - FITS file pointer                       */
     }
     else if (datatype == TSTRING)
     {
-      ffpcns(fptr, colnum, firstrow, firstelem, nelem, (char **) array,
+      ffpcns(fptr, colnum, firstrow, firstelem, nelem, (const char **) array,
              (char *) nulval, status);
     }
     else
@@ -891,12 +891,12 @@ int ffpcn(  fitsfile *fptr,  /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffpcln( fitsfile *fptr,   /* I - FITS file pointer                       */
 	    int ncols,        /* I - number of columns to write              */
-            int  *datatype,   /* I - datatypes of the values                 */
-            int  *colnum,     /* I - columns numbers to write (1 = 1st col)  */
+            const int  *datatype,   /* I - datatypes of the values                 */
+            const int  *colnum,     /* I - columns numbers to write (1 = 1st col)  */
             LONGLONG  firstrow,   /* I - first row to write (1 = 1st row)    */
             LONGLONG nrows,       /* I - number of rows to write             */
-            void **array,     /* I - array of pointers to values to write    */
-            void **nulval,    /* I - array of pointers to values for undefined pixels */
+            const void **array,     /* I - array of pointers to values to write    */
+            const void **nulval,    /* I - array of pointers to values for undefined pixels */
             int  *status)     /* IO - error status                           */
 /*
   Write arrays of values to NCOLS table columns. This is an optimization
@@ -1005,7 +1005,7 @@ int ffpcln( fitsfile *fptr,   /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int fits_iter_set_by_name(iteratorCol *col, /* I - iterator col structure */
            fitsfile *fptr,  /* I - FITS file pointer                      */
-           char *colname,   /* I - column name                            */
+           const char *colname,   /* I - column name                            */
            int datatype,    /* I - column datatype                        */
            int iotype)      /* I - InputCol, InputOutputCol, or OutputCol */
 /*
@@ -1048,7 +1048,7 @@ int fits_iter_set_file(iteratorCol *col, /* I - iterator column structure   */
 }
 /*--------------------------------------------------------------------------*/
 int fits_iter_set_colname(iteratorCol *col, /* I - iterator col structure  */
-           char *colname)    /* I - column name                            */
+           const char *colname)    /* I - column name                            */
 /*
   set iterator column parameter
 */

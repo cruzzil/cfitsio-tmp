@@ -213,10 +213,10 @@ int ffg3dui(fitsfile *fptr,  /* I - FITS file pointer                       */
 int ffgsvui(fitsfile *fptr, /* I - FITS file pointer                         */
            int  colnum,    /* I - number of the column to read (1 = 1st)    */
            int naxis,      /* I - number of dimensions in the FITS array    */
-           long  *naxes,   /* I - size of each dimension                    */
-           long  *blc,     /* I - 'bottom left corner' of the subsection    */
-           long  *trc,     /* I - 'top right corner' of the subsection      */
-           long  *inc,     /* I - increment to be applied in each dimension */
+           const long  *naxes,   /* I - size of each dimension                    */
+           const long  *blc,     /* I - 'bottom left corner' of the subsection    */
+           const long  *trc,     /* I - 'top right corner' of the subsection      */
+           const long  *inc,     /* I - increment to be applied in each dimension */
   unsigned short nulval,   /* I - value to set undefined pixels             */
   unsigned short *array,   /* O - array to be filled and returned           */
            int  *anynul,   /* O - set to 1 if any values are null; else 0   */
@@ -378,10 +378,10 @@ int ffgsvui(fitsfile *fptr, /* I - FITS file pointer                         */
 int ffgsfui(fitsfile *fptr, /* I - FITS file pointer                         */
            int  colnum,    /* I - number of the column to read (1 = 1st)    */
            int naxis,      /* I - number of dimensions in the FITS array    */
-           long  *naxes,   /* I - size of each dimension                    */
-           long  *blc,     /* I - 'bottom left corner' of the subsection    */
-           long  *trc,     /* I - 'top right corner' of the subsection      */
-           long  *inc,     /* I - increment to be applied in each dimension */
+           const long  *naxes,   /* I - size of each dimension                    */
+           const long  *blc,     /* I - 'bottom left corner' of the subsection    */
+           const long  *trc,     /* I - 'top right corner' of the subsection      */
+           const long  *inc,     /* I - increment to be applied in each dimension */
   unsigned short *array,   /* O - array to be filled and returned           */
            char *flagval,  /* O - set to 1 if corresponding value is null   */
            int  *anynul,   /* O - set to 1 if any values are null; else 0   */

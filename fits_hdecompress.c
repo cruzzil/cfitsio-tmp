@@ -81,7 +81,7 @@ static void read_bdirect64(unsigned char *infile, LONGLONG a[], int n, int nqx, 
 static int  input_huffman(unsigned char *infile);
 
 /* ---------------------------------------------------------------------- */
-int fits_hdecompress(unsigned char *input, int smooth, int *a, int *ny, int *nx, 
+int fits_hdecompress(const unsigned char *input, int smooth, int *a, int *ny, int *nx, 
                      int *scale, int *status)
 {
   /* 
@@ -124,7 +124,7 @@ int stat;
   return(*status);
 }
 /* ---------------------------------------------------------------------- */
-int fits_hdecompress64(unsigned char *input, int smooth, LONGLONG *a, int *ny, int *nx, 
+int fits_hdecompress64(const unsigned char *input, int smooth, LONGLONG *a, int *ny, int *nx, 
                      int *scale, int *status)
 {
   /* 
