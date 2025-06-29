@@ -14,7 +14,7 @@ int ffpcls( fitsfile *fptr,  /* I - FITS file pointer                       */
             LONGLONG  firstrow,  /* I - first row to write (1 = 1st row)        */
             LONGLONG  firstelem, /* I - first vector element to write (1 = 1st) */
             LONGLONG  nelem,     /* I - number of strings to write              */
-            const char  **array,   /* I - array of pointers to strings            */
+            char  **array,   /* I - array of pointers to strings            */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of string values to a column in the current FITS HDU.

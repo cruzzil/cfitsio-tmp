@@ -1675,29 +1675,29 @@ int CFITS_API ffp3dujj(fitsfile *fptr, long group, LONGLONG ncols, LONGLONG nrow
 
 int CFITS_API ffpss(fitsfile *fptr, int datatype,
            const long *fpixel, const long *lpixel, const void *array, int *status);
-int CFITS_API ffpssb(fitsfile *fptr, long group, long naxis, long *naxes,
+int CFITS_API ffpssb(fitsfile *fptr, long group, long naxis, const long *naxes,
            const long *fpixel, const long *lpixel, const unsigned char *array, int *status);
-int CFITS_API ffpsssb(fitsfile *fptr, long group, long naxis, long *naxes,
+int CFITS_API ffpsssb(fitsfile *fptr, long group, long naxis, const long *naxes,
            const long *fpixel, const long *lpixel, const signed char *array, int *status);
-int CFITS_API ffpssui(fitsfile *fptr, long group, long naxis, long *naxes,
+int CFITS_API ffpssui(fitsfile *fptr, long group, long naxis, const long *naxes,
            const long *fpixel, const long *lpixel, const unsigned short *array, int *status);
-int CFITS_API ffpssi(fitsfile *fptr, long group, long naxis, long *naxes,
+int CFITS_API ffpssi(fitsfile *fptr, long group, long naxis, const long *naxes,
            const long *fpixel, const long *lpixel, const short *array, int *status);
-int CFITS_API ffpssuj(fitsfile *fptr, long group, long naxis, long *naxes,
+int CFITS_API ffpssuj(fitsfile *fptr, long group, long naxis, const long *naxes,
            const long *fpixel, const long *lpixel, const unsigned long *array, int *status);
-int CFITS_API ffpssj(fitsfile *fptr, long group, long naxis, long *naxes,
+int CFITS_API ffpssj(fitsfile *fptr, long group, long naxis, const long *naxes,
            const long *fpixel, const long *lpixel, const long *array, int *status);
-int CFITS_API ffpssuk(fitsfile *fptr, long group, long naxis, long *naxes,
+int CFITS_API ffpssuk(fitsfile *fptr, long group, long naxis, const long *naxes,
            const long *fpixel, const long *lpixel, const unsigned int *array, int *status);
-int CFITS_API ffpssk(fitsfile *fptr, long group, long naxis, long *naxes,
+int CFITS_API ffpssk(fitsfile *fptr, long group, long naxis, const long *naxes,
            const long *fpixel, const long *lpixel, const int *array, int *status);
-int CFITS_API ffpsse(fitsfile *fptr, long group, long naxis, long *naxes,
+int CFITS_API ffpsse(fitsfile *fptr, long group, long naxis, const long *naxes,
            const long *fpixel, const long *lpixel, const float *array, int *status);
-int CFITS_API ffpssd(fitsfile *fptr, long group, long naxis, long *naxes,
+int CFITS_API ffpssd(fitsfile *fptr, long group, long naxis, const long *naxes,
            const long *fpixel, const long *lpixel, const double *array, int *status);
-int CFITS_API ffpssjj(fitsfile *fptr, long group, long naxis, long *naxes,
+int CFITS_API ffpssjj(fitsfile *fptr, long group, long naxis, const long *naxes,
            const long *fpixel, const long *lpixel, const LONGLONG *array, int *status);
-int CFITS_API ffpssujj(fitsfile *fptr, long group, long naxis, long *naxes,
+int CFITS_API ffpssujj(fitsfile *fptr, long group, long naxis, const long *naxes,
            const long *fpixel, const long *lpixel, const ULONGLONG *array, int *status);
 
 int CFITS_API ffpgpb(fitsfile *fptr, long group, long firstelem,
@@ -1756,7 +1756,7 @@ int CFITS_API ffiter(int ncols,  iteratorCol *data, long offset, long nPerLoop,
 /*--------------------- write column elements -------------*/
 int CFITS_API ffpcl(fitsfile *fptr, int datatype, int colnum, LONGLONG firstrow,
           LONGLONG firstelem, LONGLONG nelem, const void *array, int *status);
-int CFITS_API ffpcln(fitsfile *fptr, int ncols, int *datatype, int *colnum, LONGLONG firstrow,
+int CFITS_API ffpcln(fitsfile *fptr, int ncols, const int *datatype, const int *colnum, LONGLONG firstrow,
 	   LONGLONG nrows, const void **array, const void **nulval, int *status);
 int CFITS_API ffpcls(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
            LONGLONG nelem, char **array, int *status);
@@ -1911,7 +1911,7 @@ int CFITS_API ffcalc( fitsfile *infptr, const char *expr, fitsfile *outfptr,
 
 int CFITS_API ffhist(fitsfile **fptr, const char *outfile, int imagetype, int naxis,
            const char colname[4][FLEN_VALUE],
-           const double *minin, const double *maxin, const double *binsizein,
+           const double *minin, const double *maxin, double *binsizein,
            const char minname[4][FLEN_VALUE], const char maxname[4][FLEN_VALUE],
            const char binname[4][FLEN_VALUE], 
            double weightin, const char wtcol[FLEN_VALUE],

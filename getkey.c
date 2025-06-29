@@ -219,9 +219,9 @@ int ffgnky(fitsfile *fptr,  /* I - FITS file pointer     */
 }
 /*--------------------------------------------------------------------------*/
 int ffgnxk( fitsfile *fptr,     /* I - FITS file pointer              */
-            char **inclist,     /* I - list of included keyword names */
+            const char **inclist,     /* I - list of included keyword names */
             int ninc,           /* I - number of names in inclist     */
-            char **exclist,     /* I - list of excluded keyword names */
+            const char **exclist,     /* I - list of excluded keyword names */
             int nexc,           /* I - number of names in exclist     */
             char *card,         /* O - first matching keyword         */
             int  *status)       /* IO - error status                  */
@@ -680,7 +680,7 @@ int ffgstr( fitsfile *fptr,     /* I - FITS file pointer        */
     return(*status = KEY_NO_EXIST);  /* couldn't find the keyword */
 }
 /*--------------------------------------------------------------------------*/
-int ffgknm( char *card,         /* I - keyword card                   */
+int ffgknm( const char *card,         /* I - keyword card                   */
             char *name,         /* O - name of the keyword            */
             int *length,        /* O - length of the keyword name     */
             int  *status)       /* IO - error status                  */
@@ -3613,7 +3613,7 @@ int ffh2st(fitsfile *fptr,   /* I - FITS file pointer           */
 /*--------------------------------------------------------------------------*/
 int ffhdr2str( fitsfile *fptr,  /* I - FITS file pointer                    */
             int exclude_comm,   /* I - if TRUE, exclude commentary keywords */
-            char **exclist,     /* I - list of excluded keyword names       */
+            const char **exclist,     /* I - list of excluded keyword names       */
             int nexc,           /* I - number of names in exclist           */
             char **header,      /* O - returned header string               */
             int *nkeys,         /* O - returned number of 80-char keywords  */
@@ -3705,7 +3705,7 @@ int ffhdr2str( fitsfile *fptr,  /* I - FITS file pointer                    */
 /*--------------------------------------------------------------------------*/
 int ffcnvthdr2str( fitsfile *fptr,  /* I - FITS file pointer                    */
             int exclude_comm,   /* I - if TRUE, exclude commentary keywords */
-            char **exclist,     /* I - list of excluded keyword names       */
+            const char **exclist,     /* I - list of excluded keyword names       */
             int nexc,           /* I - number of names in exclist           */
             char **header,      /* O - returned header string               */
             int *nkeys,         /* O - returned number of 80-char keywords  */

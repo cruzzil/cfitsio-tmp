@@ -17,7 +17,7 @@
 int ffcrim(fitsfile *fptr,      /* I - FITS file pointer           */
            int bitpix,          /* I - bits per pixel              */
            int naxis,           /* I - number of axes in the array */
-           long *naxes,         /* I - size of each axis           */
+           const long *naxes,         /* I - size of each axis           */
            int *status)         /* IO - error status               */
 /*
   create an IMAGE extension following the current HDU. If the
@@ -45,7 +45,7 @@ int ffcrim(fitsfile *fptr,      /* I - FITS file pointer           */
 int ffcrimll(fitsfile *fptr,    /* I - FITS file pointer           */
            int bitpix,          /* I - bits per pixel              */
            int naxis,           /* I - number of axes in the array */
-           LONGLONG *naxes,     /* I - size of each axis           */
+           const LONGLONG *naxes,     /* I - size of each axis           */
            int *status)         /* IO - error status               */
 /*
   create an IMAGE extension following the current HDU. If the
@@ -188,7 +188,7 @@ int ffpktp(fitsfile *fptr,       /* I - FITS file pointer       */
 int ffpky( fitsfile *fptr,     /* I - FITS file pointer        */
            int  datatype,      /* I - datatype of the value    */
            const char *keyname,/* I - name of keyword to write */
-           void *value,        /* I - keyword value            */
+           const void *value,        /* I - keyword value            */
            const char *comm,   /* I - keyword comment          */
            int  *status)       /* IO - error status            */
 /*
@@ -878,7 +878,7 @@ int ffpkyd( fitsfile *fptr,      /* I - FITS file pointer                   */
 /*--------------------------------------------------------------------------*/
 int ffpkyc( fitsfile *fptr,      /* I - FITS file pointer                   */
             const char  *keyname,/* I - name of keyword to write            */
-            float *value,        /* I - keyword value (real, imaginary)     */
+            const float *value,        /* I - keyword value (real, imaginary)     */
             int   decim,         /* I - number of decimal places to display */
             const char  *comm,   /* I - keyword comment                     */
             int   *status)       /* IO - error status                       */
@@ -919,7 +919,7 @@ int ffpkyc( fitsfile *fptr,      /* I - FITS file pointer                   */
 /*--------------------------------------------------------------------------*/
 int ffpkym( fitsfile *fptr,      /* I - FITS file pointer                   */
             const char  *keyname,/* I - name of keyword to write            */
-            double *value,       /* I - keyword value (real, imaginary)     */
+            const double *value,       /* I - keyword value (real, imaginary)     */
             int   decim,         /* I - number of decimal places to display */
             const char  *comm,   /* I - keyword comment                     */
             int   *status)       /* IO - error status                       */
@@ -960,7 +960,7 @@ int ffpkym( fitsfile *fptr,      /* I - FITS file pointer                   */
 /*--------------------------------------------------------------------------*/
 int ffpkfc( fitsfile *fptr,      /* I - FITS file pointer                   */
             const char  *keyname,/* I - name of keyword to write            */
-            float *value,        /* I - keyword value (real, imaginary)     */
+            const float *value,        /* I - keyword value (real, imaginary)     */
             int   decim,         /* I - number of decimal places to display */
             const char  *comm,   /* I - keyword comment                     */
             int   *status)       /* IO - error status                       */
@@ -1001,7 +1001,7 @@ int ffpkfc( fitsfile *fptr,      /* I - FITS file pointer                   */
 /*--------------------------------------------------------------------------*/
 int ffpkfm( fitsfile *fptr,      /* I - FITS file pointer                   */
             const char  *keyname,/* I - name of keyword to write            */
-            double *value,       /* I - keyword value (real, imaginary)     */
+            const double *value,       /* I - keyword value (real, imaginary)     */
             int   decim,         /* I - number of decimal places to display */
             const char  *comm,   /* I - keyword comment                     */
             int   *status)       /* IO - error status                       */
@@ -1301,7 +1301,7 @@ int ffdt2s(int year,          /* I - year (0 - 9999)           */
     return(*status);
 }
 /*-----------------------------------------------------------------*/
-int ffs2dt(char *datestr,   /* I - date string: "YYYY-MM-DD" or "dd/mm/yy" */
+int ffs2dt(const char *datestr,   /* I - date string: "YYYY-MM-DD" or "dd/mm/yy" */
            int *year,       /* O - year (0 - 9999)                         */
            int *month,      /* O - month (1 - 12)                          */
            int *day,        /* O - day (1 - 31)                            */
@@ -1489,7 +1489,7 @@ int fftm2s(int year,          /* I - year (0 - 9999)           */
     return(*status);
 }
 /*-----------------------------------------------------------------*/
-int ffs2tm(char *datestr,     /* I - date string: "YYYY-MM-DD"    */
+int ffs2tm(const char *datestr,     /* I - date string: "YYYY-MM-DD"    */
                               /*     or "YYYY-MM-DDThh:mm:ss.ddd" */
                               /*     or "dd/mm/yy"                */
            int *year,         /* O - year (0 - 9999)              */
@@ -1687,8 +1687,8 @@ int ffpkns( fitsfile *fptr,     /* I - FITS file pointer                    */
             const char *keyroot,      /* I - root name of keywords to write       */
             int  nstart,        /* I - starting index number                */
             int  nkey,          /* I - number of keywords to write          */
-            char *value[],      /* I - array of pointers to keyword values  */
-            char *comm[],       /* I - array of pointers to keyword comment */
+            const char *value[],      /* I - array of pointers to keyword values  */
+            const char *comm[],       /* I - array of pointers to keyword comment */
             int  *status)       /* IO - error status                        */
 /*
   Write (put) an indexed array of keywords with index numbers between
@@ -1747,8 +1747,8 @@ int ffpknl( fitsfile *fptr,     /* I - FITS file pointer                    */
             const char *keyroot,      /* I - root name of keywords to write       */
             int  nstart,        /* I - starting index number                */
             int  nkey,          /* I - number of keywords to write          */
-            int  *value,        /* I - array of keyword values              */
-            char *comm[],       /* I - array of pointers to keyword comment */
+            const int  *value,        /* I - array of keyword values              */
+            const char *comm[],       /* I - array of pointers to keyword comment */
             int  *status)       /* IO - error status                        */
 /*
   Write (put) an indexed array of keywords with index numbers between
@@ -1808,8 +1808,8 @@ int ffpknj( fitsfile *fptr,     /* I - FITS file pointer                    */
             const char *keyroot,      /* I - root name of keywords to write       */
             int  nstart,        /* I - starting index number                */
             int  nkey,          /* I - number of keywords to write          */
-            long *value,        /* I - array of keyword values              */
-            char *comm[],       /* I - array of pointers to keyword comment */
+            const long *value,        /* I - array of keyword values              */
+            const char *comm[],       /* I - array of pointers to keyword comment */
             int  *status)       /* IO - error status                        */
 /*
   Write (put) an indexed array of keywords with index numbers between
@@ -1866,8 +1866,8 @@ int ffpknjj( fitsfile *fptr,    /* I - FITS file pointer                    */
             const char *keyroot,      /* I - root name of keywords to write       */
             int  nstart,        /* I - starting index number                */
             int  nkey,          /* I - number of keywords to write          */
-            LONGLONG *value,    /* I - array of keyword values              */
-            char *comm[],       /* I - array of pointers to keyword comment */
+            const LONGLONG *value,    /* I - array of keyword values              */
+            const char *comm[],       /* I - array of pointers to keyword comment */
             int  *status)       /* IO - error status                        */
 /*
   Write (put) an indexed array of keywords with index numbers between
@@ -1924,9 +1924,9 @@ int ffpknf( fitsfile *fptr,     /* I - FITS file pointer                    */
             const char *keyroot,      /* I - root name of keywords to write       */
             int  nstart,        /* I - starting index number                */
             int  nkey,          /* I - number of keywords to write          */
-            float *value,       /* I - array of keyword values              */
+            const float *value,       /* I - array of keyword values              */
             int decim,          /* I - number of decimals to display        */
-            char *comm[],       /* I - array of pointers to keyword comment */
+            const char *comm[],       /* I - array of pointers to keyword comment */
             int  *status)       /* IO - error status                        */
 /*
   Write (put) an indexed array of keywords with index numbers between
@@ -1983,9 +1983,9 @@ int ffpkne( fitsfile *fptr,     /* I - FITS file pointer                    */
             const char *keyroot,      /* I - root name of keywords to write       */
             int  nstart,        /* I - starting index number                */
             int  nkey,          /* I - number of keywords to write          */
-            float *value,       /* I - array of keyword values              */
+            const float *value,       /* I - array of keyword values              */
             int decim,          /* I - number of decimals to display        */
-            char *comm[],       /* I - array of pointers to keyword comment */
+            const char *comm[],       /* I - array of pointers to keyword comment */
             int  *status)       /* IO - error status                        */
 /*
   Write (put) an indexed array of keywords with index numbers between
@@ -2042,9 +2042,9 @@ int ffpkng( fitsfile *fptr,     /* I - FITS file pointer                    */
             const char *keyroot,      /* I - root name of keywords to write       */
             int  nstart,        /* I - starting index number                */
             int  nkey,          /* I - number of keywords to write          */
-            double *value,      /* I - array of keyword values              */
+            const double *value,      /* I - array of keyword values              */
             int decim,          /* I - number of decimals to display        */
-            char *comm[],       /* I - array of pointers to keyword comment */
+            const char *comm[],       /* I - array of pointers to keyword comment */
             int  *status)       /* IO - error status                        */
 /*
   Write (put) an indexed array of keywords with index numbers between
@@ -2101,9 +2101,9 @@ int ffpknd( fitsfile *fptr,     /* I - FITS file pointer                    */
             const char *keyroot,      /* I - root name of keywords to write       */
             int  nstart,        /* I - starting index number                */
             int  nkey,          /* I - number of keywords to write          */
-            double *value,      /* I - array of keyword values              */
+            const double *value,      /* I - array of keyword values              */
             int decim,          /* I - number of decimals to display        */
-            char *comm[],       /* I - array of pointers to keyword comment */
+            const char *comm[],       /* I - array of pointers to keyword comment */
             int  *status)       /* IO - error status                        */
 /*
   Write (put) an indexed array of keywords with index numbers between
@@ -2159,7 +2159,7 @@ int ffpknd( fitsfile *fptr,     /* I - FITS file pointer                    */
 int ffptdm( fitsfile *fptr, /* I - FITS file pointer                        */
             int colnum,     /* I - column number                            */
             int naxis,      /* I - number of axes in the data array         */
-            long naxes[],   /* I - length of each data axis                 */
+            const long naxes[],   /* I - length of each data axis                 */
             int *status)    /* IO - error status                            */
 /*
   write the TDIMnnn keyword describing the dimensionality of a column
@@ -2259,7 +2259,7 @@ int ffptdm( fitsfile *fptr, /* I - FITS file pointer                        */
 int ffptdmll( fitsfile *fptr, /* I - FITS file pointer                      */
             int colnum,     /* I - column number                            */
             int naxis,      /* I - number of axes in the data array         */
-            LONGLONG naxes[], /* I - length of each data axis               */
+            const LONGLONG naxes[], /* I - length of each data axis               */
             int *status)    /* IO - error status                            */
 /*
   write the TDIMnnn keyword describing the dimensionality of a column
@@ -2362,7 +2362,7 @@ int ffptdmll( fitsfile *fptr, /* I - FITS file pointer                      */
 int ffphps( fitsfile *fptr, /* I - FITS file pointer                        */
             int bitpix,     /* I - number of bits per data value pixel      */
             int naxis,      /* I - number of axes in the data array         */
-            long naxes[],   /* I - length of each data axis                 */
+            const long naxes[],   /* I - length of each data axis                 */
             int *status)    /* IO - error status                            */
 /*
   write STANDARD set of required primary header keywords
@@ -2380,7 +2380,7 @@ int ffphps( fitsfile *fptr, /* I - FITS file pointer                        */
 int ffphpsll( fitsfile *fptr, /* I - FITS file pointer                        */
             int bitpix,     /* I - number of bits per data value pixel      */
             int naxis,      /* I - number of axes in the data array         */
-            LONGLONG naxes[],   /* I - length of each data axis                 */
+            const LONGLONG naxes[],   /* I - length of each data axis                 */
             int *status)    /* IO - error status                            */
 /*
   write STANDARD set of required primary header keywords
@@ -2399,7 +2399,7 @@ int ffphpr( fitsfile *fptr, /* I - FITS file pointer                        */
             int simple,     /* I - does file conform to FITS standard? 1/0  */
             int bitpix,     /* I - number of bits per data value pixel      */
             int naxis,      /* I - number of axes in the data array         */
-            long naxes[],   /* I - length of each data axis                 */
+            const long naxes[],   /* I - length of each data axis                 */
             LONGLONG pcount, /* I - number of group parameters (usually 0)   */
             LONGLONG gcount, /* I - number of random groups (usually 1 or 0) */
             int extend,     /* I - may FITS file have extensions?           */
@@ -2424,7 +2424,7 @@ int ffphprll( fitsfile *fptr, /* I - FITS file pointer                        */
             int simple,     /* I - does file conform to FITS standard? 1/0  */
             int bitpix,     /* I - number of bits per data value pixel      */
             int naxis,      /* I - number of axes in the data array         */
-            LONGLONG naxes[], /* I - length of each data axis                 */
+            const LONGLONG naxes[], /* I - length of each data axis                 */
             LONGLONG pcount,  /* I - number of group parameters (usually 0)   */
             LONGLONG gcount,  /* I - number of random groups (usually 1 or 0) */
             int extend,     /* I - may FITS file have extensions?           */
@@ -3014,7 +3014,7 @@ int ffphext(fitsfile *fptr,  /* I - FITS file pointer                       */
            const char *xtensionx,   /* I - value for the XTENSION keyword          */
            int bitpix,       /* I - value for the BIXPIX keyword            */
            int naxis,        /* I - value for the NAXIS keyword             */
-           long naxes[],     /* I - value for the NAXISn keywords           */
+           const long naxes[],     /* I - value for the NAXISn keywords           */
            LONGLONG pcount,  /* I - value for the PCOUNT keyword            */
            LONGLONG gcount,  /* I - value for the GCOUNT keyword            */
            int *status)      /* IO - error status                           */

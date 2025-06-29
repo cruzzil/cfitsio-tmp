@@ -15,7 +15,7 @@ int ffpcll( fitsfile *fptr,  /* I - FITS file pointer                       */
             LONGLONG  firstrow,  /* I - first row to write (1 = 1st row)        */
             LONGLONG  firstelem, /* I - first vector element to write (1 = 1st) */
             LONGLONG  nelem,     /* I - number of values to write               */
-            char *array,     /* I - array of values to write                */
+            const char *array,     /* I - array of values to write                */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of logical values to a column in the current FITS HDU.
@@ -95,7 +95,7 @@ int ffpcnl( fitsfile *fptr,  /* I - FITS file pointer                       */
             LONGLONG  firstrow,  /* I - first row to write (1 = 1st row)        */
             LONGLONG  firstelem, /* I - first vector element to write (1 = 1st) */
             LONGLONG  nelem,     /* I - number of values to write               */
-            char  *array,    /* I - array of values to write                */
+            const char  *array,    /* I - array of values to write                */
             char  nulvalue,  /* I - array flagging undefined pixels if true */
             int  *status)    /* IO - error status                           */
 /*
@@ -207,7 +207,7 @@ int ffpclx( fitsfile *fptr,  /* I - FITS file pointer                       */
             LONGLONG  frow,      /* I - first row to write (1 = 1st row)        */
             long  fbit,      /* I - first bit to write (1 = 1st)            */
             long  nbit,      /* I - number of bits to write                 */
-            char *larray,    /* I - array of logicals corresponding to bits */
+            const char *larray,    /* I - array of logicals corresponding to bits */
             int  *status)    /* IO - error status                           */
 /*
   write an array of logical values to a specified bit or byte

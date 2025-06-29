@@ -266,8 +266,8 @@ int fits_set_compression_type(fitsfile *fptr,  /* I - FITS file pointer     */
 }
 /*--------------------------------------------------------------------------*/
 int fits_set_tile_dim(fitsfile *fptr,  /* I - FITS file pointer             */
-           int ndim,   /* number of dimensions in the compressed image      */
-           long *dims, /* size of image compression tile in each dimension  */
+           int ndim,   /* I - number of dimensions in the compressed image      */
+           const long *dims, /* I - size of image compression tile in each dimension  */
                       /* default tile size = (NAXIS1, 1, 1, ...)            */
            int *status)         /* IO - error status                        */
 {

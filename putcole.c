@@ -15,7 +15,7 @@ int ffppre( fitsfile *fptr,  /* I - FITS file pointer                       */
             long  group,     /* I - group to write(1 = 1st group)           */
             LONGLONG firstelem, /* I - first vector element to write(1 = 1st)  */
             LONGLONG nelem,     /* I - number of values to write               */
-            float *array,    /* I - array of values that are written        */
+            const float *array,    /* I - array of values that are written        */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of values to the primary array. Data conversion
@@ -56,7 +56,7 @@ int ffppne( fitsfile *fptr,  /* I - FITS file pointer                       */
             long  group,     /* I - group to write(1 = 1st group)           */
             LONGLONG firstelem, /* I - first vector element to write(1 = 1st)  */
             LONGLONG nelem,     /* I - number of values to write               */
-            float *array,    /* I - array of values that are written        */
+            const float *array,    /* I - array of values that are written        */
             float nulval,    /* I - undefined pixel value                   */
             int  *status)    /* IO - error status                           */
 /*
@@ -102,7 +102,7 @@ int ffp2de(fitsfile *fptr,   /* I - FITS file pointer                     */
            LONGLONG  ncols,      /* I - number of pixels in each row of array */
            LONGLONG  naxis1,     /* I - FITS image NAXIS1 value               */
            LONGLONG  naxis2,     /* I - FITS image NAXIS2 value               */
-           float *array,     /* I - array to be written                   */
+           const float *array,     /* I - array to be written                   */
            int  *status)     /* IO - error status                         */
 /*
   Write an entire 2-D array of values to the primary array. Data conversion
@@ -127,7 +127,7 @@ int ffp3de(fitsfile *fptr,   /* I - FITS file pointer                     */
            LONGLONG  naxis1,     /* I - FITS image NAXIS1 value               */
            LONGLONG  naxis2,     /* I - FITS image NAXIS2 value               */
            LONGLONG  naxis3,     /* I - FITS image NAXIS3 value               */
-           float *array,     /* I - array to be written                   */
+           const float *array,     /* I - array to be written                   */
            int  *status)     /* IO - error status                         */
 /*
   Write an entire 3-D cube of values to the primary array. Data conversion
@@ -198,10 +198,10 @@ int ffp3de(fitsfile *fptr,   /* I - FITS file pointer                     */
 int ffpsse(fitsfile *fptr,   /* I - FITS file pointer                       */
            long  group,      /* I - group to write(1 = 1st group)           */
            long  naxis,      /* I - number of data axes in array            */
-           long  *naxes,     /* I - size of each FITS axis                  */
-           long  *fpixel,    /* I - 1st pixel in each axis to write (1=1st) */
-           long  *lpixel,    /* I - last pixel in each axis to write        */
-           float *array,     /* I - array to be written                     */
+           const long  *naxes,     /* I - size of each FITS axis                  */
+           const long  *fpixel,    /* I - 1st pixel in each axis to write (1=1st) */
+           const long  *lpixel,    /* I - last pixel in each axis to write        */
+           const float *array,     /* I - array to be written                     */
            int  *status)     /* IO - error status                           */
 /*
   Write a subsection of pixels to the primary array or image.
@@ -324,7 +324,7 @@ int ffpgpe( fitsfile *fptr,   /* I - FITS file pointer                      */
             long  group,      /* I - group to write(1 = 1st group)          */
             long  firstelem,  /* I - first vector element to write(1 = 1st) */
             long  nelem,      /* I - number of values to write              */
-            float *array,     /* I - array of values that are written       */
+            const float *array,     /* I - array of values that are written       */
             int  *status)     /* IO - error status                          */
 /*
   Write an array of group parameters to the primary array. Data conversion
@@ -352,7 +352,7 @@ int ffpcle( fitsfile *fptr,  /* I - FITS file pointer                       */
             LONGLONG  firstrow,  /* I - first row to write (1 = 1st row)        */
             LONGLONG  firstelem, /* I - first vector element to write (1 = 1st) */
             LONGLONG  nelem,     /* I - number of values to write               */
-            float *array,    /* I - array of values to write                */
+            const float *array,    /* I - array of values to write                */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of values to a column in the current FITS HDU.
@@ -573,7 +573,7 @@ int ffpclc( fitsfile *fptr,  /* I - FITS file pointer                       */
             LONGLONG  firstrow,  /* I - first row to write (1 = 1st row)        */
             LONGLONG  firstelem, /* I - first vector element to write (1 = 1st) */
             LONGLONG  nelem,     /* I - number of values to write               */
-            float *array,    /* I - array of values to write                */
+            const float *array,    /* I - array of values to write                */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of complex values to a column in the current FITS HDU.
@@ -606,7 +606,7 @@ int ffpcne( fitsfile *fptr,  /* I - FITS file pointer                       */
             LONGLONG  firstrow,  /* I - first row to write (1 = 1st row)        */
             LONGLONG  firstelem, /* I - first vector element to write (1 = 1st) */
             LONGLONG  nelem,     /* I - number of values to write               */
-            float *array,    /* I - array of values to write                */
+            const float *array,    /* I - array of values to write                */
             float  nulvalue, /* I - value used to flag undefined pixels     */
             int  *status)    /* IO - error status                           */
 /*

@@ -79,7 +79,7 @@ D. Jennings, 05/05/99, added the following new functions (note, none of these
 
 /*---------------------------------------------------------------------------*/
 int ffgtcr(fitsfile *fptr,      /* FITS file pointer                         */
-	   char    *grpname,    /* name of the grouping table                */
+	   const char    *grpname,    /* name of the grouping table                */
 	   int      grouptype,  /* code specifying the type of
 				   grouping table information:
 				   GT_ID_ALL_URI  0 ==> defualt (all columns)
@@ -132,7 +132,7 @@ int ffgtcr(fitsfile *fptr,      /* FITS file pointer                         */
 
 /*---------------------------------------------------------------------------*/
 int ffgtis(fitsfile *fptr,      /* FITS file pointer                         */
-	   char    *grpname,    /* name of the grouping table                */
+	   const char    *grpname,    /* name of the grouping table                */
 	   int      grouptype,  /* code specifying the type of
 				   grouping table information:
 				   GT_ID_ALL_URI  0 ==> defualt (all columns)

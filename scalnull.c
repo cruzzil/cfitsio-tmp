@@ -195,7 +195,7 @@ int fftnul(fitsfile *fptr,      /* I - FITS file pointer                  */
 /*--------------------------------------------------------------------------*/
 int ffsnul(fitsfile *fptr,      /* I - FITS file pointer                  */
            int colnum,          /* I - column number to apply nulvalue to */
-           char *nulstring,     /* I - null pixel value: value of TNULLn  */
+           const char *nulstring,     /* I - null pixel value: value of TNULLn  */
            int *status)         /* IO - error status                      */
 /*
   Define the string used to represent undefined pixels in the ASCII TABLE

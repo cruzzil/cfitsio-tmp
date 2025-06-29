@@ -6,7 +6,7 @@
 /*--------------------------------------------------------------------------*/
 int ffwldp(double xpix, double ypix, double xref, double yref,
       double xrefpix, double yrefpix, double xinc, double yinc, double rot,
-      char *type, double *xpos, double *ypos, int *status)
+      const char *type, double *xpos, double *ypos, int *status)
 
 /* This routine is based on the classic AIPS WCS routine. 
 
@@ -260,7 +260,7 @@ int ffwldp(double xpix, double ypix, double xref, double yref,
 /*--------------------------------------------------------------------------*/
 int ffxypx(double xpos, double ypos, double xref, double yref, 
       double xrefpix, double yrefpix, double xinc, double yinc, double rot,
-      char *type, double *xpix, double *ypix, int *status)
+      const char *type, double *xpix, double *ypix, int *status)
 
 /* This routine is based on the classic AIPS WCS routine. 
 

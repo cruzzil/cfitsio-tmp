@@ -15,7 +15,7 @@ int ffppri( fitsfile *fptr,  /* I - FITS file pointer                       */
             long  group,     /* I - group to write (1 = 1st group)          */
             LONGLONG  firstelem, /* I - first vector element to write (1 = 1st) */
             LONGLONG  nelem,     /* I - number of values to write               */
-            short *array,    /* I - array of values that are written        */
+            const short *array,    /* I - array of values that are written        */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of values to the primary array. Data conversion
@@ -53,7 +53,7 @@ int ffppni( fitsfile *fptr,  /* I - FITS file pointer                       */
             long  group,     /* I - group to write(1 = 1st group)           */
             LONGLONG  firstelem, /* I - first vector element to write(1 = 1st)  */
             LONGLONG  nelem,     /* I - number of values to write               */
-            short *array,    /* I - array of values that are written        */
+            const short *array,    /* I - array of values that are written        */
             short nulval,    /* I - undefined pixel value                   */
             int  *status)    /* IO - error status                           */
 /*
@@ -95,7 +95,7 @@ int ffp2di(fitsfile *fptr,   /* I - FITS file pointer                     */
            LONGLONG  ncols,      /* I - number of pixels in each row of array */
            LONGLONG  naxis1,     /* I - FITS image NAXIS1 value               */
            LONGLONG  naxis2,     /* I - FITS image NAXIS2 value               */
-           short *array,     /* I - array to be written                   */
+           const short *array,     /* I - array to be written                   */
            int  *status)     /* IO - error status                         */
 /*
   Write an entire 2-D array of values to the primary array. Data conversion
@@ -117,7 +117,7 @@ int ffp3di(fitsfile *fptr,   /* I - FITS file pointer                     */
            LONGLONG  naxis1,     /* I - FITS image NAXIS1 value               */
            LONGLONG  naxis2,     /* I - FITS image NAXIS2 value               */
            LONGLONG  naxis3,     /* I - FITS image NAXIS3 value               */
-           short *array,     /* I - array to be written                   */
+           const short *array,     /* I - array to be written                   */
            int  *status)     /* IO - error status                         */
 /*
   Write an entire 3-D cube of values to the primary array. Data conversion
@@ -185,10 +185,10 @@ int ffp3di(fitsfile *fptr,   /* I - FITS file pointer                     */
 int ffpssi(fitsfile *fptr,   /* I - FITS file pointer                       */
            long  group,      /* I - group to write(1 = 1st group)           */
            long  naxis,      /* I - number of data axes in array            */
-           long  *naxes,     /* I - size of each FITS axis                  */
-           long  *fpixel,    /* I - 1st pixel in each axis to write (1=1st) */
-           long  *lpixel,    /* I - last pixel in each axis to write        */
-           short *array,     /* I - array to be written                     */
+           const long  *naxes,     /* I - size of each FITS axis                  */
+           const long  *fpixel,    /* I - 1st pixel in each axis to write (1=1st) */
+           const long  *lpixel,    /* I - last pixel in each axis to write        */
+           const short *array,     /* I - array to be written                     */
            int  *status)     /* IO - error status                           */
 /*
   Write a subsection of pixels to the primary array or image.
@@ -311,7 +311,7 @@ int ffpgpi( fitsfile *fptr,   /* I - FITS file pointer                      */
             long  group,      /* I - group to write(1 = 1st group)          */
             long  firstelem,  /* I - first vector element to write(1 = 1st) */
             long  nelem,      /* I - number of values to write              */
-            short *array,     /* I - array of values that are written       */
+            const short *array,     /* I - array of values that are written       */
             int  *status)     /* IO - error status                          */
 /*
   Write an array of group parameters to the primary array. Data conversion
@@ -339,7 +339,7 @@ int ffpcli( fitsfile *fptr,  /* I - FITS file pointer                       */
             LONGLONG  firstrow,  /* I - first row to write (1 = 1st row)        */
             LONGLONG  firstelem, /* I - first vector element to write (1 = 1st) */
             LONGLONG  nelem,     /* I - number of values to write               */
-            short *array,    /* I - array of values to write                */
+            const short *array,    /* I - array of values to write                */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of values to a column in the current FITS HDU.
@@ -561,7 +561,7 @@ int ffpcni( fitsfile *fptr,  /* I - FITS file pointer                       */
             LONGLONG  firstrow,  /* I - first row to write (1 = 1st row)        */
             LONGLONG  firstelem, /* I - first vector element to write (1 = 1st) */
             LONGLONG  nelem,     /* I - number of values to write               */
-            short *array,    /* I - array of values to write                */
+            const short *array,    /* I - array of values to write                */
             short  nulvalue, /* I - value used to flag undefined pixels     */
             int  *status)    /* IO - error status                           */
 /*
