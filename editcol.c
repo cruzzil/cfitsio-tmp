@@ -13,7 +13,7 @@
 int ffrsim(fitsfile *fptr,      /* I - FITS file pointer           */
            int bitpix,          /* I - bits per pixel              */
            int naxis,           /* I - number of axes in the array */
-           long *naxes,         /* I - size of each axis           */
+           const long *naxes,         /* I - size of each axis           */
            int *status)         /* IO - error status               */
 /*
    resize an existing primary array or IMAGE extension.
@@ -36,7 +36,7 @@ int ffrsim(fitsfile *fptr,      /* I - FITS file pointer           */
 int ffrsimll(fitsfile *fptr,    /* I - FITS file pointer           */
            int bitpix,          /* I - bits per pixel              */
            int naxis,           /* I - number of axes in the array */
-           LONGLONG *naxes,     /* I - size of each axis           */
+           const LONGLONG *naxes,     /* I - size of each axis           */
            int *status)         /* IO - error status               */
 /*
    resize an existing primary array or IMAGE extension.
@@ -413,7 +413,7 @@ int ffdrow(fitsfile *fptr,  /* I - FITS file pointer                        */
 }
 /*--------------------------------------------------------------------------*/
 int ffdrrg(fitsfile *fptr,  /* I - FITS file pointer to table               */
-           char *ranges,    /* I - ranges of rows to delete (1 = first)     */
+           const char *ranges,    /* I - ranges of rows to delete (1 = first)     */
            int *status)     /* IO - error status                            */
 /*
  delete the ranges of rows from the table (1 = first row of table).
@@ -503,7 +503,7 @@ and gives a list of rows or row ranges separated by commas.
 }
 /*--------------------------------------------------------------------------*/
 int ffdrws(fitsfile *fptr,  /* I - FITS file pointer                        */
-           long *rownum,    /* I - list of rows to delete (1 = first)       */
+           const long *rownum,    /* I - list of rows to delete (1 = first)       */
            long nrows,      /* I - number of rows to delete                 */
            int *status)     /* IO - error status                            */
 /*
@@ -632,7 +632,7 @@ int ffdrws(fitsfile *fptr,  /* I - FITS file pointer                        */
 }
 /*--------------------------------------------------------------------------*/
 int ffdrwsll(fitsfile *fptr, /* I - FITS file pointer                        */
-           LONGLONG *rownum, /* I - list of rows to delete (1 = first)       */
+           const LONGLONG *rownum, /* I - list of rows to delete (1 = first)       */
            LONGLONG nrows,  /* I - number of rows to delete                 */
            int *status)     /* IO - error status                            */
 /*
@@ -761,7 +761,7 @@ int ffdrwsll(fitsfile *fptr, /* I - FITS file pointer                        */
 }
 /*--------------------------------------------------------------------------*/
 int ffrwrg(
-      char *rowlist,      /* I - list of rows and row ranges */
+      const char *rowlist,      /* I - list of rows and row ranges */
       LONGLONG maxrows,       /* I - number of rows in the table */
       int maxranges,     /* I - max number of ranges to be returned */
       int *numranges,    /* O - number ranges returned */
@@ -899,7 +899,7 @@ int ffrwrg(
 }
 /*--------------------------------------------------------------------------*/
 int ffrwrgll(
-      char *rowlist,      /* I - list of rows and row ranges */
+      const char *rowlist,      /* I - list of rows and row ranges */
       LONGLONG maxrows,       /* I - number of rows in the list */
       int maxranges,     /* I - max number of ranges to be returned */
       int *numranges,    /* O - number ranges returned */
@@ -1051,8 +1051,8 @@ int ffrwrgll(
 /*--------------------------------------------------------------------------*/
 int fficol(fitsfile *fptr,  /* I - FITS file pointer                        */
            int numcol,      /* I - position for new col. (1 = 1st)          */
-           char *ttype,     /* I - name of column (TTYPE keyword)           */
-           char *tform,     /* I - format of column (TFORM keyword)         */
+           const char *ttype,     /* I - name of column (TTYPE keyword)           */
+           const char *tform,     /* I - format of column (TFORM keyword)         */
            int *status)     /* IO - error status                            */
 /*
  Insert a new column into an existing table at position numcol.  If
@@ -1072,8 +1072,8 @@ int fficol(fitsfile *fptr,  /* I - FITS file pointer                        */
 int fficls(fitsfile *fptr,  /* I - FITS file pointer                        */
            int fstcol,      /* I - position for first new col. (1 = 1st)    */
            int ncols,       /* I - number of columns to insert              */
-           char **ttype,    /* I - array of column names(TTYPE keywords)    */
-           char **tform,    /* I - array of formats of column (TFORM)       */
+           const char **ttype,    /* I - array of column names(TTYPE keywords)    */
+           const char **tform,    /* I - array of formats of column (TFORM)       */
            int *status)     /* IO - error status                            */
 /*
  Insert 1 or more new columns into an existing table at position numcol.  If
@@ -2377,7 +2377,7 @@ int ffcpsr(fitsfile *infptr,    /* I - FITS file pointer to input file  */
            fitsfile *outfptr,   /* I - FITS file pointer to output file */
            LONGLONG firstrow,   /* I - number of first row to copy (1 based)  */
            LONGLONG nrows,      /* I - number of rows to copy  */
-	   char *row_status,    /* I - quality list of rows to keep (1) or not keep (0) */
+	        const char *row_status,    /* I - quality list of rows to keep (1) or not keep (0) */
            int *status)         /* IO - error status     */
 /*
   copy consecutive set of rows from infptr and append it in the outfptr table.
@@ -2617,7 +2617,7 @@ int ffcpky(fitsfile *infptr,    /* I - FITS file pointer to input file  */
            fitsfile *outfptr,   /* I - FITS file pointer to output file */
            int incol,           /* I - input index number   */
            int outcol,          /* I - output index number  */
-           char *rootname,      /* I - root name of the keyword to be copied */
+           const char *rootname,      /* I - root name of the keyword to be copied */
            int *status)         /* IO - error status     */
 /*
   copy an indexed keyword from infptr to outfptr.

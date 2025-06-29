@@ -1495,9 +1495,9 @@ int ffs2tm(char *datestr,     /* I - date string: "YYYY-MM-DD"    */
            int *year,         /* O - year (0 - 9999)              */
            int *month,        /* O - month (1 - 12)               */
            int *day,          /* O - day (1 - 31)                 */
-           int *hour,          /* I - hour (0 - 23)                */
-           int *minute,        /* I - minute (0 - 59)              */
-           double *second,     /* I - second (0. - 60.9999999)     */
+           int *hour,          /* O - hour (0 - 23)                */
+           int *minute,        /* O - minute (0 - 59)              */
+           double *second,     /* O - second (0. - 60.9999999)     */
            int   *status)     /* IO - error status                */
 /*
   Parse a date character string into date and time values

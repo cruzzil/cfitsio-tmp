@@ -1040,7 +1040,7 @@ void ffupch(char *string)
 }
 /*--------------------------------------------------------------------------*/
 int ffmkky(const char *keyname,   /* I - keyword name    */
-            char *value,     /* I - keyword value   */
+            const char *value,     /* I - keyword value   */
             const char *comm,      /* I - keyword comment */
             char *card,      /* O - constructed keyword card */
             int  *status)    /* IO - status value   */
@@ -1374,7 +1374,7 @@ int ffnkey(int value,       /* I - index number to be appended to root name */
     return(*status);
 }
 /*--------------------------------------------------------------------------*/
-int ffpsvc(char *card,    /* I - FITS header card (nominally 80 bytes long) */
+int ffpsvc(const char *card,    /* I - FITS header card (nominally 80 bytes long) */
            char *value,   /* O - value string parsed from the card */
            char *comm,    /* O - comment string parsed from the card */
            int *status)   /* IO - error status   */
@@ -1602,7 +1602,7 @@ int ffpsvc(char *card,    /* I - FITS header card (nominally 80 bytes long) */
     return(*status);
 }
 /*--------------------------------------------------------------------------*/
-int ffgthd(char *tmplt, /* I - input header template string */
+int ffgthd(const char *tmplt, /* I - input header template string */
            char *card,  /* O - returned FITS header record */
            int *hdtype, /* O - how to interpreter the returned card string */ 
             /*
@@ -1915,11 +1915,11 @@ int ffgthd(char *tmplt, /* I - input header template string */
 }
 /*--------------------------------------------------------------------------*/
 int fits_translate_keyword(
-      char *inrec,        /* I - input string */
+      const char *inrec,        /* I - input string */
       char *outrec,       /* O - output converted string, or */
                           /*     a null string if input does not  */
                           /*     match any of the patterns */
-      char *patterns[][2],/* I - pointer to input / output string */
+      const char *patterns[][2],/* I - pointer to input / output string */
                           /*     templates */
       int npat,           /* I - number of templates passed */
       int n_value,        /* I - base 'n' template value of interest */
@@ -2171,7 +2171,7 @@ int fits_translate_keywords(
 	   fitsfile *infptr,   /* I - pointer to input HDU */
 	   fitsfile *outfptr,  /* I - pointer to output HDU */
 	   int firstkey,       /* I - first HDU record number to start with */
-	   char *patterns[][2],/* I - pointer to input / output keyword templates */
+	   const char *patterns[][2],/* I - pointer to input / output keyword templates */
 	   int npat,           /* I - number of templates passed */
 	   int n_value,        /* I - base 'n' template value of interest */
 	   int n_offset,       /* I - offset to be applied to the 'n' */
@@ -2260,7 +2260,7 @@ int fits_copy_pixlist2image(
 	   fitsfile *outfptr,  /* I - pointer to output HDU */
 	   int firstkey,       /* I - first HDU record number to start with */
            int naxis,          /* I - number of axes in the image */
-           int *colnum,       /* I - numbers of the columns to be binned  */
+           const int *colnum,       /* I - numbers of the columns to be binned  */
            int *status)        /* IO - error status */
 /*
      Copy relevant keywords from the pixel list table header into a newly
@@ -2673,7 +2673,7 @@ then values of 'n' less than or equal to n_value will match.
     return(*status);
 }
 /*--------------------------------------------------------------------------*/
-int ffasfm(char *tform,    /* I - format code from the TFORMn keyword */
+int ffasfm(const char *tform,    /* I - format code from the TFORMn keyword */
            int *dtcode,    /* O - numerical datatype code */
            long *twidth,   /* O - width of the field, in chars */
            int *decimals,  /* O - number of decimal places (F, E, D format) */
@@ -2825,7 +2825,7 @@ int ffasfm(char *tform,    /* I - format code from the TFORMn keyword */
     return(*status);
 }
 /*--------------------------------------------------------------------------*/
-int ffbnfm(char *tform,     /* I - format code from the TFORMn keyword */
+int ffbnfm(const char *tform,     /* I - format code from the TFORMn keyword */
            int *dtcode,   /* O - numerical datatype code */
            long *trepeat,    /* O - repeat count of the field  */
            long *twidth,     /* O - width of the field, in chars */
@@ -3024,7 +3024,7 @@ int ffbnfm(char *tform,     /* I - format code from the TFORMn keyword */
     return(*status);
 }
 /*--------------------------------------------------------------------------*/
-int ffbnfmll(char *tform,     /* I - format code from the TFORMn keyword */
+int ffbnfmll(const char *tform,     /* I - format code from the TFORMn keyword */
            int *dtcode,   /* O - numerical datatype code */
            LONGLONG *trepeat,    /* O - repeat count of the field  */
            long *twidth,     /* O - width of the field, in chars */
@@ -3341,7 +3341,7 @@ void ffcdsp(char *tform,    /* value of an ASCII table TFORMn keyword */
 /*--------------------------------------------------------------------------*/
 int ffgcno( fitsfile *fptr,  /* I - FITS file pionter                       */
             int  casesen,    /* I - case sensitive string comparison? 0=no  */
-            char *templt,    /* I - input name of column (w/wildcards)      */
+            const char *templt,    /* I - input name of column (w/wildcards)      */
             int  *colnum,    /* O - number of the named column; 1=first col */
             int  *status)    /* IO - error status                           */
 /*
@@ -3359,7 +3359,7 @@ int ffgcno( fitsfile *fptr,  /* I - FITS file pionter                       */
 /*--------------------------------------------------------------------------*/
 int ffgcnn( fitsfile *fptr,  /* I - FITS file pointer                       */
             int  casesen,    /* I - case sensitive string comparison? 0=no  */
-            char *templt,    /* I - input name of column (w/wildcards)      */
+            const char *templt,    /* I - input name of column (w/wildcards)      */
             char *colname,   /* O - full column name up to 68 + 1 chars long*/
             int  *colnum,    /* O - number of the named column; 1=first col */
             int  *status)    /* IO - error status                           */
@@ -3487,8 +3487,8 @@ int ffgcnn( fitsfile *fptr,  /* I - FITS file pointer                       */
     return(*status);
 }
 /*--------------------------------------------------------------------------*/
-void ffcmps(char *templt,   /* I - input template (may have wildcards)      */
-            char *colname,  /* I - full column name up to 68 + 1 chars long */
+void ffcmps(const char *templt,   /* I - input template (may have wildcards)      */
+            const char *colname,  /* I - full column name up to 68 + 1 chars long */
             int  casesen,   /* I - case sensitive string comparison? 1=yes  */
             int  *match,    /* O - do template and colname match? 1=yes     */
             int  *exact)    /* O - do strings exactly match, or wildcards   */
@@ -5186,7 +5186,7 @@ int ffbinit(fitsfile *fptr,     /* I - FITS file pointer */
 }
 /*--------------------------------------------------------------------------*/
 int ffgabc(int tfields,     /* I - number of columns in the table           */
-           char **tform,    /* I - value of TFORMn keyword for each column  */
+           const char **tform,    /* I - value of TFORMn keyword for each column  */
            int space,       /* I - number of spaces to leave between cols   */
            long *rowlen,    /* O - total width of a table row               */
            long *tbcol,     /* O - starting byte in row for each column     */
@@ -7905,7 +7905,7 @@ int ffmrhd(fitsfile *fptr,      /* I - FITS file pointer                    */
 /*--------------------------------------------------------------------------*/
 int ffmnhd(fitsfile *fptr,      /* I - FITS file pointer                    */
            int exttype,         /* I - desired extension type               */
-           char *hduname,       /* I - desired EXTNAME value for the HDU    */
+           const char *hduname,       /* I - desired EXTNAME value for the HDU    */
            int hduver,          /* I - desired EXTVERS value for the HDU    */
            int *status)         /* IO - error status                        */
 /*
@@ -8922,7 +8922,7 @@ int ffdtyp(const char *cval,  /* I - formatted string representation of the valu
     return(*status);
 }
 /*--------------------------------------------------------------------------*/
-int ffinttyp(char *cval,  /* I - formatted string representation of the integer */
+int ffinttyp(const char *cval,  /* I - formatted string representation of the integer */
            int *dtype, /* O - datatype code: TBYTE, TSHORT, TUSHORT, etc */
            int *negative, /* O - is cval negative? */
            int *status)  /* IO - error status */

@@ -398,7 +398,7 @@ int ffwrhdu(fitsfile *infptr,    /* I - FITS file pointer to input file  */
 int ffiimg(fitsfile *fptr,      /* I - FITS file pointer           */
            int bitpix,          /* I - bits per pixel              */
            int naxis,           /* I - number of axes in the array */
-           long *naxes,         /* I - size of each axis           */
+           const long *naxes,         /* I - size of each axis           */
            int *status)         /* IO - error status               */
 /*
   insert an IMAGE extension following the current HDU 
@@ -426,7 +426,7 @@ int ffiimg(fitsfile *fptr,      /* I - FITS file pointer           */
 int ffiimgll(fitsfile *fptr,    /* I - FITS file pointer           */
            int bitpix,          /* I - bits per pixel              */
            int naxis,           /* I - number of axes in the array */
-           LONGLONG *naxes,     /* I - size of each axis           */
+           const LONGLONG *naxes,     /* I - size of each axis           */
            int *status)         /* IO - error status               */
 /*
   insert an IMAGE extension following the current HDU 

@@ -1120,10 +1120,10 @@ int ffgr8b(fitsfile *fptr,  /* I - FITS file pointer                        */
 }
 /*--------------------------------------------------------------------------*/
 int ffptbb(fitsfile *fptr,        /* I - FITS file pointer                 */
-           LONGLONG firstrow,         /* I - starting row (1 = first row)      */
-           LONGLONG firstchar,        /* I - starting byte in row (1=first)    */
-           LONGLONG nchars,           /* I - number of bytes to write          */
-           unsigned char *values, /* I - array of bytes to write           */
+           const LONGLONG firstrow,         /* I - starting row (1 = first row)      */
+           const LONGLONG firstchar,        /* I - starting byte in row (1=first)    */
+           const LONGLONG nchars,           /* I - number of bytes to write          */
+           const unsigned char *values, /* I - array of bytes to write           */
            int *status)           /* IO - error status                     */
 /*
   write a consecutive string of bytes to an ascii or binary table.

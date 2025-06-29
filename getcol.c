@@ -12,9 +12,9 @@
 /*--------------------------------------------------------------------------*/
 int ffgpxv( fitsfile *fptr,   /* I - FITS file pointer                       */
             int  datatype,    /* I - datatype of the value                   */
-            long *firstpix,   /* I - coord of first pixel to read (1s based) */
+            const long *firstpix,   /* I - coord of first pixel to read (1s based) */
             LONGLONG nelem,   /* I - number of values to read                */
-            void *nulval,     /* I - value for undefined pixels              */
+            const void *nulval,     /* I - value for undefined pixels              */
             void *array,      /* O - array of values that are returned       */
             int  *anynul,     /* O - set to 1 if any values are null; else 0 */
             int  *status)     /* IO - error status                           */
@@ -47,9 +47,9 @@ int ffgpxv( fitsfile *fptr,   /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffgpxvll( fitsfile *fptr, /* I - FITS file pointer                       */
             int  datatype,    /* I - datatype of the value                   */
-            LONGLONG *firstpix, /* I - coord of first pixel to read (1s based) */
+            const LONGLONG *firstpix, /* I - coord of first pixel to read (1s based) */
             LONGLONG nelem,   /* I - number of values to read                */
-            void *nulval,     /* I - value for undefined pixels              */
+            const void *nulval,     /* I - value for undefined pixels              */
             void *array,      /* O - array of values that are returned       */
             int  *anynul,     /* O - set to 1 if any values are null; else 0 */
             int  *status)     /* IO - error status                           */
@@ -246,7 +246,7 @@ int ffgpxvll( fitsfile *fptr, /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffgpxf( fitsfile *fptr,   /* I - FITS file pointer                       */
             int  datatype,    /* I - datatype of the value                   */
-            long *firstpix,   /* I - coord of first pixel to read (1s based) */
+            const long *firstpix,   /* I - coord of first pixel to read (1s based) */
             LONGLONG nelem,       /* I - number of values to read            */
             void *array,      /* O - array of values that are returned       */
             char *nullarray,  /* O - returned array of null value flags      */
@@ -280,7 +280,7 @@ int ffgpxf( fitsfile *fptr,   /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffgpxfll( fitsfile *fptr, /* I - FITS file pointer                       */
             int  datatype,    /* I - datatype of the value                   */
-            LONGLONG *firstpix, /* I - coord of first pixel to read (1s based) */
+            const LONGLONG *firstpix, /* I - coord of first pixel to read (1s based) */
             LONGLONG nelem,       /* I - number of values to read              */
             void *array,      /* O - array of values that are returned       */
             char *nullarray,  /* O - returned array of null value flags      */
@@ -400,10 +400,10 @@ int ffgpxfll( fitsfile *fptr, /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffgsv(  fitsfile *fptr,   /* I - FITS file pointer                       */
             int  datatype,    /* I - datatype of the value                   */
-            long *blc,        /* I - 'bottom left corner' of the subsection  */
-            long *trc ,       /* I - 'top right corner' of the subsection    */
-            long *inc,        /* I - increment to be applied in each dim.    */
-            void *nulval,     /* I - value for undefined pixels              */
+            const long *blc,        /* I - 'bottom left corner' of the subsection  */
+            const long *trc ,       /* I - 'top right corner' of the subsection    */
+            const long *inc,        /* I - increment to be applied in each dim.    */
+            const void *nulval,     /* I - value for undefined pixels              */
             void *array,      /* O - array of values that are returned       */
             int  *anynul,     /* O - set to 1 if any values are null; else 0 */
             int  *status)     /* IO - error status                           */
@@ -563,7 +563,7 @@ int ffgpv(  fitsfile *fptr,   /* I - FITS file pointer                       */
             int  datatype,    /* I - datatype of the value                   */
             LONGLONG firstelem,   /* I - first vector element to read (1 = 1st)  */
             LONGLONG nelem,       /* I - number of values to read                */
-            void *nulval,     /* I - value for undefined pixels              */
+            const void *nulval,     /* I - value for undefined pixels              */
             void *array,      /* O - array of values that are returned       */
             int  *anynul,     /* O - set to 1 if any values are null; else 0 */
             int  *status)     /* IO - error status                           */
@@ -804,7 +804,7 @@ int ffgcv(  fitsfile *fptr,   /* I - FITS file pointer                       */
             LONGLONG  firstrow,   /* I - first row to read (1 = 1st row)        */
             LONGLONG  firstelem,  /* I - first vector element to read (1 = 1st)  */
             LONGLONG nelem,       /* I - number of values to read                */
-            void *nulval,     /* I - value for undefined pixels              */
+            const void *nulval,     /* I - value for undefined pixels              */
             void *array,      /* O - array of values that are returned       */
             int  *anynul,     /* O - set to 1 if any values are null; else 0 */
             int  *status)     /* IO - error status                           */
@@ -987,11 +987,11 @@ int ffgcv(  fitsfile *fptr,   /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffgcvn( fitsfile *fptr,   /* I - FITS file pointer                       */
 	    int ncols,        /* I - number of columns to read               */
-            int  *datatype,   /* I - datatypes of the values                 */
-            int  *colnum,     /* I - columns numbers to read (1 = 1st col)   */
+           const  int  *datatype,   /* I - datatypes of the values                 */
+            const int  *colnum,     /* I - columns numbers to read (1 = 1st col)   */
             LONGLONG  firstrow,   /* I - first row to read (1 = 1st row)     */
             LONGLONG nrows,       /* I - number of rows to read              */
-            void **nulval,    /* I - array of pointers to values for undefined pixels */
+            const void **nulval,    /* I - array of pointers to values for undefined pixels */
             void **array,     /* O - array of pointers to values that are returned    */
             int  *anynul,     /* O - anynul[i] set to 1 if any values in column i are null; else 0 */
             int  *status)     /* IO - error status                           */
