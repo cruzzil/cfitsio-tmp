@@ -404,7 +404,7 @@ int fits_make_longstr_key_util(fitsfile *fptr, const char *keyname, const char *
  
 /*  ffmbyt has been moved to fitsio.h */
 int ffgbyt(fitsfile *fptr, LONGLONG nbytes, void *buffer, int *status);
-int ffpbyt(fitsfile *fptr, LONGLONG nbytes, void *buffer, int *status);
+int ffpbyt(fitsfile *fptr, LONGLONG nbytes, const void *buffer, int *status);
 int ffgbytoff(fitsfile *fptr, long gsize, long ngroups, long offset, 
            void *buffer, int *status);
 int ffpbytoff(fitsfile *fptr, long gsize, long ngroups, long offset,

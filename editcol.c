@@ -1060,12 +1060,7 @@ int fficol(fitsfile *fptr,  /* I - FITS file pointer                        */
  then the new column will be appended as the last column in the table.
 */
 {
-    char *name, *format;
-
-    name = ttype;
-    format = tform;
-
-    fficls(fptr, numcol, 1, &name, &format, status);
+    fficls(fptr, numcol, 1, &ttype, &tform, status);
     return(*status);
 }
 /*--------------------------------------------------------------------------*/
@@ -1877,10 +1872,10 @@ int ffcpcl(fitsfile *infptr,    /* I - FITS file pointer to input file  */
         {
             if (anynull)
                 ffpcns(outfptr, colnum, firstrow, firstelem, ntodo,
-                       strarray, nulstr, status);
+                       (const char **) strarray, nulstr, status);
             else
                 ffpcls(outfptr, colnum, firstrow, firstelem, ntodo,
-                       strarray, status);
+                       (const char **) strarray, status);
         }
 
         else if (typecode == TCOMPLEX)  
@@ -1941,7 +1936,8 @@ int ffcpcl(fitsfile *infptr,    /* I - FITS file pointer to input file  */
     if (ujjvalues) free(ujjvalues);
     if (jjvalues)  free(jjvalues);
     if (dvalues)   free(dvalues);
-
+    if (fvalues)   free(fvalues);
+    
     return(*status);
 }
 /*--------------------------------------------------------------------------*/
@@ -2088,7 +2084,7 @@ int ffccls(fitsfile *infptr,    /* I - FITS file pointer to input file  */
     if (create_col)
     {
         /* create the empty columns */
-        if (fficls(outfptr, colnum, ncols, ttypes, tforms, status) > 0)
+        if (fficls(outfptr, colnum, ncols, (const char **) ttypes, (const char **) tforms, status) > 0)
         {
            ffpmsg
            ("Could not append new columns to output file (ffccls)");

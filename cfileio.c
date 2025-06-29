@@ -2834,7 +2834,7 @@ int fits_copy_cell2image(
     npat = sizeof(patterns)/sizeof(patterns[0][0])/2;
     
     /* skip over the first 8 keywords, starting just after TFIELDS */
-    fits_translate_keywords(fptr, newptr, 9, patterns, npat,
+    fits_translate_keywords(fptr, newptr, 9, (const char *(*)[2]) patterns, npat,
 			    colnum, 0, 0, status);
 
     /* add some HISTORY  */
@@ -3085,7 +3085,7 @@ int fits_copy_image2cell(
       }
 
       /* The 3rd parameter value = 5 means skip the first 4 keywords in the image */
-      fits_translate_keywords(fptr, newptr, 5, patterns, npat,
+      fits_translate_keywords(fptr, newptr, 5, (const char *(*)[2]) patterns, npat,
 			      colnum, 0, 0, status);
     }
 

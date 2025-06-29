@@ -1759,7 +1759,7 @@ int CFITS_API ffpcl(fitsfile *fptr, int datatype, int colnum, LONGLONG firstrow,
 int CFITS_API ffpcln(fitsfile *fptr, int ncols, const int *datatype, const int *colnum, LONGLONG firstrow,
 	   LONGLONG nrows, const void **array, const void **nulval, int *status);
 int CFITS_API ffpcls(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
-           LONGLONG nelem, char **array, int *status);
+           LONGLONG nelem, const char **array, int *status);
 int CFITS_API ffpcll(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,
            LONGLONG nelem, const char *array, int *status);
 int CFITS_API ffpclb(fitsfile *fptr, int colnum, LONGLONG firstrow, LONGLONG firstelem,

@@ -686,87 +686,87 @@ int ffpcl(  fitsfile *fptr,  /* I - FITS file pointer                       */
 
     if (datatype == TBIT)
     {
-      ffpclx(fptr, colnum, firstrow, (long) firstelem, (long) nelem, (char *) array, 
+      ffpclx(fptr, colnum, firstrow, (long) firstelem, (long) nelem, (const char *) array, 
              status);
     }
     else if (datatype == TBYTE)
     {
-      ffpclb(fptr, colnum, firstrow, firstelem, nelem, (unsigned char *) array,
+      ffpclb(fptr, colnum, firstrow, firstelem, nelem, (const unsigned char *) array,
              status);
     }
     else if (datatype == TSBYTE)
     {
-      ffpclsb(fptr, colnum, firstrow, firstelem, nelem, (signed char *) array,
+      ffpclsb(fptr, colnum, firstrow, firstelem, nelem, (const signed char *) array,
              status);
     }
     else if (datatype == TUSHORT)
     {
       ffpclui(fptr, colnum, firstrow, firstelem, nelem, 
-             (unsigned short *) array, status);
+             (const unsigned short *) array, status);
     }
     else if (datatype == TSHORT)
     {
-      ffpcli(fptr, colnum, firstrow, firstelem, nelem, (short *) array,
+      ffpcli(fptr, colnum, firstrow, firstelem, nelem, (const short *) array,
              status);
     }
     else if (datatype == TUINT)
     {
-      ffpcluk(fptr, colnum, firstrow, firstelem, nelem, (unsigned int *) array,
+      ffpcluk(fptr, colnum, firstrow, firstelem, nelem, (const unsigned int *) array,
                status);
     }
     else if (datatype == TINT)
     {
-      ffpclk(fptr, colnum, firstrow, firstelem, nelem, (int *) array,
+      ffpclk(fptr, colnum, firstrow, firstelem, nelem, (const int *) array,
                status);
     }
     else if (datatype == TULONG)
     {
-      ffpcluj(fptr, colnum, firstrow, firstelem, nelem, (unsigned long *) array,
+      ffpcluj(fptr, colnum, firstrow, firstelem, nelem, (const unsigned long *) array,
               status);
     }
     else if (datatype == TLONG)
     {
-      ffpclj(fptr, colnum, firstrow, firstelem, nelem, (long *) array,
+      ffpclj(fptr, colnum, firstrow, firstelem, nelem, (const long *) array,
              status);
     }
     else if (datatype == TULONGLONG)
     {
-      ffpclujj(fptr, colnum, firstrow, firstelem, nelem, (ULONGLONG *) array,
+      ffpclujj(fptr, colnum, firstrow, firstelem, nelem, (const ULONGLONG *) array,
              status);
     }
     else if (datatype == TLONGLONG)
     {
-      ffpcljj(fptr, colnum, firstrow, firstelem, nelem, (LONGLONG *) array,
+      ffpcljj(fptr, colnum, firstrow, firstelem, nelem, (const LONGLONG *) array,
              status);
     }
     else if (datatype == TFLOAT)
     {
-      ffpcle(fptr, colnum, firstrow, firstelem, nelem, (float *) array,
+      ffpcle(fptr, colnum, firstrow, firstelem, nelem, (const float *) array,
              status);
     }
     else if (datatype == TDOUBLE)
     {
-      ffpcld(fptr, colnum, firstrow, firstelem, nelem, (double *) array,
+      ffpcld(fptr, colnum, firstrow, firstelem, nelem, (const double *) array,
              status);
     }
     else if (datatype == TCOMPLEX)
     {
       ffpcle(fptr, colnum, firstrow, (firstelem - 1) * 2 + 1, nelem * 2,
-             (float *) array, status);
+             (const float *) array, status);
     }
     else if (datatype == TDBLCOMPLEX)
     {
       ffpcld(fptr, colnum, firstrow, (firstelem - 1) * 2 + 1, nelem * 2,
-             (double *) array, status);
+             (const double *) array, status);
     }
     else if (datatype == TLOGICAL)
     {
-      ffpcll(fptr, colnum, firstrow, firstelem, nelem, (char *) array,
+      ffpcll(fptr, colnum, firstrow, firstelem, nelem, (const char *) array,
              status);
     }
     else if (datatype == TSTRING)
     {
-      ffpcls(fptr, colnum, firstrow, firstelem, nelem, (char **) array,
+      ffpcls(fptr, colnum, firstrow, firstelem, nelem, (const char **) array,
              status);
     }
     else
@@ -879,7 +879,7 @@ int ffpcn(  fitsfile *fptr,  /* I - FITS file pointer                       */
     }
     else if (datatype == TSTRING)
     {
-      ffpcns(fptr, colnum, firstrow, firstelem, nelem, (char **) array,
+      ffpcns(fptr, colnum, firstrow, firstelem, nelem, (const char **) array,
              (char *) nulval, status);
     }
     else

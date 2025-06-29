@@ -47,7 +47,7 @@ int ffmbyt(fitsfile *fptr,    /* I - FITS file pointer                */
 /*--------------------------------------------------------------------------*/
 int ffpbyt(fitsfile *fptr,   /* I - FITS file pointer                    */
            LONGLONG nbytes,      /* I - number of bytes to write             */
-           void *buffer,     /* I - buffer containing the bytes to write */
+           const void *buffer,     /* I - buffer containing the bytes to write */
            int *status)      /* IO - error status                        */
 /*
   put (write) the buffer of bytes to the output FITS file, starting at

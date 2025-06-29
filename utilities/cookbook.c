@@ -156,8 +156,8 @@ void writeascii ( void )
          printerror( status );
 
     /* append a new empty ASCII table onto the FITS file */
-    if ( fits_create_tbl( fptr, ASCII_TBL, nrows, tfields, ttype, tform,
-                tunit, extname, &status) )
+    if ( fits_create_tbl( fptr, ASCII_TBL, nrows, tfields, (const char **) ttype, (const char **)tform,
+                (const char **)tunit, extname, &status) )
          printerror( status );
 
     firstrow  = 1;  /* first row in table to write   */
@@ -215,8 +215,8 @@ void writebintable ( void )
          printerror( status );
 
     /* append a new empty binary table onto the FITS file */
-    if ( fits_create_tbl( fptr, BINARY_TBL, nrows, tfields, ttype, tform,
-                tunit, extname, &status) )
+    if ( fits_create_tbl( fptr, BINARY_TBL, nrows, tfields, (const char **)ttype, (const char **)tform,
+                (const char **)tunit, extname, &status) )
          printerror( status );
 
     firstrow  = 1;  /* first row in table to write   */
@@ -365,6 +365,8 @@ void selectrows( void )
     if (fits_close_file(outfptr, &status) || fits_close_file(infptr, &status))
         printerror( status );
 
+    free(buffer);  /* free previously allocated memory */
+    
     return;
 }
 /*--------------------------------------------------------------------------*/

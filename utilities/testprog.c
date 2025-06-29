@@ -248,31 +248,31 @@ int main()
     comms[0] = comm;  /* use the inskey array of pointers for the comments */
 
     strcpy(comm, "fxpkns comment&");
-    if (ffpkns(fptr, "ky_pkns", 1, nkeys, onskey, comms, &status) > 0)
+    if (ffpkns(fptr, "ky_pkns", 1, nkeys, (const char **) onskey, (const char **) comms, &status) > 0)
         printf("ffpkns status = %d\n", status);
 
     strcpy(comm, "fxpknl comment&");
-    if (ffpknl(fptr, "ky_pknl", 1, nkeys, onlkey, comms, &status) > 0)
+    if (ffpknl(fptr, "ky_pknl", 1, nkeys, onlkey, (const char **) comms, &status) > 0)
         printf("ffpknl status = %d\n", status);
 
     strcpy(comm, "fxpknj comment&");
-    if (ffpknj(fptr, "ky_pknj", 1, nkeys, onjkey, comms, &status) > 0)
+    if (ffpknj(fptr, "ky_pknj", 1, nkeys, onjkey, (const char **) comms, &status) > 0)
         printf("ffpknj status = %d\n", status);
 
     strcpy(comm, "fxpknf comment&");
-    if (ffpknf(fptr, "ky_pknf", 1, nkeys, onfkey, 5, comms, &status) > 0)
+    if (ffpknf(fptr, "ky_pknf", 1, nkeys, onfkey, 5, (const char **) comms, &status) > 0)
         printf("ffpknf status = %d\n", status);
 
     strcpy(comm, "fxpkne comment&");
-    if (ffpkne(fptr, "ky_pkne", 1, nkeys, onekey, 6, comms, &status) > 0)
+    if (ffpkne(fptr, "ky_pkne", 1, nkeys, onekey, 6, (const char **) comms, &status) > 0)
         printf("ffpkne status = %d\n", status);
 
     strcpy(comm, "fxpkng comment&");
-    if (ffpkng(fptr, "ky_pkng", 1, nkeys, ongkey, 13, comms, &status) > 0)
+    if (ffpkng(fptr, "ky_pkng", 1, nkeys, ongkey, 13, (const char **) comms, &status) > 0)
         printf("ffpkng status = %d\n", status);
 
     strcpy(comm, "fxpknd comment&");
-    if (ffpknd(fptr, "ky_pknd", 1, nkeys, ondkey, 14, comms, &status) > 0)
+    if (ffpknd(fptr, "ky_pknd", 1, nkeys, ondkey, 14, (const char **) comms, &status) > 0)
     {
         printf("ffpknd status = %d\n", status);
         goto errstatus;
@@ -875,7 +875,7 @@ int main()
 
     printf("\nKeywords found using wildcard search (should be 13)...\n");
     nfound = 0;
-    while (!ffgnxk(fptr,inclist, 2, exclist, 2, card, &status))
+    while (!ffgnxk(fptr,(const char **) inclist, 2, (const char **) exclist, 2, card, &status))
     {
         nfound++;
         printf("%s\n", card);
@@ -965,7 +965,7 @@ int main()
     ffcrtb(fptr, BINARY_TBL, nrows, tfields, ttype, tform, tunit, binname,
             &status);
 */
-    ffibin(fptr, nrows, tfields, ttype, tform, tunit, binname, 0L,
+    ffibin(fptr, nrows, tfields, (const char **) ttype, (const char **) tform, (const char **) tunit, binname, 0L,
             &status);
 
     printf("\nffibin status = %d\n", status);
@@ -1028,7 +1028,7 @@ int main()
         doutarray[ii] = (ii + 1) * signval;
     }
 
-    ffpcls(fptr, 1, 1, 1, 3, onskey, &status);  /* write string values */
+    ffpcls(fptr, 1, 1, 1, 3, (const char **) onskey, &status);  /* write string values */
     ffpclu(fptr, 1, 4, 1, 1, &status);  /* write null value */
 
     larray[0] = 0;
@@ -1185,7 +1185,7 @@ int main()
     nrows = 11;
     tfields = 5;
 
-    ffitab(fptr, rowlen, nrows, tfields, ttype, tbcol, tform, tunit, tblname,
+    ffitab(fptr, rowlen, nrows, tfields, (const char **) ttype, tbcol, (const char **) tform, (const char **) tunit, tblname,
             &status);
     printf("ffitab status = %d\n", status);
     printf("HDU number = %d\n", ffghdn(fptr, &hdunum));
@@ -1224,7 +1224,7 @@ int main()
         doutarray[ii] = ii + 1;
     }
 
-    ffpcls(fptr, 1, 1, 1, 3, onskey, &status);  /* write string values */
+    ffpcls(fptr, 1, 1, 1, 3, (const char **) onskey, &status);  /* write string values */
     ffpclu(fptr, 1, 4, 1, 1, &status);  /* write null value */
 
     for (ii = 2; ii < 6; ii++)   /* loop over cols 2 - 5 */
@@ -1409,7 +1409,7 @@ int main()
     nrows = 12;
     tfields = 0;
     rowlen = 0;
-    ffitab(tmpfptr, rowlen, nrows, tfields, ttype, tbcol, tform, tunit,
+    ffitab(tmpfptr, rowlen, nrows, tfields, (const char **) ttype, tbcol, (const char **) tform, (const char **) tunit,
            tblname, &status);
     printf("\nCreate ASCII table with 0 columns: ffitab status = %d\n",
            status);
@@ -1425,7 +1425,7 @@ int main()
     printf("copy column, ffcpcl status = %d\n", status);
 
     /* now repeat by copying ASCII input to Binary output table */
-    ffibin(tmpfptr, nrows, tfields, ttype, tform, tunit,
+    ffibin(tmpfptr, nrows, tfields, (const char **) ttype, (const char **) tform, (const char **) tunit,
            tblname,  0L, &status);
     printf("\nCreate Binary table with 0 columns: ffibin status = %d\n",
            status);
@@ -1685,7 +1685,7 @@ int main()
     /* create an empty table with 22 rows and 0 columns */
     nrows = 22;
     tfields = 0;
-    ffibin(tmpfptr, nrows, tfields, ttype, tform, tunit, binname, 0L,
+    ffibin(tmpfptr, nrows, tfields, (const char **) ttype, (const char **) tform, (const char **) tunit, binname, 0L,
             &status);
     printf("\nCreate binary table with 0 columns: ffibin status = %d\n",
            status);
@@ -1762,7 +1762,7 @@ int main()
     tfields = 10;
     pcount = 0;
 
-    ffibin(fptr, nrows, tfields, ttype, tform, tunit, binname, pcount,
+    ffibin(fptr, nrows, tfields, (const char **) ttype, (const char **) tform, (const char **) tunit, binname, pcount,
             &status);
     printf("ffibin status = %d\n", status);
     printf("HDU number = %d\n", ffghdn(fptr, &hdunum));
@@ -2041,7 +2041,7 @@ int main()
     tfields = 10;
     pcount = 0;
 
-    ffphbn(fptr, nrows, tfields, ttype, tform, tunit, binname, pcount,
+    ffphbn(fptr, nrows, tfields, (const char **) ttype, (const char **) tform, (const char **) tunit, binname, pcount,
             &status);
     printf("Variable length arrays: ffphbn status = %d\n", status);
 
@@ -2095,7 +2095,7 @@ int main()
     /* write values in 1st row */
     /*  strncpy(inskey[0], iskey, 1); */
       inskey[0][0] = '\0';  /* write a null string (i.e., a blank) */
-      ffpcls(fptr, 1, 1, 1, 1, inskey, &status);  /* write string values */
+      ffpcls(fptr, 1, 1, 1, 1, (const char **) inskey, &status);  /* write string values */
       ffpcll(fptr, 2, 1, 1, 1, larray, &status);  /* write logicals */
       ffpclx(fptr, 3, 1, 1, 1, larray, &status);  /* write bits */
       ffpclb(fptr, 4, 1, 1, 1, boutarray, &status);
@@ -2108,7 +2108,7 @@ int main()
     {
       strncpy(inskey[0], iskey, ii);
       inskey[0][ii] = '\0';
-      ffpcls(fptr, 1, ii, 1, 1, inskey, &status);  /* write string values */
+      ffpcls(fptr, 1, ii, 1, 1, (const char **) inskey, &status);  /* write string values */
 
       ffpcll(fptr, 2, ii, 1, ii, larray, &status);  /* write logicals */
       ffpclu(fptr, 2, ii, ii-1, 1, &status);
@@ -2368,7 +2368,7 @@ int main()
     tfields = 5;
     strcpy(tblname, "new_table");
 
-    ffcrtb(fptr, ASCII_TBL, nrows, tfields, ttype, tform, tunit, tblname,
+    ffcrtb(fptr, ASCII_TBL, nrows, tfields, (const char **) ttype, (const char **) tform, (const char **) tunit, tblname,
             &status);
     printf("\nffcrtb status = %d\n", status);
 

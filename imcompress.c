@@ -1274,8 +1274,8 @@ int imcomp_init_table(fitsfile *outfptr,
        we need to test now for setting is_primary */
     is_primary = (outfptr->Fptr->curhdu == 0);
     /* create the bintable extension to contain the compressed image */
-    ffcrtb(outfptr, BINARY_TBL, nrows, ncols, ttype, 
-                tform, tunit, 0, status);
+    ffcrtb(outfptr, BINARY_TBL, nrows, ncols, (const char **) ttype, 
+                (const char **) tform, (const char **) tunit, 0, status);
 
     /* Add standard header keywords. */
     ffpkyl (outfptr, "ZIMAGE", 1, 
@@ -5649,7 +5649,7 @@ int imcomp_copy_img2comp(fitsfile *infptr, fitsfile *outfptr, int *status)
 
     /* copy all the keywords from the input file to the output */
     npat = sizeof(patterns)/sizeof(patterns[0][0])/2;
-    fits_translate_keywords(infptr, outfptr, 1, patterns, npat,
+    fits_translate_keywords(infptr, outfptr, 1, (const char *(*)[2]) patterns, npat,
 			    0, 0, 0, status);
 
 
@@ -5822,7 +5822,7 @@ int imcomp_copy_comp2img(fitsfile *infptr, fitsfile *outfptr,
     }
     
     /* translate and copy the keywords from the input file to the output */
-    fits_translate_keywords(infptr, outfptr, 1, patterns, npat,
+    fits_translate_keywords(infptr, outfptr, 1, (const char *(*)[2]) patterns, npat,
 			    0, 0, 0, status);
 
     ffghsp(infptr, &nkeys, &nmore, status); /* get number of keywords in image */
@@ -5870,7 +5870,7 @@ int imcomp_copy_prime2img(fitsfile *infptr, fitsfile *outfptr, int *status)
     nsp = sizeof(spkeys)/sizeof(spkeys[0][0])/2;
 
     /* translate and copy the keywords from the input file to the output */
-    fits_translate_keywords(infptr, outfptr, 1, spkeys, nsp,
+    fits_translate_keywords(infptr, outfptr, 1, (const char *(*)[2]) spkeys, nsp,
 			    0, 0, 0, status);
 
     return (*status);

@@ -14,7 +14,7 @@ int ffpcls( fitsfile *fptr,  /* I - FITS file pointer                       */
             LONGLONG  firstrow,  /* I - first row to write (1 = 1st row)        */
             LONGLONG  firstelem, /* I - first vector element to write (1 = 1st) */
             LONGLONG  nelem,     /* I - number of strings to write              */
-            char  **array,   /* I - array of pointers to strings            */
+            const char  **array,   /* I - array of pointers to strings            */
             int  *status)    /* IO - error status                           */
 /*
   Write an array of string values to a column in the current FITS HDU.
@@ -289,7 +289,7 @@ int ffpcns( fitsfile *fptr,  /* I - FITS file pointer                       */
       fstrow = (fstelm - 1) / repeat + 1;  /* starting row number */
       fstelm = fstelm - (fstrow - 1) * repeat;  /* relative number */
 
-      ffpcls(fptr, colnum, fstrow, fstelm, ngood, &array[ii-ngood], status);
+      ffpcls(fptr, colnum, fstrow, fstelm, ngood, (const char **) &array[ii-ngood], status);
     }
     else if (nbad) /* write last string of bad pixels */
     {
