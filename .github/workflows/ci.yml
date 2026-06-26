@@ -12,10 +12,23 @@ env:
 jobs:
   build-windows:
     runs-on: windows-latest
+    env:
+      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg-cache
+      VCPKG_BINARY_SOURCES: 'clear;files,${{ github.workspace }}/vcpkg-cache,readwrite'
+
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+
+    # Must happen BEFORE vcpkg executes or CMake runs
+    - name: Restore vcpkg Binary Cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        key: ${{ runner.os }}-vcpkg-${{ hashFiles('vcpkg.json') }}
+        restore-keys: |
+          ${{ runner.os }}-vcpkg-
 
     # 1. Manually install zlib using the built-in vcpkg executable
     - name: Install zlib via vcpkg
