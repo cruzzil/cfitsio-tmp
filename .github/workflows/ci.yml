@@ -21,6 +21,9 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Create Cache Directory
+      run: mkdir -p ${{ github.workspace }}/vcpkg-cache
+
     # Must happen BEFORE vcpkg executes or CMake runs
     - name: Restore vcpkg Binary Cache
       uses: actions/cache@v6
