@@ -16,7 +16,6 @@ jobs:
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg-cache
       VCPKG_BINARY_SOURCES: 'clear;files,${{ github.workspace }}/vcpkg-cache,readwrite'
 
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
