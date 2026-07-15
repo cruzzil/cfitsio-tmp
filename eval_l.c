@@ -807,7 +807,10 @@ static const flex_int16_t yy_chk[474] =
 /* This specifies a thread-safe reentrant version of lex functions */
 /* This specifies CFITSIO-unique names for lexer functions */
 /* This facilitates calling between the Bison parser and this lexer */
-#line 14 "eval.l"
+/* The scanner does not use input()/yyunput(); suppress their generation
+   to avoid -Wunused-function warnings in the generated scanner */
+#define YY_NO_INPUT 1
+#line 17 "eval.l"
 /* This file is one of 3 files containing code which parses an          */
 /* arithmetic expression and evaluates it in the context of an input    */
 /* FITS file table extension.  The CFITSIO lexical parser is divided    */
@@ -922,8 +925,8 @@ static int expr_read( ParseData *lParse, char *buf, int nbytes );
         if ( (result = expr_read( yylParse, (char *) buf, max_size )) < 0 ) \
             YY_FATAL_ERROR( "read() in flex scanner failed" );
 
-#line 926 "eval_l.c"
-#line 927 "eval_l.c"
+#line 929 "eval_l.c"
+#line 930 "eval_l.c"
 
 #define INITIAL 0
 
@@ -1035,8 +1038,6 @@ extern int yywrap ( yyscan_t yyscanner );
 #endif
 
 #ifndef YY_NO_UNPUT
-    
-    static void yyunput ( int c, char *buf_ptr  , yyscan_t yyscanner);
     
 #endif
 
@@ -1197,10 +1198,10 @@ YY_DECL
 		}
 
 	{
-#line 158 "eval.l"
+#line 161 "eval.l"
 
 
-#line 1204 "eval_l.c"
+#line 1205 "eval_l.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1259,12 +1260,12 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 160 "eval.l"
+#line 163 "eval.l"
 ;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 161 "eval.l"
+#line 164 "eval.l"
 {
                   int len;
                   len = strlen(yytext);
@@ -1288,7 +1289,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 181 "eval.l"
+#line 184 "eval.l"
 {
                   int len;
                   char tmpstring[256];
@@ -1382,7 +1383,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 271 "eval.l"
+#line 274 "eval.l"
 {
                   int len;
                   char tmpstring[256];
@@ -1515,7 +1516,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 400 "eval.l"
+#line 403 "eval.l"
 {
 		  long int constval = 0;
 		  char *p;
@@ -1528,7 +1529,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 409 "eval.l"
+#line 412 "eval.l"
 {
 		  long int constval = 0;
 		  char *p;
@@ -1541,7 +1542,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 418 "eval.l"
+#line 421 "eval.l"
 {
 		  long int constval = 0;
 		  char *p;
@@ -1555,7 +1556,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 430 "eval.l"
+#line 433 "eval.l"
 {
                   yylval->lng = atol(yytext);
 		  return( LONG );
@@ -1563,7 +1564,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 434 "eval.l"
+#line 437 "eval.l"
 {
                   if ((yytext[0] == 't') || (yytext[0] == 'T'))
 		    yylval->log = 1;
@@ -1574,7 +1575,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 441 "eval.l"
+#line 444 "eval.l"
 {
                   yylval->dbl = atof(yytext);
 		  return( DOUBLE );
@@ -1582,7 +1583,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 445 "eval.l"
+#line 448 "eval.l"
 {
                   if(        !fits_strcasecmp(yytext,"#PI") ) {
 		     yylval->dbl = (double)(4) * atan((double)(1));
@@ -1627,7 +1628,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 486 "eval.l"
+#line 489 "eval.l"
 {
                   int len;
                   len = strlen(yytext) - 2;
@@ -1648,7 +1649,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 503 "eval.l"
+#line 506 "eval.l"
 {
 		 int    len,type;
 		 
@@ -1674,7 +1675,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 525 "eval.l"
+#line 528 "eval.l"
 {
                   char *fname;
 		  int len=strlen(yytext);
@@ -1723,86 +1724,86 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 570 "eval.l"
+#line 573 "eval.l"
 { return( INTCAST ); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 571 "eval.l"
+#line 574 "eval.l"
 { return( FLTCAST ); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 572 "eval.l"
+#line 575 "eval.l"
 { return( POWER   ); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 573 "eval.l"
+#line 576 "eval.l"
 { return( NOT     ); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 574 "eval.l"
+#line 577 "eval.l"
 { return( OR      ); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 575 "eval.l"
+#line 578 "eval.l"
 { return( AND     ); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 576 "eval.l"
+#line 579 "eval.l"
 { return( EQ      ); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 577 "eval.l"
+#line 580 "eval.l"
 { return( NE      ); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 578 "eval.l"
+#line 581 "eval.l"
 { return( GT      ); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 579 "eval.l"
+#line 582 "eval.l"
 { return( LT      ); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 580 "eval.l"
+#line 583 "eval.l"
 { return( GTE     ); }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 581 "eval.l"
+#line 584 "eval.l"
 { return( LTE     ); }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 582 "eval.l"
+#line 585 "eval.l"
 { return( XOR     ); }
 	YY_BREAK
 case 28:
 /* rule 28 can match eol */
 YY_RULE_SETUP
-#line 583 "eval.l"
+#line 586 "eval.l"
 { return( '\n'    ); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 584 "eval.l"
+#line 587 "eval.l"
 { return( yytext[0] ); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 585 "eval.l"
+#line 588 "eval.l"
 ECHO;
 	YY_BREAK
-#line 1806 "eval_l.c"
+#line 1807 "eval_l.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2141,44 +2142,6 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 }
 
 #ifndef YY_NO_UNPUT
-
-    static void yyunput (int c, char * yy_bp , yyscan_t yyscanner)
-{
-	char *yy_cp;
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-
-    yy_cp = yyg->yy_c_buf_p;
-
-	/* undo effects of setting up yytext */
-	*yy_cp = yyg->yy_hold_char;
-
-	if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
-		{ /* need to shift things up to make room */
-		/* +2 for EOB chars. */
-		int number_to_move = yyg->yy_n_chars + 2;
-		char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[
-					YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
-		char *source =
-				&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move];
-
-		while ( source > YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
-			*--dest = *--source;
-
-		yy_cp += (int) (dest - source);
-		yy_bp += (int) (dest - source);
-		YY_CURRENT_BUFFER_LVALUE->yy_n_chars =
-			yyg->yy_n_chars = (int) YY_CURRENT_BUFFER_LVALUE->yy_buf_size;
-
-		if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
-			YY_FATAL_ERROR( "flex scanner push-back overflow" );
-		}
-
-	*--yy_cp = (char) c;
-
-	yyg->yytext_ptr = yy_bp;
-	yyg->yy_hold_char = *yy_cp;
-	yyg->yy_c_buf_p = yy_cp;
-}
 
 #endif
 
@@ -2983,7 +2946,7 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 585 "eval.l"
+#line 588 "eval.l"
 
 
 int yywrap(yyscan_t scanner)

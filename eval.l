@@ -9,6 +9,9 @@
 %option prefix="fits_parser_yy"
 /* This facilitates calling between the Bison parser and this lexer */
 %option bison-bridge
+/* The scanner does not use input()/yyunput(); suppress their generation
+   to avoid -Wunused-function warnings in the generated scanner */
+%option noinput nounput
 
 %{
 /* This file is one of 3 files containing code which parses an          */
