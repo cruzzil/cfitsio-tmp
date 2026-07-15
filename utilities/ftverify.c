@@ -131,6 +131,8 @@ int ftverify_work (char *infile, char *outfile,
 #include "headas_main.c"
 #endif
 
+char errmes[256];
+char comm[FLEN_FILENAME+6];
 int err_report=0;
 int prhead=0;
 int prstat=1;
