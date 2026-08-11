@@ -3115,7 +3115,6 @@ int ffcalchist(long totalrows, long offset, long firstrow, long nrows,
 
       /* We have a parser for this, evaluate it */
       if (histData->parsers[ii].nCols > 0) {
-	struct ParseStatusVariables *pv = &(histData->infos[ii].parseVariables);
 	iteratorCol *colData = &(histData->iterCols[startCol]);
 	int nCols = histData->parsers[ii].nCols;
 

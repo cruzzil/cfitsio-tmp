@@ -11,8 +11,8 @@
 #define MAXERRORS  200		
 #define MAXWRNS  200		
 
-static char errmes[256];
-static char comm[FLEN_FILENAME+6];
+extern char errmes[256];
+extern char comm[FLEN_FILENAME+6];
 extern int prhead;
 extern int testdata;
 extern int testfill;
