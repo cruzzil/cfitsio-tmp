@@ -32,6 +32,18 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-vcpkg-
 
+    - name: Create Cache Directory
+      run: mkdir -p ${{ github.workspace }}/vcpkg-cache
+
+    # Must happen BEFORE vcpkg executes or CMake runs
+    - name: Restore vcpkg Binary Cache
+      uses: actions/cache@v6
+      with:
+        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        key: ${{ runner.os }}-vcpkg-${{ hashFiles('vcpkg.json') }}
+        restore-keys: |
+          ${{ runner.os }}-vcpkg-
+
     # 1. Manually install zlib using the built-in vcpkg executable
     - name: Install zlib via vcpkg
       run: |
