@@ -511,9 +511,9 @@ void readtable( void )
            printerror( status );
 
       if (hdutype == ASCII_TBL)
-          printf("\nReading ASCII table in HDU %d:\n",  hdunum);
+          printf("\nABCDEF Reading ASCII table in HDU %d:\n",  hdunum);
       else if (hdutype == BINARY_TBL)
-          printf("\nReading binary table in HDU %d:\n", hdunum);
+          printf("\nDEFAASDA Reading binary table in HDU %d:\n", hdunum);
       else
       {
           printf("Error: this HDU is not an ASCII or binary table\n");
