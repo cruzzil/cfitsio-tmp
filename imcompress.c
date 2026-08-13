@@ -3804,6 +3804,7 @@ int fits_write_compressed_pixels(fitsfile *fptr, /* I - FITS file pointer   */
     long naxes[MAX_COMPRESS_DIM], nread;
     LONGLONG tfirst, tlast, last0, last1, dimsize[MAX_COMPRESS_DIM];
     long nplane, firstcoord[MAX_COMPRESS_DIM], lastcoord[MAX_COMPRESS_DIM];
+    long firstplane, lastplane;
     char *arrayptr;
 
     if (*status > 0)
@@ -3842,7 +3843,7 @@ int fits_write_compressed_pixels(fitsfile *fptr, /* I - FITS file pointer   */
         tlast = tlast - lastcoord[ii] * dimsize[ii];
     }
 
-    /* to simplify things, treat 1-D, 2-D, and 3-D images as separate cases */
+    /* to simplify things, treat 1-D images as a separate case */
 
     if (naxis == 1)
     {
@@ -3854,68 +3855,72 @@ int fits_write_compressed_pixels(fitsfile *fptr, /* I - FITS file pointer   */
             nullcheck, array, nullval, status);
         return(*status);
     }
-    else if (naxis == 2)
+
+    /* test for special case: writing an integral number of hyperplanes, */
+    /* i.e., the requested pixels exactly fill all the lower dimensions. */
+    /* They then form a contiguous rectangular section of the image,     */
+    /* which can be written with a single call.                          */
+    for (ii = 0; ii < naxis - 1; ii++)
     {
-        nplane = 0;  /* write 1st (and only) plane of the image */
+        if (firstcoord[ii] != 0 || lastcoord[ii] != naxes[ii] - 1)
+            break;
+    }
+
+    if (ii == naxis - 1)
+    {
+        for (ii = 0; ii < MAX_COMPRESS_DIM; ii++)
+        {
+            /* convert from zero base to 1 base */
+            (firstcoord[ii])++;
+            (lastcoord[ii])++;
+        }
+
+        /* we can write the contiguous block of pixels in one go */
+        fits_write_compressed_img(fptr, datatype, firstcoord, lastcoord,
+            nullcheck, array, nullval, status);
+        return(*status);
+    }
+
+    /* flatten the coordinates of the 3rd and any higher dimensions into */
+    /* the index of the 2D plane holding the first and the last pixel    */
+    firstplane = 0;
+    lastplane = 0;
+    for (ii = naxis - 1; ii >= 2; ii--)
+    {
+        firstplane = firstplane * naxes[ii] + firstcoord[ii];
+        lastplane  = lastplane  * naxes[ii] + lastcoord[ii];
+    }
+
+    /* save last coordinate in temporary variables */
+    last0 = lastcoord[0];
+    last1 = lastcoord[1];
+
+    if (firstplane < lastplane)
+    {
+        /* we will write up to the last pixel in all but the last plane */
+        lastcoord[0] = naxes[0] - 1;
+        lastcoord[1] = naxes[1] - 1;
+    }
+
+    /* write one plane of the image at a time, for simplicity */
+    for (nplane = firstplane; nplane <= lastplane; nplane++)
+    {
+        if (nplane == lastplane)
+        {
+            lastcoord[0] = (long) last0;
+            lastcoord[1] = (long) last1;
+        }
+
         fits_write_compressed_img_plane(fptr, datatype, bytesperpixel,
           nplane, firstcoord, lastcoord, naxes, nullcheck,
-          array, nullval, &nread, status);
-    }
-    else if (naxis == 3)
-    {
-        /* test for special case: writing an integral number of planes */
-        if (firstcoord[0] == 0 && firstcoord[1] == 0 &&
-            lastcoord[0] == naxes[0] - 1 && lastcoord[1] == naxes[1] - 1)
-        {
-            for (ii = 0; ii < MAX_COMPRESS_DIM; ii++)
-            {
-                /* convert from zero base to 1 base */
-                (firstcoord[ii])++;
-                (lastcoord[ii])++;
-            }
+          arrayptr, nullval, &nread, status);
 
-            /* we can write the contiguous block of pixels in one go */
-            fits_write_compressed_img(fptr, datatype, firstcoord, lastcoord,
-                nullcheck, array, nullval, status);
-            return(*status);
-        }
+        /* for all subsequent planes, we start with the first pixel */
+        firstcoord[0] = 0;
+        firstcoord[1] = 0;
 
-        /* save last coordinate in temporary variables */
-        last0 = lastcoord[0];
-        last1 = lastcoord[1];
-
-        if (firstcoord[2] < lastcoord[2])
-        {
-            /* we will write up to the last pixel in all but the last plane */
-            lastcoord[0] = naxes[0] - 1;
-            lastcoord[1] = naxes[1] - 1;
-        }
-
-        /* write one plane of the cube at a time, for simplicity */
-        for (nplane = firstcoord[2]; nplane <= lastcoord[2]; nplane++)
-        {
-            if (nplane == lastcoord[2])
-            {
-                lastcoord[0] = (long) last0;
-                lastcoord[1] = (long) last1;
-            }
-
-            fits_write_compressed_img_plane(fptr, datatype, bytesperpixel,
-              nplane, firstcoord, lastcoord, naxes, nullcheck,
-              arrayptr, nullval, &nread, status);
-
-            /* for all subsequent planes, we start with the first pixel */
-            firstcoord[0] = 0;
-            firstcoord[1] = 0;
-
-            /* increment pointers to next elements to be written */
-            arrayptr = arrayptr + nread * bytesperpixel;
-        }
-    }
-    else
-    {
-        ffpmsg("only 1D, 2D, or 3D images are currently supported");
-        return(*status = DATA_COMPRESSION_ERR);
+        /* increment pointers to next elements to be written */
+        arrayptr = arrayptr + nread * bytesperpixel;
     }
 
     return(*status);
@@ -3945,15 +3950,33 @@ int fits_write_compressed_img_plane(fitsfile *fptr, /* I - FITS file    */
     */
 {
     /* bottom left coord. and top right coord. */
-    long blc[MAX_COMPRESS_DIM], trc[MAX_COMPRESS_DIM]; 
+    long blc[MAX_COMPRESS_DIM], trc[MAX_COMPRESS_DIM];
     char *arrayptr;
+    int ii;
 
     *nread = 0;
 
     arrayptr = (char *) array;
 
-    blc[2] = nplane + 1;
-    trc[2] = nplane + 1;
+    /* nplane is the index of the 2D plane to write, flattened over the 3rd */
+    /* and any higher dimensions;  unravel it into the coordinate of the    */
+    /* plane in each of those dimensions.  naxes = 1 for any dimension      */
+    /* beyond NAXIS, so this also covers the 1D, 2D, and 3D cases.          */
+    for (ii = 2; ii < MAX_COMPRESS_DIM; ii++)
+    {
+        if (naxes[ii] > 0)
+        {
+            blc[ii] = (nplane % naxes[ii]) + 1;
+            nplane = nplane / naxes[ii];
+        }
+        else   /* empty dimension; the section read will find no pixels */
+        {
+            blc[ii] = nplane + 1;
+            nplane = 0;
+        }
+
+        trc[ii] = blc[ii];
+    }
 
     if (firstcoord[0] != 0)
     { 
@@ -4992,6 +5015,7 @@ int fits_read_compressed_pixels(fitsfile *fptr, /* I - FITS file pointer    */
     long nplane, inc[MAX_COMPRESS_DIM];
     LONGLONG tfirst, tlast, last0, last1, dimsize[MAX_COMPRESS_DIM];
     LONGLONG firstcoord[MAX_COMPRESS_DIM], lastcoord[MAX_COMPRESS_DIM];
+    LONGLONG firstplane, lastplane;
     char *arrayptr, *nullarrayptr;
 
     if (*status > 0)
@@ -5032,7 +5056,7 @@ int fits_read_compressed_pixels(fitsfile *fptr, /* I - FITS file pointer    */
         tlast = tlast - lastcoord[ii] * dimsize[ii];
     }
 
-    /* to simplify things, treat 1-D, 2-D, and 3-D images as separate cases */
+    /* to simplify things, treat 1-D images as a separate case */
 
     if (naxis == 1)
     {
@@ -5044,78 +5068,81 @@ int fits_read_compressed_pixels(fitsfile *fptr, /* I - FITS file pointer    */
             nullcheck, nullval, array, nullarray, anynul, status);
         return(*status);
     }
-    else if (naxis == 2)
+
+    /* test for special case: reading an integral number of hyperplanes, */
+    /* i.e., the requested pixels exactly fill all the lower dimensions. */
+    /* They then form a contiguous rectangular section of the image,     */
+    /* which can be read with a single call.                             */
+    for (ii = 0; ii < naxis - 1; ii++)
     {
-        nplane = 0;  /* read 1st (and only) plane of the image */
+        if (firstcoord[ii] != 0 || lastcoord[ii] != naxes[ii] - 1)
+            break;
+    }
+
+    if (ii == naxis - 1)
+    {
+        for (ii = 0; ii < MAX_COMPRESS_DIM; ii++)
+        {
+            /* convert from zero base to 1 base */
+            (firstcoord[ii])++;
+            (lastcoord[ii])++;
+        }
+
+        /* we can read the contiguous block of pixels in one go */
+        fits_read_compressed_img(fptr, datatype, firstcoord, lastcoord, inc,
+            nullcheck, nullval, array, nullarray, anynul, status);
+
+        return(*status);
+    }
+
+    if (anynul)
+        *anynul = 0;  /* initialize */
+
+    /* flatten the coordinates of the 3rd and any higher dimensions into */
+    /* the index of the 2D plane holding the first and the last pixel    */
+    firstplane = 0;
+    lastplane = 0;
+    for (ii = naxis - 1; ii >= 2; ii--)
+    {
+        firstplane = firstplane * naxes[ii] + firstcoord[ii];
+        lastplane  = lastplane  * naxes[ii] + lastcoord[ii];
+    }
+
+    /* save last coordinate in temporary variables */
+    last0 = lastcoord[0];
+    last1 = lastcoord[1];
+
+    if (firstplane < lastplane)
+    {
+        /* we will read up to the last pixel in all but the last plane */
+        lastcoord[0] = naxes[0] - 1;
+        lastcoord[1] = naxes[1] - 1;
+    }
+
+    /* read one plane of the image at a time, for simplicity */
+    for (nplane = (long) firstplane; nplane <= lastplane; nplane++)
+    {
+        if (nplane == lastplane)
+        {
+            lastcoord[0] = last0;
+            lastcoord[1] = last1;
+        }
 
         fits_read_compressed_img_plane(fptr, datatype, bytesperpixel,
           nplane, firstcoord, lastcoord, inc, naxes, nullcheck, nullval,
-          array, nullarray, anynul, &nread, status);
-    }
-    else if (naxis == 3)
-    {
-        /* test for special case: reading an integral number of planes */
-        if (firstcoord[0] == 0 && firstcoord[1] == 0 &&
-            lastcoord[0] == naxes[0] - 1 && lastcoord[1] == naxes[1] - 1)
-        {
-            for (ii = 0; ii < MAX_COMPRESS_DIM; ii++)
-            {
-                /* convert from zero base to 1 base */
-                (firstcoord[ii])++;
-                (lastcoord[ii])++;
-            }
+          arrayptr, nullarrayptr, &planenul, &nread, status);
 
-            /* we can read the contiguous block of pixels in one go */
-            fits_read_compressed_img(fptr, datatype, firstcoord, lastcoord, inc,
-                nullcheck, nullval, array, nullarray, anynul, status);
+        if (planenul && anynul)
+           *anynul = 1;  /* there are null pixels */
 
-            return(*status);
-        }
+        /* for all subsequent planes, we start with the first pixel */
+        firstcoord[0] = 0;
+        firstcoord[1] = 0;
 
-        if (anynul)
-            *anynul = 0;  /* initialize */
-
-        /* save last coordinate in temporary variables */
-        last0 = lastcoord[0];
-        last1 = lastcoord[1];
-
-        if (firstcoord[2] < lastcoord[2])
-        {
-            /* we will read up to the last pixel in all but the last plane */
-            lastcoord[0] = naxes[0] - 1;
-            lastcoord[1] = naxes[1] - 1;
-        }
-
-        /* read one plane of the cube at a time, for simplicity */
-        for (nplane = (long) firstcoord[2]; nplane <= lastcoord[2]; nplane++)
-        {
-            if (nplane == lastcoord[2])
-            {
-                lastcoord[0] = last0;
-                lastcoord[1] = last1;
-            }
-
-            fits_read_compressed_img_plane(fptr, datatype, bytesperpixel,
-              nplane, firstcoord, lastcoord, inc, naxes, nullcheck, nullval,
-              arrayptr, nullarrayptr, &planenul, &nread, status);
-
-            if (planenul && anynul)
-               *anynul = 1;  /* there are null pixels */
-
-            /* for all subsequent planes, we start with the first pixel */
-            firstcoord[0] = 0;
-            firstcoord[1] = 0;
-
-            /* increment pointers to next elements to be read */
-            arrayptr = arrayptr + nread * bytesperpixel;
-            if (nullarrayptr && (nullcheck == 2) )
-                nullarrayptr = nullarrayptr + nread;
-        }
-    }
-    else
-    {
-        ffpmsg("only 1D, 2D, or 3D images are currently supported");
-        return(*status = DATA_DECOMPRESSION_ERR);
+        /* increment pointers to next elements to be read */
+        arrayptr = arrayptr + nread * bytesperpixel;
+        if (nullarrayptr && (nullcheck == 2) )
+            nullarrayptr = nullarrayptr + nread;
     }
 
     return(*status);
@@ -5147,9 +5174,9 @@ int fits_read_compressed_img_plane(fitsfile *fptr, /* I - FITS file   */
     */
 {
      /* bottom left coord. and top right coord. */
-    LONGLONG blc[MAX_COMPRESS_DIM], trc[MAX_COMPRESS_DIM]; 
+    LONGLONG blc[MAX_COMPRESS_DIM], trc[MAX_COMPRESS_DIM];
     char *arrayptr, *nullarrayptr;
-    int tnull;
+    int tnull, ii;
 
     if (anynul)
         *anynul = 0;
@@ -5159,8 +5186,25 @@ int fits_read_compressed_img_plane(fitsfile *fptr, /* I - FITS file   */
     arrayptr = (char *) array;
     nullarrayptr = nullarray;
 
-    blc[2] = nplane + 1;
-    trc[2] = nplane + 1;
+    /* nplane is the index of the 2D plane to read, flattened over the 3rd */
+    /* and any higher dimensions;  unravel it into the coordinate of the   */
+    /* plane in each of those dimensions.  naxes = 1 for any dimension     */
+    /* beyond NAXIS, so this also covers the 1D, 2D, and 3D cases.         */
+    for (ii = 2; ii < MAX_COMPRESS_DIM; ii++)
+    {
+        if (naxes[ii] > 0)
+        {
+            blc[ii] = (nplane % naxes[ii]) + 1;
+            nplane = nplane / naxes[ii];
+        }
+        else   /* empty dimension; the section read will find no pixels */
+        {
+            blc[ii] = nplane + 1;
+            nplane = 0;
+        }
+
+        trc[ii] = blc[ii];
+    }
 
     if (firstcoord[0] != 0)
     { 

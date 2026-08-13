@@ -535,6 +535,203 @@ test_compress_byte_image(void)
 }
 
 /*
+ * Compress an n-dimensional image with fits_img_compress (what fpack does),
+ * then read it back one pixel range at a time.  Images with more than 3
+ * dimensions used to fail with DATA_DECOMPRESSION_ERR ("only 1D, 2D, or 3D
+ * images are currently supported") - see heasarc/cfitsio issue #171.
+ */
+static void
+compress_and_read_ndim(int naxis, long *naxes)
+{
+	fitsfile *infptr, *outfptr;
+	int status = 0;
+	long npix = 1;
+	short *original, *decompressed;
+	long i, firstelem, nelem;
+
+	for (i = 0; i < naxis; i += 1) {
+		npix *= naxes[i];
+	}
+
+	original = malloc(npix * sizeof *original);
+	decompressed = malloc(npix * sizeof *decompressed);
+	fail_if(original == NULL || decompressed == NULL);
+
+	for (i = 0; i < npix; i += 1) {
+		original[i] = (short)(i * 3 + 1);
+	}
+
+	/* Create the uncompressed input image */
+	fits_create_file(&infptr, "!" test_path, &status);
+	fail_if(status != 0);
+	fits_create_img(infptr, SHORT_IMG, naxis, naxes, &status);
+	fail_if(status != 0);
+	fits_write_img(infptr, TSHORT, 1, npix, original, &status);
+	fail_if(status != 0);
+	fits_close_file(infptr, &status);
+	fail_if(status != 0);
+
+	/* Compress it, as "fpack -g" would */
+	fits_open_file(&infptr, test_path, READONLY, &status);
+	fail_if(status != 0);
+	fits_create_file(&outfptr, "!" test_path2, &status);
+	fail_if(status != 0);
+	fits_set_compression_type(outfptr, GZIP_1, &status);
+	fail_if(status != 0);
+	fits_img_compress(infptr, outfptr, &status);
+	fail_if(status != 0);
+	fits_close_file(infptr, &status);
+	fits_close_file(outfptr, &status);
+	fail_if(status != 0);
+
+	/* Read the whole compressed image back */
+	fits_open_file(&outfptr, test_path2, READONLY, &status);
+	fail_if(status != 0);
+	fits_movabs_hdu(outfptr, 2, NULL, &status);
+	fail_if(status != 0);
+	fail_if(fits_is_compressed_image(outfptr, &status) == 0);
+	fail_if(status != 0);
+
+	memset(decompressed, 0, npix * sizeof *decompressed);
+	fits_read_img(outfptr, TSHORT, 1, npix, NULL, decompressed, NULL,
+		&status);
+	fail_if(status != 0);
+	for (i = 0; i < npix; i += 1) {
+		fail_if(decompressed[i] != original[i]);
+	}
+
+	/*
+	 * Read a range that starts and ends part way through a row, so that
+	 * the read is split up into partial rows and whole planes instead of
+	 * being satisfied by a single section read.
+	 */
+	firstelem = 8;
+	nelem = npix - 13;
+	fail_if(nelem < 1);
+	memset(decompressed, 0, npix * sizeof *decompressed);
+	fits_read_img(outfptr, TSHORT, firstelem, nelem, NULL, decompressed,
+		NULL, &status);
+	fail_if(status != 0);
+	for (i = 0; i < nelem; i += 1) {
+		fail_if(decompressed[i] != original[firstelem - 1 + i]);
+	}
+
+	/* A range wholly inside one row */
+	memset(decompressed, 0, npix * sizeof *decompressed);
+	fits_read_img(outfptr, TSHORT, 2, 3, NULL, decompressed, NULL,
+		&status);
+	fail_if(status != 0);
+	for (i = 0; i < 3; i += 1) {
+		fail_if(decompressed[i] != original[1 + i]);
+	}
+
+	fits_close_file(outfptr, &status);
+	fail_if(status != 0);
+
+	free(original);
+	free(decompressed);
+}
+
+/*
+ * Write an n-dimensional image directly into a compressed HDU, using linear
+ * pixel ranges, then read it back.  This exercises the write counterpart of
+ * the issue #171 code path.
+ */
+static void
+write_and_read_ndim(int naxis, long *naxes)
+{
+	fitsfile *fptr;
+	int status = 0;
+	long npix = 1;
+	short *original, *decompressed;
+	long i, firstelem, nelem;
+
+	for (i = 0; i < naxis; i += 1) {
+		npix *= naxes[i];
+	}
+
+	original = malloc(npix * sizeof *original);
+	decompressed = malloc(npix * sizeof *decompressed);
+	fail_if(original == NULL || decompressed == NULL);
+
+	for (i = 0; i < npix; i += 1) {
+		original[i] = (short)(i * 7 + 5);
+	}
+
+	fits_create_file(&fptr, "!" test_path, &status);
+	fail_if(status != 0);
+
+	/* A compressed image is a binary table, so it needs a primary HDU */
+	fits_create_img(fptr, SHORT_IMG, 0, NULL, &status);
+	fail_if(status != 0);
+
+	fits_set_compression_type(fptr, GZIP_1, &status);
+	fail_if(status != 0);
+	fits_create_img(fptr, SHORT_IMG, naxis, naxes, &status);
+	fail_if(status != 0);
+	fail_if(fits_is_compressed_image(fptr, &status) == 0);
+	fail_if(status != 0);
+
+	/* Write the whole image, then rewrite a range of it */
+	fits_write_img(fptr, TSHORT, 1, npix, original, &status);
+	fail_if(status != 0);
+
+	firstelem = 6;
+	nelem = npix - 11;
+	fail_if(nelem < 1);
+	for (i = 0; i < nelem; i += 1) {
+		original[firstelem - 1 + i] = (short)(-i - 1);
+	}
+	fits_write_img(fptr, TSHORT, firstelem, nelem,
+		original + firstelem - 1, &status);
+	fail_if(status != 0);
+
+	fits_close_file(fptr, &status);
+	fail_if(status != 0);
+
+	fits_open_file(&fptr, test_path, READONLY, &status);
+	fail_if(status != 0);
+	fits_movabs_hdu(fptr, 2, NULL, &status);
+	fail_if(status != 0);
+
+	memset(decompressed, 0, npix * sizeof *decompressed);
+	fits_read_img(fptr, TSHORT, 1, npix, NULL, decompressed, NULL,
+		&status);
+	fail_if(status != 0);
+	for (i = 0; i < npix; i += 1) {
+		fail_if(decompressed[i] != original[i]);
+	}
+
+	fits_close_file(fptr, &status);
+	fail_if(status != 0);
+
+	free(original);
+	free(decompressed);
+}
+
+/*
+ * Test compressed images with more than 3 dimensions (issue #171)
+ */
+static void
+test_compress_ndim_image(void)
+{
+	long naxes2[2] = { 7, 5 };
+	long naxes3[3] = { 7, 5, 3 };
+	long naxes4[4] = { 5, 4, 3, 2 };
+	long naxes5[5] = { 4, 3, 2, 2, 2 };
+
+	compress_and_read_ndim(2, naxes2);
+	compress_and_read_ndim(3, naxes3);
+	compress_and_read_ndim(4, naxes4);
+	compress_and_read_ndim(5, naxes5);
+
+	write_and_read_ndim(2, naxes2);
+	write_and_read_ndim(3, naxes3);
+	write_and_read_ndim(4, naxes4);
+	write_and_read_ndim(5, naxes5);
+}
+
+/*
  * Test dither seed setting
  */
 static void
@@ -570,6 +767,7 @@ main(void)
 	test_hcompress_compress();
 	test_is_compressed_uncompressed();
 	test_compress_byte_image();
+	test_compress_ndim_image();
 	test_dither_seed();
 
 	remove(test_path);
