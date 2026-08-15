@@ -194,8 +194,11 @@ unsigned int *diff;
 	pixelsum = 0.0;
 	for (j=0; j<thisblock; j++) {
 	    nextpix = a[i+j];
-	    pdiff = nextpix - lastpix;
-	    diff[j] = (unsigned int) ((pdiff<0) ? ~(pdiff<<1) : (pdiff<<1));
+	    /* the difference is allowed to overflow (see above), so do the
+	       arithmetic and the shift in unsigned to avoid undefined behavior */
+	    pdiff = (int) ((unsigned int) nextpix - (unsigned int) lastpix);
+	    diff[j] = (pdiff<0) ? ~(((unsigned int) pdiff)<<1)
+	                        :  (((unsigned int) pdiff)<<1);
 	    pixelsum += diff[j];
 	    lastpix = nextpix;
 	}
@@ -259,11 +262,11 @@ unsigned int *diff;
 		 * top is coded by top zeros + 1
 		 */
 		if (lbits_to_go >= top+1) {
-		    lbitbuffer <<= top+1;
+		    lbitbuffer = (int) (((unsigned int) lbitbuffer) << (top+1));
 		    lbitbuffer |= 1;
 		    lbits_to_go -= top+1;
 		} else {
-		    lbitbuffer <<= lbits_to_go;
+		    lbitbuffer = (int) (((unsigned int) lbitbuffer) << lbits_to_go);
 		    putcbuf(lbitbuffer & 0xff,buffer);
 
 		    for (top -= lbits_to_go; top>=8; top -= 8) {
@@ -279,7 +282,7 @@ unsigned int *diff;
 		 * FS to 24 by choice of FSMAX above.
 		 */
 		if (fs > 0) {
-		    lbitbuffer <<= fs;
+		    lbitbuffer = (int) (((unsigned int) lbitbuffer) << fs);
 		    lbitbuffer |= v & fsmask;
 		    lbits_to_go -= fs;
 		    while (lbits_to_go <= 0) {
@@ -423,7 +426,8 @@ unsigned int *diff;
 	for (j=0; j<thisblock; j++) {
 	    nextpix = a[i+j];
 	    pdiff = nextpix - lastpix;
-	    diff[j] = (unsigned int) ((pdiff<0) ? ~(pdiff<<1) : (pdiff<<1));
+	    diff[j] = (pdiff<0) ? ~(((unsigned int) pdiff)<<1)
+	                        :  (((unsigned int) pdiff)<<1);
 	    pixelsum += diff[j];
 	    lastpix = nextpix;
 	}
@@ -490,11 +494,11 @@ unsigned int *diff;
 		 * top is coded by top zeros + 1
 		 */
 		if (lbits_to_go >= top+1) {
-		    lbitbuffer <<= top+1;
+		    lbitbuffer = (int) (((unsigned int) lbitbuffer) << (top+1));
 		    lbitbuffer |= 1;
 		    lbits_to_go -= top+1;
 		} else {
-		    lbitbuffer <<= lbits_to_go;
+		    lbitbuffer = (int) (((unsigned int) lbitbuffer) << lbits_to_go);
 		    putcbuf(lbitbuffer & 0xff,buffer);
 		    for (top -= lbits_to_go; top>=8; top -= 8) {
 			putcbuf(0, buffer);
@@ -509,7 +513,7 @@ unsigned int *diff;
 		 * FS to 24 by choice of FSMAX above.
 		 */
 		if (fs > 0) {
-		    lbitbuffer <<= fs;
+		    lbitbuffer = (int) (((unsigned int) lbitbuffer) << fs);
 		    lbitbuffer |= v & fsmask;
 		    lbits_to_go -= fs;
 		    while (lbits_to_go <= 0) {
@@ -651,7 +655,8 @@ unsigned int *diff;
 	for (j=0; j<thisblock; j++) {
 	    nextpix = a[i+j];
 	    pdiff = nextpix - lastpix;
-	    diff[j] = (unsigned int) ((pdiff<0) ? ~(pdiff<<1) : (pdiff<<1));
+	    diff[j] = (pdiff<0) ? ~(((unsigned int) pdiff)<<1)
+	                        :  (((unsigned int) pdiff)<<1);
 	    pixelsum += diff[j];
 	    lastpix = nextpix;
 	}
@@ -715,11 +720,11 @@ unsigned int *diff;
 		 * top is coded by top zeros + 1
 		 */
 		if (lbits_to_go >= top+1) {
-		    lbitbuffer <<= top+1;
+		    lbitbuffer = (int) (((unsigned int) lbitbuffer) << (top+1));
 		    lbitbuffer |= 1;
 		    lbits_to_go -= top+1;
 		} else {
-		    lbitbuffer <<= lbits_to_go;
+		    lbitbuffer = (int) (((unsigned int) lbitbuffer) << lbits_to_go);
 		    putcbuf(lbitbuffer & 0xff,buffer);
 		    for (top -= lbits_to_go; top>=8; top -= 8) {
 			putcbuf(0, buffer);
@@ -734,7 +739,7 @@ unsigned int *diff;
 		 * FS to 24 by choice of FSMAX above.
 		 */
 		if (fs > 0) {
-		    lbitbuffer <<= fs;
+		    lbitbuffer = (int) (((unsigned int) lbitbuffer) << fs);
 		    lbitbuffer |= v & fsmask;
 		    lbits_to_go -= fs;
 		    while (lbits_to_go <= 0) {
@@ -806,14 +811,14 @@ int lbits_to_go;
 	 * special case for large n: put out the top lbits_to_go bits first
 	 * note that 0 < lbits_to_go <= 8
 	 */
-	lbitbuffer <<= lbits_to_go;
+	lbitbuffer = (int) (((unsigned int) lbitbuffer) << lbits_to_go);
 /*	lbitbuffer |= (bits>>(n-lbits_to_go)) & ((1<<lbits_to_go)-1); */
 	lbitbuffer |= (bits>>(n-lbits_to_go)) & *(mask+lbits_to_go);
 	putcbuf(lbitbuffer & 0xff,buffer);
 	n -= lbits_to_go;
 	lbits_to_go = 8;
     }
-    lbitbuffer <<= n;
+    lbitbuffer = (int) (((unsigned int) lbitbuffer) << n);
 /*    lbitbuffer |= ( bits & ((1<<n)-1) ); */
     lbitbuffer |= ( bits & *(mask+n) );
     lbits_to_go -= n;
@@ -834,8 +839,8 @@ int lbits_to_go;
 static int done_outputing_bits(Buffer *buffer)
 {
     if(buffer->bits_to_go < 8) {
-	putcbuf(buffer->bitbuffer<<buffer->bits_to_go,buffer);
-	
+	putcbuf(((unsigned int) buffer->bitbuffer)<<buffer->bits_to_go,buffer);
+
 /*	if (putcbuf(buffer->bitbuffer<<buffer->bits_to_go,buffer) == EOF)
 	    return(EOF);
 */
@@ -935,7 +940,7 @@ extern const int nonzero_count[];
     }
     lastpix = 0;
     bytevalue = c[0];
-    lastpix = lastpix | (bytevalue<<24);
+    lastpix = lastpix | (((unsigned int) bytevalue)<<24);
     bytevalue = c[1];
     lastpix = lastpix | (bytevalue<<16);
     bytevalue = c[2];
