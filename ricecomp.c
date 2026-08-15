@@ -973,7 +973,9 @@ extern const int nonzero_count[];
 	    /* high-entropy case, directly coded pixel values */
 	    for ( ; i<imax; i++) {
 		k = bbits - nbits;
-		diff = b<<k;
+		/* b is zero whenever nbits is zero, but a shift by the full
+		   width of the type would be undefined, so skip it */
+		diff = (k < 32) ? (b<<k) : 0;
 		for (k -= 8; k >= 0; k -= 8) {
 		    b = *c++;
 		    diff |= b<<k;

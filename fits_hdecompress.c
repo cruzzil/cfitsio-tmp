@@ -2440,7 +2440,7 @@ unsigned char b[4];
 	 */
 	for (i=0; i<4; i++) qread(infile,(char *) &b[i],1);
 	a = b[0];
-	for (i=1; i<4; i++) a = (a<<8) + b[i];
+	for (i=1; i<4; i++) a = (int) ((((unsigned int) a) << 8) + b[i]);
 	return(a);
 }
 
@@ -2462,7 +2462,7 @@ unsigned char b[8];
 	 */
 	for (i=0; i<8; i++) qread(infile,(char *) &b[i],1);
 	a = b[0];
-	for (i=1; i<8; i++) a = (a<<8) + b[i];
+	for (i=1; i<8; i++) a = (LONGLONG) ((((ULONGLONG) a) << 8) + b[i]);
 	return(a);
 }
 
