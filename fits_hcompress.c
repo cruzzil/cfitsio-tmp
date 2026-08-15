@@ -210,7 +210,7 @@ int *tmp;
 	 */
 	shift = 0;
 	mask  = -2;
-	mask2 = mask << 1;
+	mask2 = (int) (((unsigned int) mask) << 1);
 	prnd  = 1;
 	prnd2 = prnd << 1;
 	nrnd2 = prnd2 - 1;
@@ -254,8 +254,8 @@ int *tmp;
 				 * do last element in row if row length is odd
 				 * s00+1, s10+1 are off edge
 				 */
-				h0 = (a[s10] + a[s00]) << (1-shift);
-				hx = (a[s10] - a[s00]) << (1-shift);
+				h0 = (int) (((unsigned int) (a[s10] + a[s00])) << (1-shift));
+				hx = (int) (((unsigned int) (a[s10] - a[s00])) << (1-shift));
 				a[s10  ] = ( (hx>=0) ? (hx+prnd)  :  hx        ) & mask ;
 				a[s00  ] = ( (h0>=0) ? (h0+prnd2) : (h0+nrnd2) ) & mask2;
 				s00 += 1;
@@ -269,8 +269,8 @@ int *tmp;
 			 */
 			s00 = i*ny;
 			for (j = 0; j<nytop-oddy; j += 2) {
-				h0 = (a[s00+1] + a[s00]) << (1-shift);
-				hy = (a[s00+1] - a[s00]) << (1-shift);
+				h0 = (int) (((unsigned int) (a[s00+1] + a[s00])) << (1-shift));
+				hy = (int) (((unsigned int) (a[s00+1] - a[s00])) << (1-shift));
 				a[s00+1] = ( (hy>=0) ? (hy+prnd)  :  hy        ) & mask ;
 				a[s00  ] = ( (h0>=0) ? (h0+prnd2) : (h0+nrnd2) ) & mask2;
 				s00 += 2;
@@ -280,7 +280,7 @@ int *tmp;
 				 * do corner element if both row and column lengths are odd
 				 * s00+1, s10, s10+1 are off edge
 				 */
-				h0 = a[s00] << (2-shift);
+				h0 = (int) (((unsigned int) (a[s00])) << (2-shift));
 				a[s00  ] = ( (h0>=0) ? (h0+prnd2) : (h0+nrnd2) ) & mask2;
 			}
 		}
@@ -307,7 +307,7 @@ int *tmp;
 		 */
 		mask  = mask2;
 		prnd  = prnd2;
-		mask2 = mask2 << 1;
+		mask2 = (int) (((unsigned int) mask2) << 1);
 		prnd2 = prnd2 << 1;
 		nrnd2 = prnd2 - 1;
 	}
@@ -346,7 +346,7 @@ LONGLONG *tmp;
 	 */
 	shift = 0;
 	mask  = (LONGLONG) -2;
-	mask2 = mask << 1;
+	mask2 = (LONGLONG) (((ULONGLONG) mask) << 1);
 	prnd  = (LONGLONG) 1;
 	prnd2 = prnd << 1;
 	nrnd2 = prnd2 - 1;
@@ -390,8 +390,8 @@ LONGLONG *tmp;
 				 * do last element in row if row length is odd
 				 * s00+1, s10+1 are off edge
 				 */
-				h0 = (a[s10] + a[s00]) << (1-shift);
-				hx = (a[s10] - a[s00]) << (1-shift);
+				h0 = (LONGLONG) (((ULONGLONG) (a[s10] + a[s00])) << (1-shift));
+				hx = (LONGLONG) (((ULONGLONG) (a[s10] - a[s00])) << (1-shift));
 				a[s10  ] = ( (hx>=0) ? (hx+prnd)  :  hx        ) & mask ;
 				a[s00  ] = ( (h0>=0) ? (h0+prnd2) : (h0+nrnd2) ) & mask2;
 				s00 += 1;
@@ -405,8 +405,8 @@ LONGLONG *tmp;
 			 */
 			s00 = i*ny;
 			for (j = 0; j<nytop-oddy; j += 2) {
-				h0 = (a[s00+1] + a[s00]) << (1-shift);
-				hy = (a[s00+1] - a[s00]) << (1-shift);
+				h0 = (LONGLONG) (((ULONGLONG) (a[s00+1] + a[s00])) << (1-shift));
+				hy = (LONGLONG) (((ULONGLONG) (a[s00+1] - a[s00])) << (1-shift));
 				a[s00+1] = ( (hy>=0) ? (hy+prnd)  :  hy        ) & mask ;
 				a[s00  ] = ( (h0>=0) ? (h0+prnd2) : (h0+nrnd2) ) & mask2;
 				s00 += 2;
@@ -416,7 +416,7 @@ LONGLONG *tmp;
 				 * do corner element if both row and column lengths are odd
 				 * s00+1, s10, s10+1 are off edge
 				 */
-				h0 = a[s00] << (2-shift);
+				h0 = (LONGLONG) (((ULONGLONG) (a[s00])) << (2-shift));
 				a[s00  ] = ( (h0>=0) ? (h0+prnd2) : (h0+nrnd2) ) & mask2;
 			}
 		}
@@ -443,7 +443,7 @@ LONGLONG *tmp;
 		 */
 		mask  = mask2;
 		prnd  = prnd2;
-		mask2 = mask2 << 1;
+		mask2 = (LONGLONG) (((ULONGLONG) mask2) << 1);
 		prnd2 = prnd2 << 1;
 		nrnd2 = prnd2 - 1;
 	}
@@ -1113,7 +1113,7 @@ output_nbits(char *outfile, int bits, int n)
 	/*
 	 * insert bits at end of buffer
 	 */
-	buffer2 <<= n;
+	buffer2 = (int) (((unsigned int) buffer2) << n);
 /*	buffer2 |= ( bits & ((1<<n)-1) ); */
 	buffer2 |= ( bits & (*(mask+n)) );
 	bits_to_go2 -= n;
@@ -1138,7 +1138,7 @@ output_nybble(char *outfile, int bits)
 	/*
 	 * insert 4 bits at end of buffer
 	 */
-	buffer2 = (buffer2<<4) | ( bits & 15 );
+	buffer2 = (int) (((unsigned int) buffer2) << 4) | ( bits & 15 );
 	bits_to_go2 -= 4;
 	if (bits_to_go2 <= 0) {
 		/*
@@ -1203,7 +1203,7 @@ if (bits_to_go2 != 8)
 	} else {
 	    for (ii = 0; ii < jj; ii++)
 	    {
-		buffer2 = (buffer2<<8) | ((array[kk] & 15)<<4) | (array[kk+1] & 15);
+		buffer2 = (int) (((unsigned int) buffer2) << 8) | ((array[kk] & 15)<<4) | (array[kk+1] & 15);
 		kk += 2;
 
 		/*
@@ -1233,7 +1233,7 @@ done_outputing_bits(char *outfile)
 	if(bits_to_go2 < 8) {
 /*		putc(buffer2<<bits_to_go2,outfile); */
 
-	        outfile[noutchar] = (buffer2<<bits_to_go2);
+	        outfile[noutchar] = (char) (((unsigned int) buffer2) << bits_to_go2);
 		if (noutchar < noutmax) noutchar++;
 
 		/* count the garbage bits too */

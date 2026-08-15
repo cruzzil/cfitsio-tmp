@@ -231,8 +231,8 @@ int *tmp;
 	bit1   = bit0 << 1;
 	bit2   = bit0 << 2;
 	mask0  = -bit0;
-	mask1  = mask0 << 1;
-	mask2  = mask0 << 2;
+	mask1  = (int) (((unsigned int) mask0) << 1);
+	mask2  = (int) (((unsigned int) mask0) << 2);
 	prnd0  = bit0 >> 1;
 	prnd1  = bit1 >> 1;
 	prnd2  = bit2 >> 1;
@@ -423,8 +423,8 @@ LONGLONG *tmp;
 	bit1   = bit0 << 1;
 	bit2   = bit0 << 2;
 	mask0  = -bit0;
-	mask1  = mask0 << 1;
-	mask2  = mask0 << 2;
+	mask1  = (LONGLONG) (((ULONGLONG) mask0) << 1);
+	mask2  = (LONGLONG) (((ULONGLONG) mask0) << 2);
 	prnd0  = bit0 >> 1;
 	prnd1  = bit1 >> 1;
 	prnd2  = bit2 >> 1;
@@ -729,8 +729,8 @@ int m1,m2;
 			/*
 			 * monotonicity constraints on diff
 			 */
-			dmax = max( min( (hp-h0), (h0-hm) ), 0 ) << 2;
-			dmin = min( max( (hp-h0), (h0-hm) ), 0 ) << 2;
+			dmax = (int) (((unsigned int) max( min( (hp-h0), (h0-hm) ), 0 )) << 2);
+			dmin = (int) (((unsigned int) min( max( (hp-h0), (h0-hm) ), 0 )) << 2);
 			/*
 			 * if monotonicity would set slope = 0 then don't change hx.
 			 * note dmax>=0, dmin<=0.
@@ -742,7 +742,7 @@ int m1,m2;
 				 * Careful with rounding negative numbers when using
 				 * shift for divide by 8.
 				 */
-				s = diff-(a[s10]<<3);
+				s = diff - (int) (((unsigned int) a[s10]) << 3);
 				s = (s>=0) ? (s>>3) : ((s+7)>>3) ;
 				s = max( min(s, smax), -smax);
 				a[s10] = a[s10]+s;
@@ -762,11 +762,11 @@ int m1,m2;
 			h0 = a[s00];
 			hp = a[s00+2];
 			diff = hp-hm;
-			dmax = max( min( (hp-h0), (h0-hm) ), 0 ) << 2;
-			dmin = min( max( (hp-h0), (h0-hm) ), 0 ) << 2;
+			dmax = (int) (((unsigned int) max( min( (hp-h0), (h0-hm) ), 0 )) << 2);
+			dmin = (int) (((unsigned int) min( max( (hp-h0), (h0-hm) ), 0 )) << 2);
 			if (dmin < dmax) {
 				diff = max( min(diff, dmax), dmin);
-				s = diff-(a[s00+1]<<3);
+				s = diff - (int) (((unsigned int) a[s00+1]) << 3);
 				s = (s>=0) ? (s>>3) : ((s+7)>>3) ;
 				s = max( min(s, smax), -smax);
 				a[s00+1] = a[s00+1]+s;
@@ -803,17 +803,17 @@ int m1,m2;
 			/*
 			 * 2 times x,y slopes in this zone
 			 */
-			hx2 = a[s10  ]<<1;
-			hy2 = a[s00+1]<<1;
+			hx2 = (int) (((unsigned int) a[s10  ]) << 1);
+			hy2 = (int) (((unsigned int) a[s00+1]) << 1);
 			/*
 			 * monotonicity constraints on diff
 			 */
 			m1 = min(max(hpp-h0,0)-hx2-hy2, max(h0-hpm,0)+hx2-hy2);
 			m2 = min(max(h0-hmp,0)-hx2+hy2, max(hmm-h0,0)+hx2+hy2);
-			dmax = min(m1,m2) << 4;
+			dmax = (int) (((unsigned int) min(m1,m2)) << 4);
 			m1 = max(min(hpp-h0,0)-hx2-hy2, min(h0-hpm,0)+hx2-hy2);
 			m2 = max(min(h0-hmp,0)-hx2+hy2, min(hmm-h0,0)+hx2+hy2);
-			dmin = max(m1,m2) << 4;
+			dmin = (int) (((unsigned int) max(m1,m2)) << 4);
 			/*
 			 * if monotonicity would set slope = 0 then don't change hc.
 			 * note dmax>=0, dmin<=0.
@@ -825,7 +825,7 @@ int m1,m2;
 				 * Careful with rounding negative numbers when using
 				 * shift for divide by 64.
 				 */
-				s = diff-(a[s10+1]<<6);
+				s = diff - (int) (((unsigned int) a[s10+1]) << 6);
 				s = (s>=0) ? (s>>6) : ((s+63)>>6) ;
 				s = max( min(s, smax), -smax);
 				a[s10+1] = a[s10+1]+s;
@@ -883,8 +883,8 @@ LONGLONG hm, h0, hp, hmm, hpm, hmp, hpp, hx2, hy2, diff, dmax, dmin, s, smax, m1
 			/*
 			 * monotonicity constraints on diff
 			 */
-			dmax = max( min( (hp-h0), (h0-hm) ), 0 ) << 2;
-			dmin = min( max( (hp-h0), (h0-hm) ), 0 ) << 2;
+			dmax = (LONGLONG) (((ULONGLONG) max( min( (hp-h0), (h0-hm) ), 0 )) << 2);
+			dmin = (LONGLONG) (((ULONGLONG) min( max( (hp-h0), (h0-hm) ), 0 )) << 2);
 			/*
 			 * if monotonicity would set slope = 0 then don't change hx.
 			 * note dmax>=0, dmin<=0.
@@ -896,7 +896,7 @@ LONGLONG hm, h0, hp, hmm, hpm, hmp, hpp, hx2, hy2, diff, dmax, dmin, s, smax, m1
 				 * Careful with rounding negative numbers when using
 				 * shift for divide by 8.
 				 */
-				s = diff-(a[s10]<<3);
+				s = diff - (LONGLONG) (((ULONGLONG) a[s10]) << 3);
 				s = (s>=0) ? (s>>3) : ((s+7)>>3) ;
 				s = max( min(s, smax), -smax);
 				a[s10] = a[s10]+s;
@@ -916,11 +916,11 @@ LONGLONG hm, h0, hp, hmm, hpm, hmp, hpp, hx2, hy2, diff, dmax, dmin, s, smax, m1
 			h0 = a[s00];
 			hp = a[s00+2];
 			diff = hp-hm;
-			dmax = max( min( (hp-h0), (h0-hm) ), 0 ) << 2;
-			dmin = min( max( (hp-h0), (h0-hm) ), 0 ) << 2;
+			dmax = (LONGLONG) (((ULONGLONG) max( min( (hp-h0), (h0-hm) ), 0 )) << 2);
+			dmin = (LONGLONG) (((ULONGLONG) min( max( (hp-h0), (h0-hm) ), 0 )) << 2);
 			if (dmin < dmax) {
 				diff = max( min(diff, dmax), dmin);
-				s = diff-(a[s00+1]<<3);
+				s = diff - (LONGLONG) (((ULONGLONG) a[s00+1]) << 3);
 				s = (s>=0) ? (s>>3) : ((s+7)>>3) ;
 				s = max( min(s, smax), -smax);
 				a[s00+1] = a[s00+1]+s;
@@ -957,17 +957,17 @@ LONGLONG hm, h0, hp, hmm, hpm, hmp, hpp, hx2, hy2, diff, dmax, dmin, s, smax, m1
 			/*
 			 * 2 times x,y slopes in this zone
 			 */
-			hx2 = a[s10  ]<<1;
-			hy2 = a[s00+1]<<1;
+			hx2 = (LONGLONG) (((ULONGLONG) a[s10  ]) << 1);
+			hy2 = (LONGLONG) (((ULONGLONG) a[s00+1]) << 1);
 			/*
 			 * monotonicity constraints on diff
 			 */
 			m1 = min(max(hpp-h0,0)-hx2-hy2, max(h0-hpm,0)+hx2-hy2);
 			m2 = min(max(h0-hmp,0)-hx2+hy2, max(hmm-h0,0)+hx2+hy2);
-			dmax = min(m1,m2) << 4;
+			dmax = (LONGLONG) (((ULONGLONG) min(m1,m2)) << 4);
 			m1 = max(min(hpp-h0,0)-hx2-hy2, min(h0-hpm,0)+hx2-hy2);
 			m2 = max(min(h0-hmp,0)-hx2+hy2, min(hmm-h0,0)+hx2+hy2);
-			dmin = max(m1,m2) << 4;
+			dmin = (LONGLONG) (((ULONGLONG) max(m1,m2)) << 4);
 			/*
 			 * if monotonicity would set slope = 0 then don't change hc.
 			 * note dmax>=0, dmin<=0.
@@ -979,7 +979,7 @@ LONGLONG hm, h0, hp, hmm, hpm, hmp, hpp, hx2, hy2, diff, dmax, dmin, s, smax, m1
 				 * Careful with rounding negative numbers when using
 				 * shift for divide by 64.
 				 */
-				s = diff-(a[s10+1]<<6);
+				s = diff - (LONGLONG) (((ULONGLONG) a[s10+1]) << 6);
 				s = (s>=0) ? (s>>6) : ((s+63)>>6) ;
 				s = max( min(s, smax), -smax);
 				a[s10+1] = a[s10+1]+s;
@@ -2440,7 +2440,7 @@ unsigned char b[4];
 	 */
 	for (i=0; i<4; i++) qread(infile,(char *) &b[i],1);
 	a = b[0];
-	for (i=1; i<4; i++) a = (a<<8) + b[i];
+	for (i=1; i<4; i++) a = (int) ((((unsigned int) a) << 8) + b[i]);
 	return(a);
 }
 
@@ -2462,7 +2462,7 @@ unsigned char b[8];
 	 */
 	for (i=0; i<8; i++) qread(infile,(char *) &b[i],1);
 	a = b[0];
-	for (i=1; i<8; i++) a = (a<<8) + b[i];
+	for (i=1; i<8; i++) a = (LONGLONG) ((((ULONGLONG) a) << 8) + b[i]);
 	return(a);
 }
 
@@ -2535,7 +2535,7 @@ static int input_nbits(unsigned char *infile, int n)
 		 * need another byte's worth of bits
 		 */
 
-		buffer2 = (buffer2<<8) | (int) infile[nextchar];
+		buffer2 = (int) (((unsigned int) buffer2) << 8) | (int) infile[nextchar];
 		nextchar++;
 		bits_to_go += 8;
 	}
@@ -2558,7 +2558,7 @@ static int input_nybble(unsigned char *infile)
 		 * need another byte's worth of bits
 		 */
 
-		buffer2 = (buffer2<<8) | (int) infile[nextchar];
+		buffer2 = (int) (((unsigned int) buffer2) << 8) | (int) infile[nextchar];
 		nextchar++;
 		bits_to_go += 8;
 	}
@@ -2609,7 +2609,7 @@ if (bits_to_go != 8) input_nbits(infile, bits_to_go);
 		/*
 		 * refill the buffer with next byte
 		 */
-		buffer2 = (buffer2<<8) | (int) infile[nextchar];
+		buffer2 = (int) (((unsigned int) buffer2) << 8) | (int) infile[nextchar];
 		nextchar++;
 		array[kk]     = (int) ((buffer2>>4) & 15);
 		array[kk + 1] = (int) ((buffer2) & 15);    /* no shift required */
@@ -2622,7 +2622,7 @@ if (bits_to_go != 8) input_nbits(infile, bits_to_go);
 		/*
 		 * refill the buffer with next byte
 		 */
-		buffer2 = (buffer2<<8) | (int) infile[nextchar];
+		buffer2 = (int) (((unsigned int) buffer2) << 8) | (int) infile[nextchar];
 		nextchar++;
 		array[kk]     = (int) ((buffer2>>shift1) & 15);
 		array[kk + 1] = (int) ((buffer2>>shift2) & 15);
