@@ -8428,7 +8428,13 @@ int fits_compress_table(fitsfile *infptr, fitsfile *outfptr, int *status)
 
 		  if (vlalen > 0) {  /* skip zero-length VLAs */
 
-		    vlamemlen = vlalen * (int) (-coltype[ii] / 10);
+		    /* size of the uncompressed VLA, in bytes.  The element size is */
+		    /* coded in the datatype (e.g. TSHORT = 21 -> 2 bytes) except   */
+		    /* for bit arrays, where vlalen is the number of bits.          */
+		    if (coltype[ii] == -TBIT)
+		        vlamemlen = (vlalen + 7) / 8;
+		    else
+		        vlamemlen = vlalen * (int) (-coltype[ii] / 10);
 		    vlamem = (LONGLONG *) malloc((size_t) vlamemlen); /* memory for the input uncompressed VLA */
 		    if (!vlamem) {
 			ffpmsg("Could not allocate buffer for VLA");
@@ -8437,7 +8443,7 @@ int fits_compress_table(fitsfile *infptr, fitsfile *outfptr, int *status)
 			return(*status);
 		    }
 
-		    compmemlen = (size_t) (vlalen * ((LONGLONG) (-coltype[ii] / 10)) * 1.5);
+		    compmemlen = (size_t) (vlamemlen * 1.5);
 		    if (compmemlen < 100) compmemlen = 100;
 		    cvlamem = malloc(compmemlen);  /* memory for the output compressed VLA */
 		    if (!cvlamem) {
@@ -9269,7 +9275,11 @@ int fits_uncompress_table(fitsfile *infptr, fitsfile *outfptr, int *status)
 			    vlalen = qdescript[jj * 2];
 			    vlastart = qdescript[(jj * 2) + 1];
 			}			
-			vlamemlen = (size_t) (vlalen * (-coltype[ii] / 10));  /* size of the uncompressed VLA, in bytes */
+			/* size of the uncompressed VLA, in bytes (vlalen counts bits for 'X') */
+			if (coltype[ii] == -TBIT)
+			    vlamemlen = (size_t) ((vlalen + 7) / 8);
+			else
+			    vlamemlen = (size_t) (vlalen * (-coltype[ii] / 10));
 
 			/* allocate memory for the compressed vla */
 			compressed_vla = malloc( (size_t) cvlalen);
