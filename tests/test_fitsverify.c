@@ -309,6 +309,39 @@ test_bit_column_report(void)
 	fail_if(count_in_report("0x") > 256 / 5);
 }
 
+/*--------------------------------------------------------------------------
+ * init_hdu: the card number printed for the first cards of an HDU
+ * (utilities/fvrf_head.c)
+ *------------------------------------------------------------------------*/
+
+static void
+test_first_card_keyword_index(void)
+{
+	long n;
+	FILE *fp = open_testfile(&n);
+
+	/* An XTENSION value that is not a string. */
+	put_card(fp, &n, "XTENSION=                 1234");
+	put_card(fp, &n, "BITPIX  =                    8");
+	put_card(fp, &n, "NAXIS   =                    2");
+	put_card(fp, &n, "NAXIS1  =                   10");
+	put_card(fp, &n, "NAXIS2  =                    1");
+	put_card(fp, &n, "PCOUNT  =                    0");
+	put_card(fp, &n, "GCOUNT  =                    1");
+	put_card(fp, &n, "TFIELDS =                    1");
+	put_card(fp, &n, "TFORM1  = '10A     '");
+	put_card(fp, &n, "TTYPE1  = 'COL1    '");
+	put_card(fp, &n, "END");
+	pad_block(fp, &n);
+	put_bytes(fp, &n, 'x', 10);
+	close_testfile(fp, &n);
+
+	/* The card number used to be an uninitialised stack value. */
+	check_no_crash("an XTENSION value that is not a string");
+	fail_if(count_in_report(
+	    "Keyword #1, XTENSION: \"1234\" is not a string.") != 1);
+}
+
 static void
 run_fitsverify_tests(void)
 {
@@ -320,6 +353,7 @@ run_fitsverify_tests(void)
 
 	test_tform_substring_width();
 	test_bit_column_report();
+	test_first_card_keyword_index();
 
 	remove(TESTFILE);
 	remove(REPORT);
