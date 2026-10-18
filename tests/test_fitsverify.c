@@ -257,6 +257,58 @@ test_tform_substring_width(void)
 	fail_if(count_in_report("substring width must not be zero") != 1);
 }
 
+/*--------------------------------------------------------------------------
+ * iterdata: the bit column justification report (utilities/fvrf_data.c)
+ *------------------------------------------------------------------------*/
+
+/*
+ * A binary table holding a single X column of nbits bits, all set.  nbits
+ * is not a multiple of 8, so fill bits are set and the "not left
+ * justified" report is produced.
+ */
+static void
+write_bit_column_table(int nbits)
+{
+	long n;
+	FILE *fp = open_testfile(&n);
+	long nbytes = (nbits + 7) / 8;
+	char card[81];
+
+	put_card(fp, &n, "XTENSION= 'BINTABLE'");
+	put_card(fp, &n, "BITPIX  =                    8");
+	put_card(fp, &n, "NAXIS   =                    2");
+	snprintf(card, sizeof(card), "NAXIS1  = %20ld", nbytes);
+	put_card(fp, &n, card);
+	put_card(fp, &n, "NAXIS2  =                    1");
+	put_card(fp, &n, "PCOUNT  =                    0");
+	put_card(fp, &n, "GCOUNT  =                    1");
+	put_card(fp, &n, "TFIELDS =                    1");
+	snprintf(card, sizeof(card), "TFORM1  = '%dX'", nbits);
+	put_card(fp, &n, card);
+	put_card(fp, &n, "TTYPE1  = 'BITS    '");
+	put_card(fp, &n, "END");
+	pad_block(fp, &n);
+
+	put_bytes(fp, &n, 0xff, nbytes);
+	close_testfile(fp, &n);
+}
+
+static void
+test_bit_column_report(void)
+{
+	/* 100 bits: the report fits in errmes. */
+	write_bit_column_table(100);
+	check_no_crash("a 100X column");
+	fail_if(count_in_report("is not left justified.") != 1);
+	fail_if(count_in_report("0x") != 13);
+
+	/* 3996 bits: one element per byte used to overflow errmes. */
+	write_bit_column_table(3996);
+	check_no_crash("a 3996X column");
+	fail_if(count_in_report("... is not left justified.") != 1);
+	fail_if(count_in_report("0x") > 256 / 5);
+}
+
 static void
 run_fitsverify_tests(void)
 {
@@ -267,6 +319,7 @@ run_fitsverify_tests(void)
 	}
 
 	test_tform_substring_width();
+	test_bit_column_report();
 
 	remove(TESTFILE);
 	remove(REPORT);
