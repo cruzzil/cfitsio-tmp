@@ -342,6 +342,56 @@ test_first_card_keyword_index(void)
 	    "Keyword #1, XTENSION: \"1234\" is not a string.") != 1);
 }
 
+/*--------------------------------------------------------------------------
+ * test_agap: the column template (utilities/fvrf_data.c)
+ *------------------------------------------------------------------------*/
+
+/* A single column ASCII table with the given row length, start and format. */
+static void
+write_ascii_table(long naxis1, long tbcol, const char *tform)
+{
+	long n;
+	FILE *fp = open_testfile(&n);
+	char card[81];
+
+	put_card(fp, &n, "XTENSION= 'TABLE   '");
+	put_card(fp, &n, "BITPIX  =                    8");
+	put_card(fp, &n, "NAXIS   =                    2");
+	snprintf(card, sizeof(card), "NAXIS1  = %20ld", naxis1);
+	put_card(fp, &n, card);
+	put_card(fp, &n, "NAXIS2  =                    1");
+	put_card(fp, &n, "PCOUNT  =                    0");
+	put_card(fp, &n, "GCOUNT  =                    1");
+	put_card(fp, &n, "TFIELDS =                    1");
+	put_card(fp, &n, "TTYPE1  = 'COL1    '");
+	snprintf(card, sizeof(card), "TBCOL1  = %20ld", tbcol);
+	put_card(fp, &n, card);
+	snprintf(card, sizeof(card), "TFORM1  = '%-8s'", tform);
+	put_card(fp, &n, card);
+	put_card(fp, &n, "END");
+	pad_block(fp, &n);
+
+	put_bytes(fp, &n, '1', naxis1);
+	close_testfile(fp, &n);
+}
+
+static void
+test_ascii_column_template(void)
+{
+	write_ascii_table(10, 1, "A10");
+	check_no_crash("an ASCII table");
+
+	/*
+	 * CFITSIO does not range check TBCOLn when NAXIS1 is 0, and the
+	 * template used to be written at TBCOLn regardless of its size.
+	 */
+	write_ascii_table(0, 1, "A20");
+	check_no_crash("NAXIS1 = 0, TBCOL1 = 1");
+
+	write_ascii_table(0, 100000000, "A20");
+	check_no_crash("NAXIS1 = 0, TBCOL1 = 100000000");
+}
+
 static void
 run_fitsverify_tests(void)
 {
@@ -354,6 +404,7 @@ run_fitsverify_tests(void)
 	test_tform_substring_width();
 	test_bit_column_report();
 	test_first_card_keyword_index();
+	test_ascii_column_template();
 
 	remove(TESTFILE);
 	remove(REPORT);
