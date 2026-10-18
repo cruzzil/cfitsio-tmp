@@ -91,6 +91,107 @@ test_complex_keyword_values(void)
 	fail_if(!(stat & TOO_MANY_COMMA));
 }
 
+/*--------------------------------------------------------------------------
+ * wrtserr: dumping the CFITSIO error stack (utilities/fvrf_misc.c)
+ *------------------------------------------------------------------------*/
+
+#define STACK_REPORT	"test_fitsverify_report.txt"
+
+/*
+ * Leave a known pattern on the stack where wrtserr's locals will sit, so
+ * that a read past the end of one of them shows up in the report.
+ */
+static void
+poison_stack(void)
+{
+	volatile char junk[8192];
+	size_t i;
+
+	for (i = 0; i < sizeof(junk); i++)
+		junk[i] = 'Z';
+}
+
+/*
+ * Dump the error stack through wrtserr and read the report back, one line
+ * per element of lines[], newlines stripped.  Returns the number of lines.
+ */
+static int
+dump_error_stack(char lines[][256], int maxlines)
+{
+	FILE *fp = fopen(STACK_REPORT, "w");
+	int status = 0;
+	int n = 0;
+
+	fail_if(fp == NULL);
+	reset_err_wrn();
+	poison_stack();
+	wrtserr(fp, "test: ", &status, 1);
+	fail_if(status != 0);
+	fclose(fp);
+
+	fp = fopen(STACK_REPORT, "r");
+	fail_if(fp == NULL);
+	while (n < maxlines && fgets(lines[n], 256, fp) != NULL) {
+		lines[n][strcspn(lines[n], "\r\n")] = '\0';
+		n++;
+	}
+	fclose(fp);
+	remove(STACK_REPORT);
+	return n;
+}
+
+static int
+count_lines_with(char lines[][256], int nlines, const char *needle)
+{
+	int i, n = 0;
+
+	for (i = 0; i < nlines; i++)
+		if (strstr(lines[i], needle) != NULL)
+			n++;
+	return n;
+}
+
+static void
+test_error_stack_report(void)
+{
+	char lines[64][256];
+	char msg[FLEN_ERRMSG];
+	int nlines, i;
+
+	fits_clear_errmsg();
+	fits_write_errmsg("first message");
+	fits_write_errmsg("second message");
+	nlines = dump_error_stack(lines, 64);
+	fail_if(count_lines_with(lines, nlines, "first message") != 1);
+	fail_if(count_lines_with(lines, nlines, "second message") != 1);
+	fail_if(count_lines_with(lines, nlines, "ZZZ") != 0);
+
+	/*
+	 * wrtserr keeps 20 messages and used to print a 21st row past the
+	 * end of its array; CFITSIO's stack holds up to 25.
+	 */
+	fits_clear_errmsg();
+	for (i = 0; i < 25; i++) {
+		snprintf(msg, sizeof(msg), "wrtserr test message %02d", i);
+		fits_write_errmsg(msg);
+	}
+	nlines = dump_error_stack(lines, 64);
+	fail_if(count_lines_with(lines, nlines, "wrtserr test message") != 20);
+	fail_if(count_lines_with(lines, nlines, "ZZZ") != 0);
+
+	/*
+	 * Maximum length messages used to overrun their 80 byte rows, the
+	 * last one past the end of the array (detected under ASan).
+	 */
+	fits_clear_errmsg();
+	memset(msg, 'a', FLEN_ERRMSG - 1);
+	msg[FLEN_ERRMSG - 1] = '\0';
+	for (i = 0; i < 25; i++)
+		fits_write_errmsg(msg);
+	nlines = dump_error_stack(lines, 64);
+	fail_if(count_lines_with(lines, nlines, "aaaaaaaaaa") != 20);
+}
+
 #ifndef _WIN32
 /*--------------------------------------------------------------------------
  * Running the fitsverify binary over a file built for the purpose
@@ -479,6 +580,7 @@ int
 main(void)
 {
 	test_complex_keyword_values();
+	test_error_stack_report();
 #ifndef _WIN32
 	run_fitsverify_tests();
 #endif
