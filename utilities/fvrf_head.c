@@ -302,7 +302,8 @@ void init_hdu(fitsfile *infits, 	/* input fits file   */
         /* test if this is a tile compressed image, stored in a binary table */
         /* If so then test the extension as binary table rather than an image */
 
-        if (!strncmp(p,"BINTABLE",8) && hduptr->hdutype == IMAGE_HDU) {
+        if (hduptr->hdutype == IMAGE_HDU &&
+            fits_is_compressed_image(infits, &status)) {
           hduptr->hdutype = BINARY_TBL;
           hduptr->istilecompressed = 1;
         } else {

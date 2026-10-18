@@ -556,6 +556,73 @@ test_truncated_ascii_table(void)
 	fail_if(count_in_report("non-ASCII") != 0);
 }
 
+/*--------------------------------------------------------------------------
+ * init_hdu: tile compressed image detection (utilities/fvrf_head.c)
+ *------------------------------------------------------------------------*/
+
+/*
+ * An image extension whose XTENSION value starts with, but is not,
+ * BINTABLE, with NAXIS = 0 (naxis1 < 0) or NAXIS = 1.
+ */
+static void
+write_image_named_bintable(long naxis1)
+{
+	long n;
+	FILE *fp = open_testfile(&n);
+	char card[81];
+
+	put_card(fp, &n, "XTENSION= 'BINTABLEX'");
+	put_card(fp, &n, "BITPIX  =                    8");
+	if (naxis1 < 0) {
+		put_card(fp, &n, "NAXIS   =                    0");
+	} else {
+		put_card(fp, &n, "NAXIS   =                    1");
+		snprintf(card, sizeof(card), "NAXIS1  = %20ld", naxis1);
+		put_card(fp, &n, card);
+	}
+	put_card(fp, &n, "PCOUNT  =                    0");
+	put_card(fp, &n, "GCOUNT  =                    1");
+	put_card(fp, &n, "END");
+	pad_block(fp, &n);
+
+	if (naxis1 > 0)
+		put_bytes(fp, &n, 'x', naxis1);
+	close_testfile(fp, &n);
+}
+
+static void
+test_tile_compressed_detection(void)
+{
+	fitsfile *fptr;
+	int status = 0;
+	long naxes[2] = { 8, 4 };
+	short pix[32];
+	int i;
+
+	/*
+	 * CFITSIO reads these as images, but they used to be taken for tile
+	 * compressed images and checked as binary tables, indexing naxes[1].
+	 */
+	write_image_named_bintable(-1);
+	check_no_crash("a NAXIS = 0 extension named BINTABLEX");
+	write_image_named_bintable(10);
+	check_no_crash("a NAXIS = 1 extension named BINTABLEX");
+
+	/* A real tile compressed image is still checked as a binary table. */
+	remove(TESTFILE);
+	fits_create_file(&fptr, TESTFILE, &status);
+	fits_create_img(fptr, SHORT_IMG, 0, NULL, &status);
+	fits_set_compression_type(fptr, RICE_1, &status);
+	fits_create_img(fptr, SHORT_IMG, 2, naxes, &status);
+	for (i = 0; i < 32; i++)
+		pix[i] = (short)i;
+	fits_write_img(fptr, TSHORT, 1, 32, pix, &status);
+	fits_close_file(fptr, &status);
+	fail_if(status != 0);
+	fail_if(check_no_crash("a tile compressed image") != 0);
+	fail_if(count_in_report("Binary Table") == 0);
+}
+
 static void
 run_fitsverify_tests(void)
 {
@@ -570,6 +637,7 @@ run_fitsverify_tests(void)
 	test_first_card_keyword_index();
 	test_ascii_column_template();
 	test_truncated_ascii_table();
+	test_tile_compressed_detection();
 
 	remove(TESTFILE);
 	remove(REPORT);
