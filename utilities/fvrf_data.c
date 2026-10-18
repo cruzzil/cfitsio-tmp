@@ -832,6 +832,7 @@ void test_agap(fitsfile *infits, 	/* input fits file   */
         if(fits_read_tblbytes(infits,firstrow,1, rowlen*ntodo, 
 	    data, &status)){  
 	    wrtferr(out,"",&status,1);
+	    break;	/* the rows were not read: nothing to scan */
         } 
         for (j = 0; j<rowlen*ntodo; j++ ) { 
             if(!isascii(*p))  {
