@@ -333,8 +333,14 @@ extern int Fitsio_Pthread_Status;
    2^64 through to an undefined (ULONGLONG) cast.  2^64 is exact in any
    binary floating-point format, so test with 'dvalue >= DULONGLONG_LIMIT'. */
 #define DULONGLONG_LIMIT 18446744073709551616.
-#define DLONGLONG_MAX  9.2233720368547755807E18 /* max double value  longlong */
-#define DLONGLONG_MIN -9.2233720368547755808E18 /* min double value  longlong */
+#define DLONGLONG_MAX  9.223372036854775807E18 /* max double value  longlong */
+#define DLONGLONG_MIN -9.223372036854775808E18 /* min double value  longlong */
+/* 2^63, the exclusive upper bound for a double converted to LONGLONG.
+   DLONGLONG_MAX (2^63 - 1) is not representable in a 53-bit-mantissa
+   double and rounds up to exactly 2^63, so '> DLONGLONG_MAX' would let
+   2^63 through to an undefined (LONGLONG) cast.  DLONGLONG_MIN (-2^63)
+   is exact, so '< DLONGLONG_MIN' is already correct for the lower bound. */
+#define DLONGLONG_LIMIT 9223372036854775808.
 #define DUINT_MAX 4294967295.49 /* max dbl that fits in a unsigned 4-byte int */
 #define DUINT_MIN -0.49   /* min dbl that fits in an unsigned 4-byte int */
 #define DINT_MAX  2147483647.49 /* max double value that fits in a 4-byte int */
