@@ -131,7 +131,7 @@ hexconst        (0x[0123456789aAbBcCdDeEfF]+)
 octconst        (0o[01234567]+)
 integer		[0-9]+
 boolean         (t|f|T|F)
-real		([0-9]*"."[0-9]+)|([0-9]*"."*[0-9]+[eEdD][+-]?[0-9]+)|([0-9]+".")
+real		([0-9]*"."[0-9]+)|([0-9]*"."?[0-9]+[eEdD][+-]?[0-9]+)|([0-9]+".")
 constant        ("#"[a-zA-Z0-9_]+)|("#""$"[^\n]*"$")
 string		([\"][^\"\n]*[\"])|([\'][^\'\n]*[\'])
 variable	([a-zA-Z_][a-zA-Z0-9_]*)|("$"[^$\n]*"$")
@@ -436,6 +436,10 @@ nl		\n
 		  return( BOOLEAN );
 		}
 {real}		{
+                  char *p;
+                  /* atof() does not accept a Fortran-style D exponent */
+                  for (p = yytext; *p; p++)
+                     if (*p == 'd' || *p == 'D') *p = 'e';
                   yylval->dbl = atof(yytext);
 		  return( DOUBLE );
 		}
